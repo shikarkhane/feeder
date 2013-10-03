@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block feed %}
+  	{% for c in posts %}
+		<li id ="{{ c.source }}-{{ c.post_id }}" style="list-style: none outside none">
+			<div class="main-post">
+				<div>
+					<span><img src="{{ c.user_img_url }}"/></span>
+					<span>{{ c.text }}</span>
+				</div>
+				<div>
+					<span>{{ c.created }}</span>
+				</div>
+			</div>
+			{% if c.content_img_url %}
+				<div class="extra-post">
+					<span><img src='{{ c.content_img_url }}'/></span>
+				</div>
+			{% end %}
+		</li>
+	{% end %}
+{% end %}

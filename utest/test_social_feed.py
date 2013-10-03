@@ -22,6 +22,7 @@ class Test_feed(unittest.TestCase):
         f = feed.Feed() 
         data = f.get_random_feed() 
         data_json = json.loads(data)
+        #print data_json["hits"]["hits"][0]["_source"]
         self.assertGreater(len(data_json),0)
 
 if __name__ == "__main__":

@@ -1,9 +1,10 @@
 import tornado.ioloop
 import config
+from web_handler import handler
 
 application = tornado.web.Application([
-    (r"/", tweet.Tweet_handler),
-])
+    (r"/", handler.MainHandler),
+], debug=True)
 
 if __name__ == "__main__":
     #create config file

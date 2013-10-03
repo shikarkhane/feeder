@@ -13,7 +13,7 @@ class Feed(object):
     everything related to user feeds 
     '''
     def __init__(self):
-        pass
+        pass 
     def get_indexes(self):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
         response = urllib2.urlopen(url).read()
