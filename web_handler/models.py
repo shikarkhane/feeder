@@ -1,6 +1,6 @@
 from social_feed.feed import Feed
 import json
-import time
+import datetime
 
 class Post():
     '''
@@ -23,7 +23,7 @@ class Feed_Content():
         for i in result["hits"]["hits"]:
             tweet = i["_source"]
             try:
-                data.append(Post( int(tweet["id"]), str(tweet["text"]),  time.strptime(tweet["@timestamp"], '%Y-%m-%dT%H:%M:%S.%fZ'), tweet.get("entities").get("media_url"), tweet.get("user").get("profile_image_url"), "Twitter"))
+                data.append(Post( int(tweet["id"]), str(tweet["text"]),  datetime.datetime.strptime(tweet["@timestamp"], '%Y-%m-%dT%H:%M:%S.%fZ'), tweet.get("entities").get("media_url"), tweet.get("user").get("profile_image_url"), "Twitter"))
             except:
                 pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data

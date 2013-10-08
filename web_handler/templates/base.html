@@ -1,5 +1,28 @@
 <html>
-<head>{{ title }}</head>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://momentjs.com/downloads/moment.min.js"></script>
+<script>
+function pad(num) {
+    return ("0" + num).slice(-2);
+};
+
+function formatDate(d) {
+    return [d.getUTCFullYear(), 
+            pad(d.getUTCMonth() + 1), 
+            pad(d.getUTCDate())].join("-") + "T" + 
+           [pad(d.getUTCHours()), 
+            pad(d.getUTCMinutes()), 
+            pad(d.getUTCSeconds())].join(":") + "Z";
+};
+
+</script>
+<script>{% block jscripts %}
+{% end %}
+</script>
+
+	{{ title }}
+	</head>
 <body>
 
 {% block feed %}

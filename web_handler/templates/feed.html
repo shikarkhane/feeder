@@ -1,5 +1,16 @@
 {% extends "base.html" %}
 
+{% block jscripts %}
+	$(function() {
+		$( '.x_minutes_ago' ).each(function(){
+			var $span = $(this);
+			var fulldate = formatDate(new Date($span.text()));
+			$span.html(moment(fulldate, "YYYY-MM-DDTHH:mm:ssZ").fromNow());
+		});
+		
+	});
+	
+{% end %}
 {% block feed %}
   	{% for c in posts %}
 		<li id ="{{ c.source }}-{{ c.post_id }}" style="list-style: none outside none">
@@ -9,7 +20,7 @@
 					<span>{{ c.text }}</span>
 				</div>
 				<div>
-					<span>{{ c.created }}</span>
+					<span class="x_minutes_ago">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
 				</div>
 			</div>
 			{% if c.content_img_url %}
@@ -19,4 +30,5 @@
 			{% end %}
 		</li>
 	{% end %}
+
 {% end %}
