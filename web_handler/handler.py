@@ -21,6 +21,6 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         f = Feed_Content()
         posts = f.get_random_feed()
-        self.render("templates/feed.html", title="Tipoff", posts=posts)
+        self.render("feed.html", posts=posts)
         
         

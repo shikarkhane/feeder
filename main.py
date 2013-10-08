@@ -1,10 +1,12 @@
 import tornado.ioloop
 import config
 from web_handler import handler
+import settings
+
 
 application = tornado.web.Application([
     (r"/", handler.MainHandler),
-], debug=True)
+], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH)
 
 if __name__ == "__main__":
     #create config file

@@ -1,0 +1,31 @@
+body
+{
+    font-family: "Helvetica Neue",Arial,sans-serif;
+    background-color: #FFF1D6;
+    color: #333333;
+    font-size: 14px;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+}
+
+#page-container
+{
+	margin: 0 auto;
+	width: 893px;
+	background-color: #FFFFFF;
+}
+
+.main-feed
+{
+	border-bottom-style: ridge;
+	border-bottom-width: 1px;
+	border-bottom-color: #ff9300;
+	padding: 2px;
+}
+
+.elapsed_time
+{
+	position: relative;
+	float: right;
+}

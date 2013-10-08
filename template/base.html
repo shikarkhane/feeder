@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+ <!-- Bootstrap -->
+<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<!--  link rel="stylesheet" type="text/css" href="/static/base.css" -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/moment.js"></script>
+<script src="/static/base.js"></script>
+
+<script>{% block jscripts %}
+{% end %}
+</script>
+
+	</head>
+<body>
+
+	<div id="page-container">
+		{% block feed %}
+		  	<h3>Things happening around you, right now!!!</h3>
+		{% end %}
+	</div>
+</body>
+</html>
+

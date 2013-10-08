@@ -13,13 +13,13 @@
 {% end %}
 {% block feed %}
   	{% for c in posts %}
-		<li id ="{{ c.source }}-{{ c.post_id }}" style="list-style: none outside none">
+		<li id ="{{ c.source }}-{{ c.post_id }}" style="list-style: none outside none" class="main-feed">
 			<div class="main-post">
 				<div>
 					<span><img src="{{ c.user_img_url }}"/></span>
 					<span>{{ c.text }}</span>
 				</div>
-				<div>
+				<div class="elapsed_time">
 					<span class="x_minutes_ago">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
 				</div>
 			</div>
