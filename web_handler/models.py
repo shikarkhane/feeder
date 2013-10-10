@@ -23,7 +23,17 @@ class Feed_Content():
         for i in result["hits"]["hits"]:
             tweet = i["_source"]
             try:
-                data.append(Post( int(tweet["id"]), str(tweet["text"]),  datetime.datetime.strptime(tweet["@timestamp"], '%Y-%m-%dT%H:%M:%S.%fZ'), tweet.get("entities").get("media_url"), tweet.get("user").get("profile_image_url"), "Twitter"))
-            except:
+                media_url = tweet.get("entities").get("media_url")
+                text = tweet["text"]
+                # find a url in tweet if the media url is empty
+                if not media_url and text.find("http:") > 0:
+                    x = str(text)
+                    e = x.rfind(" ", x.find("http"))
+                    x = x[x.find("http:") : (len(x) if e == -1 else e )]
+                    if x:                    
+                        media_url = x
+                data.append(Post( int(tweet["id"]), text,  datetime.datetime.strptime(tweet["@timestamp"], '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, tweet.get("user").get("profile_image_url"), "Twitter"))
+            except Exception, e:
+                #print str(e), tweet
                 pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data

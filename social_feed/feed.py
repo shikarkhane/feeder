@@ -19,7 +19,7 @@ class Feed(object):
         response = urllib2.urlopen(url).read()
         return response
     def get_random_feed(self):
-        url = '{0}{1}/logs/_search?q=host:nikhil-desktop'.format(config.get('elasticsearch', 'server-url'), config.get('elasticsearch', 'index-alias'))
+        url = '{0}{1}/logs/_search?q=host:nikhil-desktop&size=10'.format(config.get('elasticsearch', 'server-url'), config.get('elasticsearch', 'index-alias'))
         response = urllib2.urlopen(url).read()
         return response
         
