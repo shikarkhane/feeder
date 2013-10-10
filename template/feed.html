@@ -13,22 +13,24 @@
 {% end %}
 {% block feed %}
   	{% for c in posts %}
-		<li id ="{{ c.source }}-{{ c.post_id }}" style="list-style: none outside none" class="main-feed">
-			<div class="main-post">
-				<div>
+		<div id ="{{ c.source }}-{{ c.post_id }}" class="main-feed">
+			<div class="main-post row-fluid">
+				<div class="span1">
 					<span><img src="{{ c.user_img_url }}"/></span>
+					</div>
+				<div class="span10">
 					<span>{{ c.text }}</span>
 				</div>
-				<div class="elapsed_time">
+				<div class="span1 elapsed_time">
 					<span class="x_minutes_ago">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
 				</div>
 			</div>
 			{% if c.content_img_url %}
-				<div class="extra-post">
+				<div class="extra-post row-fluid">
 					<span><img src='{{ c.content_img_url }}'/></span>
 				</div>
 			{% end %}
-		</li>
+		</div>
 	{% end %}
 
 {% end %}

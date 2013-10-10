@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
  <!-- Bootstrap -->
-<link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<!--  link rel="stylesheet" type="text/css" href="/static/base.css" -->
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/static/base.css">
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
@@ -19,7 +21,7 @@
 	</head>
 <body>
 
-	<div id="page-container">
+	<div id="page-container" class="container">
 		{% block feed %}
 		  	<h3>Things happening around you, right now!!!</h3>
 		{% end %}
