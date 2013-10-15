@@ -16,10 +16,10 @@ class Post():
 
 class Feed_Content():
     '''Provides feed content'''
-    def get_random_feed(self):
+    def get_random_feed(self, q_from, q_size):
         f = Feed()
         data = []
-        result = json.loads(f.get_random_feed())
+        result = json.loads(f.get_random_feed(q_from, q_size))
         for i in result["hits"]["hits"]:
             tweet = i["_source"]
             try:

@@ -5,7 +5,7 @@ Created on Oct 3, 2013
 '''
 import tornado.web
 from models import Feed_Content
-import time
+
 
 # class BaseHandler(tornado.web.RequestHandler):
 #     def get_current_user(self):
@@ -18,9 +18,12 @@ class MainHandler(tornado.web.RequestHandler):
     '''
     all the website (non-mobile) handlers are here
     '''
-    def get(self):
+    def get(self, q_from=0):
+        page_size = 10
+        link_from = int(q_from) + page_size + 1
+        next_link = "/from/{0}/".format(link_from)
         f = Feed_Content()
-        posts = f.get_random_feed()
-        self.render("feed.html", posts=posts)
+        posts = f.get_random_feed(q_from, page_size)
+        self.render("feed.html",next_link = next_link, posts=posts)
         
         

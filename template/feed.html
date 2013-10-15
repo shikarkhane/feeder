@@ -12,8 +12,9 @@
 	
 {% end %}
 {% block feed %}
+	<div class="main-feed">
   	{% for c in posts %}
-		<div id ="{{ c.source }}-{{ c.post_id }}" class="main-feed">
+		
 			<div class="main-post row-fluid">
 				<div class="span1">
 					<span><img src="{{ c.user_img_url }}"/></span>
@@ -27,10 +28,15 @@
 			</div>
 			{% if c.content_img_url %}
 				<div class="extra-post row-fluid">
-					<a href='{{ c.content_img_url }}' target="_blank"/><span>More</span></a>
+					<a href='{{ c.content_img_url }}' target="_blank"><span>More</span></a>
 				</div>
 			{% end %}
-		</div>
 	{% end %}
+	</div>
+	<div class="main-feed button">
+		<form action="{{ next_link }}">
+		    <input type="submit" value="Show more!">
+		</form>
+	</div>
 
 {% end %}

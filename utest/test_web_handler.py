@@ -13,7 +13,7 @@ class Test_Models(unittest.TestCase):
         pass
     def test_random_feed_of_post_objects(self):
         fc = Feed_Content()
-        data = fc.get_random_feed()
+        data = fc.get_random_feed(0, 10)
         self.assert_(isinstance(data[0], Post))
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
