@@ -48,12 +48,31 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, coord):
-        url = '{0}{1}/log/_search'.format(config.get('elasticsearch', 'server-url'), config.get('elasticsearch', 'index-alias'))
-        data = {}
+    def get_feed_around_coord(self, coord, q_from, q_size):
+        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        data = {
+                "from" : q_from, "size" : q_size,
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
+                "query": {
+                    "filtered" : {
+                        "query" : {
+                            "match_all" : {}
+                        },
+                        "filter" : {
+                            "geo_distance" : {
+                                "distance" : "20km",
+                                "coord" : {
+                                    "lat" : coord[0],
+                                    "lon" : coord[1]
+                                }
+                            }
+                        }
+                    }
+                 }
+                }
         # have to send the data as JSON
         data = json.dumps(data)
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
-        return out
+        return out.read()
         

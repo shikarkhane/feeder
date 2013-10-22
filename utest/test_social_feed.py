@@ -23,12 +23,12 @@ class Test_feed(unittest.TestCase):
         data = f.get_random_feed(0, 10) 
         data_json = json.loads(data)
         self.assertGreater(data_json["hits"]["total"],0)
-#     def test_feed_data_around_a_coord(self):
-#         f = feed.Feed() 
-#         data = f.get_feed_around_coord([16.59929221,59.92538324]) 
-#         data_json = json.loads(data)
-#         #print data_json["hits"]["hits"][0]["_source"]
-#         self.assertGreater(int(data_json['hits']['total']),0)
+    def test_feed_data_around_a_coord(self):
+        f = feed.Feed() 
+        data = f.get_feed_around_coord([17.27853714,60.1796792], 0, 10) 
+        data_json = json.loads(data)
+        #print data_json["hits"]["hits"][0]["_source"]
+        self.assertGreater(int(data_json['hits']['total']),0)
 
 
 if __name__ == "__main__":
