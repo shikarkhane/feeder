@@ -1,39 +1,50 @@
 from social_feed.feed import Feed
 import json
 import datetime
+from common.utility import Url_Handler
 
 class Post():
     '''
     Many posts constitute a feed. 
+    Json example of a post:
+{
+               "text" => "Euw folk i min klass euw",
+               "lang" => "nl",
+         "@timestamp" => "2013-10-15T10:27:02.000Z",
+               "type" => "twitter",
+            "post_id" => 390061246474911745,
+           "up_votes" => 0,
+       "user_img_url" => "http://a0.twimg.com/profile_images/378800000568858024/f8ce9b2482ad43b8cdf13d40517e0ce6_normal.jpeg",
+    "content_img_url" => "%{[entities][media_url]}",
+              "coord" => "15.13412991,58.32243012",
+}
     '''
     def __init__(self, post_id, text, created, content_img_url, user_img_url, source ):
+        # post_id is the internal _id of elasticsearch store
         self.post_id = post_id
         self.text = text
         self.created = created
         self.content_img_url = content_img_url
         self.user_img_url = user_img_url
         self.source = source
-
+        #self.coord = coord 
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, q_from, q_size):
         f = Feed()
         data = []
         result = json.loads(f.get_random_feed(q_from, q_size))
-        for i in result["hits"]["hits"]:
-            tweet = i["_source"]
-            try:
-                media_url = tweet.get("entities").get("media_url")
-                text = tweet["text"]
-                # find a url in tweet if the media url is empty
-                if not media_url and text.find("http:") > 0:
-                    x = str(text)
-                    e = x.rfind(" ", x.find("http"))
-                    x = x[x.find("http:") : (len(x) if e == -1 else e )]
-                    if x:                    
-                        media_url = x
-                data.append(Post( int(tweet["id"]), text,  datetime.datetime.strptime(tweet["@timestamp"], '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, tweet.get("user").get("profile_image_url"), "Twitter"))
-            except Exception, e:
-                #print str(e), tweet
-                pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+        if result["hits"]["total"] > 0:
+            for p in result["hits"]["hits"]:
+                field = p["fields"]
+                try:
+                    url_util = Url_Handler()
+                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    if not media_url:
+                        # see if text field has a url in it
+                        media_url = url_util.get_url_from_string(field.get("text"))
+                    data.append(Post( p["_id"], field.get("text"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_image_url"), field.get("type")))
+                except Exception, e:
+                    #print str(e), tweet
+                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data

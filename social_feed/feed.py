@@ -12,6 +12,21 @@ config.read('config.cfg')
 class Feed(object):
     '''
     everything related to user feeds 
+
+    Many posts constitute a feed. 
+    Json example of a post:
+{
+               "text" => "Euw folk i min klass euw",
+               "lang" => "nl",
+         "@timestamp" => "2013-10-15T10:27:02.000Z",
+               "type" => "twitter",
+            "post_id" => 390061246474911745,
+           "up_votes" => 0,
+       "user_img_url" => "http://a0.twimg.com/profile_images/378800000568858024/f8ce9b2482ad43b8cdf13d40517e0ce6_normal.jpeg",
+    "content_img_url" => "%{[entities][media_url]}",
+              "coord" => "15.13412991,58.32243012",
+}
+
     '''
     def __init__(self):
         pass 
@@ -23,6 +38,7 @@ class Feed(object):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
                    "query": {
                                 "match_all": {}
                             }
