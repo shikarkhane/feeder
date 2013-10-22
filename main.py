@@ -5,7 +5,7 @@ import settings
 
 
 application = tornado.web.Application([
-    (r"/", handler.MainHandler), (r"/from/([0-9]+)/", handler.MainHandler),
+    (r"/", handler.MainHandler), (r"/from/([0-9]+)/", handler.MainHandler), (r"/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/from/([0-9]+)/", handler.GeoHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH)
 
 if __name__ == "__main__":

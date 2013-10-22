@@ -48,3 +48,21 @@ class Feed_Content():
                     #print str(e), tweet
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
+    def get_feed_around_coord(self, coord, q_from, q_size):
+        f = Feed()
+        data = []
+        result = json.loads(f.get_feed_around_coord(coord, q_from, q_size))
+        if result["hits"]["total"] > 0:
+            for p in result["hits"]["hits"]:
+                field = p["fields"]
+                try:
+                    url_util = Url_Handler()
+                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    if not media_url:
+                        # see if text field has a url in it
+                        media_url = url_util.get_url_from_string(field.get("text"))
+                    data.append(Post( p["_id"], field.get("text"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_image_url"), field.get("type")))
+                except Exception, e:
+                    #print str(e), tweet
+                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+        return data

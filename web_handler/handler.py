@@ -16,7 +16,7 @@ from models import Feed_Content
     
 class MainHandler(tornado.web.RequestHandler):
     '''
-    all the website (non-mobile) handlers are here
+    non geo handler
     '''
     def get(self, q_from=0):
         page_size = 10
@@ -25,5 +25,16 @@ class MainHandler(tornado.web.RequestHandler):
         f = Feed_Content()
         posts = f.get_random_feed(q_from, page_size)
         self.render("feed.html",next_link = next_link, posts=posts)
-        
+class GeoHandler(tornado.web.RequestHandler):
+    '''
+    handler to find data around coordinates
+    '''
+    def get(self, latitude, longitude, q_from=0):
+        page_size = 10
+        link_from = int(q_from) + page_size + 1
+        next_link = "/{1}/{2}/from/{0}/".format(link_from, latitude, longitude)
+        f = Feed_Content()
+        coord = [latitude,longitude]
+        posts = f.get_feed_around_coord( coord , q_from, page_size)
+        self.render("feed.html",next_link = next_link, posts=posts)
         

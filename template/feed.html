@@ -10,6 +10,20 @@
 		
 	});
 	
+	
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="Geolocation is not supported by this browser.";}
+  }
+function showPosition(position)
+  {
+  window.location.replace("http://localhost:8888/" + position.coords.latitude + "/" + position.coords.longitude + "/from/0/");	
+  }
+	
 {% end %}
 {% block feed %}
 	<div class="main-feed">
@@ -35,7 +49,7 @@
 	</div>
 	<div class="main-feed button">
 		<form action="{{ next_link }}">
-		    <input type="submit" value="Show more!">
+		    <input id="nextbutton" type="submit" value="Get random!">
 		</form>
 	</div>
 
