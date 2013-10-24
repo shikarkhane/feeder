@@ -36,7 +36,7 @@
 		
 			<div class="main-post row-fluid">
 				<div class="span1">
-					<span><img src="{{ c.user_img_url }}"/></span>
+					<span><img src="{{ c.user_img_url }}" onError="this.onerror=null;this.src='/static/images/user_placeholder.png';" class="img-thumbnail"/></span>
 					</div>
 				<div class="span10">
 					<span>{{ c.text }}</span>

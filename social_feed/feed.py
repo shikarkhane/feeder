@@ -62,8 +62,8 @@ class Feed(object):
                             "geo_distance" : {
                                 "distance" : "20km",
                                 "coord" : {
-                                    "lat" : coord[0],
-                                    "lon" : coord[1]
+                                    "lat" : coord[1],
+                                    "lon" : coord[0]  # this is cheating and should be fixed
                                 }
                             }
                         }
