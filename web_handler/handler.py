@@ -31,7 +31,7 @@ class GeoHandler(tornado.web.RequestHandler):
     '''
     def get(self, latitude, longitude, q_from=0):
         page_size = 10
-        link_from = int(q_from) + page_size + 1
+        link_from = int(q_from) + page_size + 1 
         next_link = "/{1}/{2}/from/{0}/".format(link_from, latitude, longitude)
         f = Feed_Content()
         coord = [latitude,longitude]

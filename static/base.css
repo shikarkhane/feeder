@@ -1,6 +1,6 @@
 body
 {
-    background-color: #FFF1D6;
+ /*   background-color: #FFF1D6;*/
  
 }
 
@@ -9,12 +9,7 @@ body
 	background-color: #FFFFFF;
 }
 
-.main-feed
-{
-	border-bottom-style: ridge;
-	border-bottom-width: 1px;
-	border-bottom-color: #ff9300;
-}
+
 
 .elapsed_time
 {

@@ -25,16 +25,12 @@
 	});
 
 
-
-	
-
-	
 {% end %}
 {% block feed %}
 	<div class="main-feed">
   	{% for c in posts %}
 		
-			<div class="main-post row-fluid">
+			<div class="main-post row-fluid well">
 				<div class="span1">
 					<span><img src="{{ c.user_img_url }}" onError="this.onerror=null;this.src='/static/images/user_placeholder.png';" class="img-thumbnail"/></span>
 					</div>
@@ -52,7 +48,7 @@
 			{% end %}
 	{% end %}
 	</div>
-	<div class="main-feed button">
+	<div class="button">
 		<form action="{{ next_link }}">
 		    <input id="nextbutton" type="submit" value="Get random!">
 		</form>

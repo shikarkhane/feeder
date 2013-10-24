@@ -53,25 +53,27 @@ class Feed(object):
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
-                "query": {
-                    "filtered" : {
-                        "query" : {
-                            "match_all" : {}
-                        },
-                        "filter" : {
-                            "geo_distance" : {
-                                "distance" : "20km",
-                                "coord" : {
-                                    "lat" : coord[1],
-                                    "lon" : coord[0]  # this is cheating and should be fixed
+                "sort" : [
+                            {
+                                "_geo_distance" : {
+                                              "coord" : {
+                                                             "lat" : coord[0],
+                                                            "lon" : coord[1]
+                                                    },
+                                            "order" : "asc",
+                                            "unit" : "km"
                                 }
                             }
-                        }
-                    }
+                        ],
+
+                "query": {
+                            "match_all" : {}
                  }
                 }
         # have to send the data as JSON
         data = json.dumps(data)
+        print data
+        
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
