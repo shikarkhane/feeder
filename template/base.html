@@ -13,19 +13,20 @@
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/moment.js"></script>
 <script src="/static/base.js"></script>
-
+<script src="/static/jquery.cookie.js"></script>
 <script>{% block jscripts %}
 {% end %}
 </script>
-
 	</head>
-<body onload="getLocation()">
+<body>
 
 	<div id="page-container" class="container">
 		{% block feed %}
 		  	<h3>Things happening around you, right now!!!</h3>
 		{% end %}
 	</div>
+	
+
 </body>
 </html>
 

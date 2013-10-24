@@ -2,27 +2,32 @@
 
 {% block jscripts %}
 	$(function() {
+		function setCoordinateCookie(position){
+			  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
+				$.cookie('MyLon', position.coords.longitude); // Storing longitude value
+				window.location.replace("http://localhost:8888/" +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/0/");			
+			 };
+  
+	 	function couldntFetchPosition(msg){
+  				alert('Couldnt find your location!\n' + msg );
+	  		};
+	  	if ($.cookie('MyLat') == null){
+		  	if (navigator.geolocation){
+			    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
+			    }
+		};
+	    
 		$( '.x_minutes_ago' ).each(function(){
 			var $span = $(this);
 			var fulldate = formatDate(new Date($span.text()));
 			$span.html(moment(fulldate, "YYYY-MM-DDTHH:mm:ssZ").fromNow());
 		});
-		
 	});
+
+
+
 	
-	
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    }
-  else{x.innerHTML="Geolocation is not supported by this browser.";}
-  }
-function showPosition(position)
-  {
-  window.location.replace("http://localhost:8888/" + position.coords.latitude + "/" + position.coords.longitude + "/from/0/");	
-  }
+
 	
 {% end %}
 {% block feed %}
