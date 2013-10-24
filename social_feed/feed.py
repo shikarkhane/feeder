@@ -72,8 +72,6 @@ class Feed(object):
                 }
         # have to send the data as JSON
         data = json.dumps(data)
-        print data
-        
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
