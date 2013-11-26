@@ -24,7 +24,7 @@ class Feed(object):
            "up_votes" => 0,
        "user_img_url" => "http://a0.twimg.com/profile_images/378800000568858024/f8ce9b2482ad43b8cdf13d40517e0ce6_normal.jpeg",
     "content_img_url" => "%{[entities][media_url]}",
-              "coord" => "15.13412991,58.32243012",
+              "coord" =>  "15.13412991,58.32243012",
 }
 
     '''
