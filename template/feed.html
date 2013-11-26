@@ -2,19 +2,45 @@
 
 {% block jscripts %}
 	$(function() {
+		var servername = "http://localhost:8888/";
+		var stepsize = new Number(10);
+
 		function setCoordinateCookie(position){
 			  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 				$.cookie('MyLon', position.coords.longitude); // Storing longitude value
-				window.location.replace("http://localhost:8888/" +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/0/");			
+				window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/0/");			
 			 };
   
 	 	function couldntFetchPosition(msg){
   				alert('Couldnt find your location!\n' + msg );
 	  		};
+
 	  	if ($.cookie('MyLat') == null){
 		  	if (navigator.geolocation){
 			    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
 			    }
+		};
+
+		function setFromPosition(){
+			if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
+				$.cookie('FromPosition', 0, { path: '/'});
+			};
+		};
+
+		function handlePageNumber(code){
+			if (code == 1){ 
+					setFromPosition();
+					var nextposition = parseInt($.cookie('FromPosition')) + stepsize;
+					$.cookie('FromPosition', nextposition, { path: '/'});
+			};
+			if (code == -1){ //decrement by step size
+					setFromPosition();
+					var nextposition = parseInt($.cookie('FromPosition')) - stepsize;
+					if (nextposition < 0){
+						nextposition = 0;
+					}
+					$.cookie('FromPosition', nextposition, { path: '/'}); 
+			};
 		};
 	    
 		$( '.x_minutes_ago' ).each(function(){
@@ -24,11 +50,31 @@
 		});
 		
 			// Callback for refresh on pull-down
-			$('#hook').hook({
+			$('#hook-latest').hook({
 			  reloadPage: false,
 			  reloadEl: function(){
-			    window.location.replace("http://localhost:8888/");
+			  		handlePageNumber(-1);
+			  		if ($.cookie('MyLat') == null){			  				
+			    			window.location.replace(servername + "from/" + $.cookie('FromPosition') + "/");
+			    		}
+			    	else{
+			    			window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/");
+			    	}
 			  }
+			});
+
+		   $("#btnnextpage").click(function() {
+					handlePageNumber(1);
+			  		if ($.cookie('MyLat') == null){			  				
+			    			window.location.replace(servername + "from/" + $.cookie('FromPosition') + "/");
+			    		}
+			    	else{
+			    			window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/");
+			    	}
+		    });
+			
+			$('#waypoint-more').waypoint(function() {
+			  alert('Basic example callback triggered.');
 			});
 		
 	});
@@ -37,7 +83,7 @@
 
 {% end %}
 {% block feed %}
-<div id="hook" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div>
+<div id="hook-latest" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div>
 	<div class="main-feed">
   	{% for c in posts %}
 			<div class="main-post row-fluid well">
@@ -61,10 +107,9 @@
 			</div>
 	{% end %}
 	</div>
+	<!--div id="waypoint-more"></div-->
 	<div class="button">
-		<form action="{{ next_link }}">
-		    <input id="nextbutton" type="submit" value="More!">
-		</form>
+		    <button id="btnnextpage">More!</button> 
 	</div>
 
 {% end %}
