@@ -22,17 +22,31 @@
 			var fulldate = formatDate(new Date($span.text()));
 			$span.html(moment(fulldate, "YYYY-MM-DDTHH:mm:ssZ").fromNow());
 		});
+		
+			// Callback for refresh on pull-down
+			$('#hook').hook({
+			  reloadPage: false,
+			  reloadEl: function(){
+			    window.location.replace("http://localhost:8888/");
+			  }
+			});
+		
 	});
+
 
 
 {% end %}
 {% block feed %}
+<div id="hook" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div>
 	<div class="main-feed">
   	{% for c in posts %}
-		
 			<div class="main-post row-fluid well">
+				{% if c.content_img_url %}
+					<a  href='{{ c.content_img_url }}' target="_blank">
+				{% end %}		
+			
 				<div class="span1">
-					<span><img src="{{ c.user_img_url }}" onError="this.onerror=null;this.src='/static/images/user_placeholder.png';" class="img-thumbnail"/></span>
+					<span><img src="{{ c.user_img_url }}" onError="this.onerror=null;this.src='/static/images/user_placeholder.png';" class="img-responsive"/></span>
 					</div>
 				<div class="span10">
 					<span>{{ c.text }}</span>
@@ -40,17 +54,16 @@
 				<div class="span1 elapsed_time">
 					<span class="x_minutes_ago">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
 				</div>
-			</div>
 			{% if c.content_img_url %}
-				<div class="extra-post row-fluid">
-					<a href='{{ c.content_img_url }}' target="_blank"><span>More</span></a>
-				</div>
+				</a>
 			{% end %}
+				
+			</div>
 	{% end %}
 	</div>
 	<div class="button">
 		<form action="{{ next_link }}">
-		    <input id="nextbutton" type="submit" value="Get random!">
+		    <input id="nextbutton" type="submit" value="More!">
 		</form>
 	</div>
 

@@ -9,10 +9,13 @@ body
 	background-color: #FFFFFF;
 }
 
-
-
 .elapsed_time
 {
 	position: relative;
 	float: right;
+}
+
+.clickable_object
+{
+	background-color: #FFC79C;
 }
