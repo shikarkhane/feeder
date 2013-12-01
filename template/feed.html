@@ -72,10 +72,13 @@
 			    			window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/");
 			    	}
 		    });
-			
-			$('#waypoint-more').waypoint(function() {
-			  alert('Basic example callback triggered.');
-			});
+
+			$('.waypoint-prev').waypoint(function(direction) {
+			  alert('prev');
+			}, { offset: 0 });			
+			$('.waypoint-next').waypoint(function(direction) {
+			  alert('more');
+			}, { offset: 'bottom-in-view' });
 		
 	});
 
@@ -83,7 +86,8 @@
 
 {% end %}
 {% block feed %}
-<div id="hook-latest" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div>
+<!--div id="hook-latest" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div-->
+		<div class="waypoint-prev" ></div>
 	<div class="main-feed panel panel-default">
   	{% for c in posts %}
 			<div class="main-post row-fluid panel-body">
@@ -107,9 +111,9 @@
 			</div>
 	{% end %}
 	</div>
-	<!--div id="waypoint-more"></div-->
 	<div class="button">
 		    <button id="btnnextpage">More!</button> 
 	</div>
+	<div class="waypoint-next" ></div>
 
 {% end %}
