@@ -84,9 +84,9 @@
 {% end %}
 {% block feed %}
 <div id="hook-latest" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div>
-	<div class="main-feed">
+	<div class="main-feed panel panel-default">
   	{% for c in posts %}
-			<div class="main-post row-fluid well">
+			<div class="main-post row-fluid panel-body">
 				{% if c.content_img_url %}
 					<a  href='{{ c.content_img_url }}' target="_blank">
 				{% end %}		
@@ -98,7 +98,7 @@
 					<span>{{ c.text }}</span>
 				</div>
 				<div class="span1 elapsed_time">
-					<span class="x_minutes_ago">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
+					<span class="x_minutes_ago badge">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
 				</div>
 			{% if c.content_img_url %}
 				</a>
