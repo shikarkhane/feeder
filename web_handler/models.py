@@ -1,4 +1,3 @@
-# -- coding: utf-8 --
 from social_feed.feed import Feed
 import json
 import datetime
@@ -43,8 +42,8 @@ class Feed_Content():
                     media_url = url_util.get_url_from_string(field.get("content_img_url"))
                     if not media_url:
                         # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field.get("text"))
-                    data.append(Post( p["_id"], field.get("text").encode('utf-8'),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
+                        media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
+                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
@@ -61,9 +60,9 @@ class Feed_Content():
                     media_url = url_util.get_url_from_string(field.get("content_img_url"))
                     if not media_url:
                         # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field.get("text"))
-                    data.append(Post( p["_id"], field.get("text").encode('utf-8'),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
+                        media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
+                    data.append(Post( p["_id"], field.get("text").encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
                 except Exception, e:
-                    #print str(e), tweet
+                    print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
