@@ -3,7 +3,10 @@
 {% block jscripts %}
 	$(function() {
 		var url = window.location.pathname;
-		var servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
+		var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
+		if (!($('<a>').prop('href', url).prop('port') == null)){
+			servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
+		}
 		var stepsize = new Number(10);
 
 		function setCoordinateCookie(position){
@@ -44,28 +47,24 @@
 			};
 		};
 	    
-		   $("#btnnextpage").click(function() {
-					handlePageNumber(1);
-			  		if ($.cookie('MyLat') == null){			  				
-			    			window.location.replace(servername + "from/" + $.cookie('FromPosition') + "/");
-			    		}
-			    	else{
-			    			window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/");
-			    	}
-		    });
-
 			$('.waypoint-next').waypoint(function(direction) {
-			  	var result = $.get( servername + "from/" + $.cookie('FromPosition') + "/", function( data ) {
+				var path = servername + "from/" + $.cookie('FromPosition') + "/";
+		  		if (!($.cookie('MyLat') == null)){			  				
+		    			path = servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/";
+		    		}
+			  	var result = $.get( path, function( data ) {
 							var posts = $.parseJSON(data);
 							$.each(posts, function(){
-									if (this.content_img_url){
-									$("#main-feed").append('<div class="main-post row-fluid panel-body"><a  href="'+ this.content_img_url + '" target="_blank"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></a></div>');
+									if (this.content_img_url == null){
+									$("#main-feed").append('<div class="main-post row-fluid panel-body"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
 									}
 									else{
-									$("#main-feed").append('<div class="main-post row-fluid panel-body"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
+									$("#main-feed").append('<div class="main-post row-fluid panel-body"><a  href="'+ this.content_img_url + '" target="_blank"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></a></div>');
 									}
 							    });
 						});
+				handlePageNumber(1);
+				
 			}, { offset: 'bottom-in-view' });		
 	});
 

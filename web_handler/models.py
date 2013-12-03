@@ -73,6 +73,6 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
-    def get_feed_around_coord_as_json(self,q_from, q_size):
+    def get_feed_around_coord_as_json(self,coord, q_from, q_size):
         data = self.get_random_feed(q_from, q_size)
         return [(d.get_as_dict()) for d in data]
