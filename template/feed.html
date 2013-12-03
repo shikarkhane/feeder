@@ -55,7 +55,6 @@
 		    });
 
 			$('.waypoint-next').waypoint(function(direction) {
-			alert('pop');
 			  	var result = $.get( servername + "from/" + $.cookie('FromPosition') + "/", function( data ) {
 							var posts = $.parseJSON(data);
 							$.each(posts, function(){
