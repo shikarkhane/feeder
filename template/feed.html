@@ -57,6 +57,7 @@
 				$.cookie('FromPosition', nextposition, { path: '/'}); 
 		};
 	};
+	
 	function getFeedData(){
 				var path = window.servername + "from/" + $.cookie('FromPosition') + "/";
 		  		if (!($.cookie('MyLat') == null)){			  				
@@ -66,10 +67,10 @@
 							var posts = $.parseJSON(data);
 							$.each(posts, function(){
 									if (this.content_img_url == null){
-									$("#main-feed").append('<div class="main-post row-fluid panel-body"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
+									$("#main-feed").append('<div class="main-post row-fluid panel-body"><div class="content_link">'+ this.content_img_url + '</div><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
 									}
 									else{
-									$("#main-feed").append('<div class="main-post row-fluid panel-body"><a  href="'+ this.content_img_url + '" target="_blank"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></a></div>');
+									$("#main-feed").append('<div class="main-post row-fluid panel-body clickable_object"><div class="content_link">'+ this.content_img_url + '</div><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
 									}
 							    });
 						});
@@ -84,4 +85,12 @@
 	<div id="main-feed" class="main-feed panel panel-default">
 	</div>
 
+{% end %}
+
+
+
+{% block after_scripts %}
+		$(document).on('click', "div.clickable_object", function() {
+			alert('clickable div');
+		});
 {% end %}
