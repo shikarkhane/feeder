@@ -1,56 +1,66 @@
 {% extends "base.html" %}
 
 {% block jscripts %}
+	var url = window.location.pathname;
+	var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
+	if (!($('<a>').prop('href', url).prop('port') == null)){
+		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
+	}
+	var stepsize = new Number(10);
+	
 	$(function() {
-		var url = window.location.pathname;
-		var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
-		if (!($('<a>').prop('href', url).prop('port') == null)){
-			servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
-		}
-		var stepsize = new Number(10);
+			$.cookie('FromPosition', 0, { path: '/'});
+			getFeedData();
+	});
 
-		function setCoordinateCookie(position){
-			  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
-				$.cookie('MyLon', position.coords.longitude); // Storing longitude value
-				window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/0/");			
-			 };
-  
-	 	function couldntFetchPosition(msg){
-  				alert('Location not found!\n Allow browser to access location services and try again.' + msg );
-	  		};
+	$(window).scroll(function(){
+		if($(this).scrollTop()+$(this).height() == $("body").get(0).scrollHeight){  
+							getFeedData();
+						}
+	});
 
-	  	if ($.cookie('MyLat') == null){
-		  	if (navigator.geolocation){
-			    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
-			    }
+	function setCoordinateCookie(position){
+		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
+			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
+			$("#main-feed").empty();
+			getFeedData();			
+		 };
+	
+		function couldntFetchPosition(msg){
+					alert('Location not found!\n Allow browser to access location services and try again.' + msg );
+	 		};
+	
+	 	if ($.cookie('MyLat') == null){
+	  	if (navigator.geolocation){
+		    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
+		    }
+	};
+	
+	function setFromPosition(){
+		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
+			$.cookie('FromPosition', 0, { path: '/'});
 		};
-
-		function setFromPosition(){
-			if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
-				$.cookie('FromPosition', 0, { path: '/'});
-			};
+	};
+	
+	function handlePageNumber(code){
+		if (code == 1){ 
+				setFromPosition();
+				var nextposition = parseInt($.cookie('FromPosition')) + window.stepsize;
+				$.cookie('FromPosition', nextposition, { path: '/'});
 		};
-
-		function handlePageNumber(code){
-			if (code == 1){ 
-					setFromPosition();
-					var nextposition = parseInt($.cookie('FromPosition')) + stepsize;
-					$.cookie('FromPosition', nextposition, { path: '/'});
-			};
-			if (code == -1){ //decrement by step size
-					setFromPosition();
-					var nextposition = parseInt($.cookie('FromPosition')) - stepsize;
-					if (nextposition < 0){
-						nextposition = 0;
-					}
-					$.cookie('FromPosition', nextposition, { path: '/'}); 
-			};
+		if (code == -1){ //decrement by step size
+				setFromPosition();
+				var nextposition = parseInt($.cookie('FromPosition')) - window.stepsize;
+				if (nextposition < 0){
+					nextposition = 0;
+				}
+				$.cookie('FromPosition', nextposition, { path: '/'}); 
 		};
-	    
-			$('.waypoint-next').waypoint(function(direction) {
-				var path = servername + "from/" + $.cookie('FromPosition') + "/";
+	};
+	function getFeedData(){
+				var path = window.servername + "from/" + $.cookie('FromPosition') + "/";
 		  		if (!($.cookie('MyLat') == null)){			  				
-		    			path = servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/";
+		    			path = window.servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/";
 		    		}
 			  	var result = $.get( path, function( data ) {
 							var posts = $.parseJSON(data);
@@ -64,16 +74,14 @@
 							    });
 						});
 				handlePageNumber(1);
-				
-			}, { offset: 'bottom-in-view' });		
-	});
+	};
 
 
 
 {% end %}
 {% block feed %}
+
 	<div id="main-feed" class="main-feed panel panel-default">
 	</div>
-	<div class="waypoint-next" ></div>
 
 {% end %}
