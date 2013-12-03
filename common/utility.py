@@ -11,4 +11,5 @@ class Url_Handler():
         if x.find("http") == -1:
             return None
         return str(re.search("(?P<url>https?://[^\s]+)", x).group("url"))
-    
+
+            

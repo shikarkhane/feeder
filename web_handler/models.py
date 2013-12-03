@@ -27,7 +27,11 @@ class Post():
         self.content_img_url = content_img_url
         self.user_img_url = user_img_url
         self.source = source
-        #self.coord = coord 
+        #self.coord = coord   
+    def get_as_dict(self):
+        d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
+             "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source}
+        return d      
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, q_from, q_size):
@@ -48,6 +52,9 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
+    def get_random_feed_as_json(self,q_from, q_size):
+        data = self.get_random_feed(q_from, q_size)
+        return [(d.get_as_dict()) for d in data]
     def get_feed_around_coord(self, coord, q_from, q_size):
         f = Feed()
         data = []
@@ -66,3 +73,6 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
+    def get_feed_around_coord_as_json(self,q_from, q_size):
+        data = self.get_random_feed(q_from, q_size)
+        return [(d.get_as_dict()) for d in data]

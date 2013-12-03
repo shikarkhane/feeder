@@ -2,7 +2,8 @@
 
 {% block jscripts %}
 	$(function() {
-		var servername = "http://localhost:8888/";
+		var url = window.location.pathname;
+		var servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
 		var stepsize = new Number(10);
 
 		function setCoordinateCookie(position){
@@ -43,26 +44,6 @@
 			};
 		};
 	    
-		$( '.x_minutes_ago' ).each(function(){
-			var $span = $(this);
-			var fulldate = formatDate(new Date($span.text()));
-			$span.html(moment(fulldate, "YYYY-MM-DDTHH:mm:ssZ").fromNow());
-		});
-		
-			// Callback for refresh on pull-down
-			$('#hook-latest').hook({
-			  reloadPage: false,
-			  reloadEl: function(){
-			  		handlePageNumber(-1);
-			  		if ($.cookie('MyLat') == null){			  				
-			    			window.location.replace(servername + "from/" + $.cookie('FromPosition') + "/");
-			    		}
-			    	else{
-			    			window.location.replace(servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/");
-			    	}
-			  }
-			});
-
 		   $("#btnnextpage").click(function() {
 					handlePageNumber(1);
 			  		if ($.cookie('MyLat') == null){			  				
@@ -73,46 +54,27 @@
 			    	}
 		    });
 
-			$('.waypoint-prev').waypoint(function(direction) {
-			  alert('prev');
-			}, { offset: 0 });			
 			$('.waypoint-next').waypoint(function(direction) {
-			  alert('more');
-			}, { offset: 'bottom-in-view' });
-		
+			alert('pop');
+			  	var result = $.get( servername + "from/" + $.cookie('FromPosition') + "/", function( data ) {
+							var posts = $.parseJSON(data);
+							$.each(posts, function(){
+									if (this.content_img_url){
+									$("#main-feed").append('<div class="main-post row-fluid panel-body"><a  href="'+ this.content_img_url + '" target="_blank"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></a></div>');
+									}
+									else{
+									$("#main-feed").append('<div class="main-post row-fluid panel-body"><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
+									}
+							    });
+						});
+			}, { offset: 'bottom-in-view' });		
 	});
 
 
 
 {% end %}
 {% block feed %}
-<!--div id="hook-latest" class="hook" ><div class="hook-loader"><div class="hook-spinner"></div></div></div-->
-		<div class="waypoint-prev" ></div>
-	<div class="main-feed panel panel-default">
-  	{% for c in posts %}
-			<div class="main-post row-fluid panel-body">
-				{% if c.content_img_url %}
-					<a  href='{{ c.content_img_url }}' target="_blank">
-				{% end %}		
-			
-				<div class="span1">
-					<span><img src="{{ c.user_img_url }}" onError="this.onerror=null;this.src='/static/images/user_placeholder.png';" class="img-responsive"/></span>
-					</div>
-				<div class="span10">
-					<span>{{ c.text }}</span>
-				</div>
-				<div class="span1 elapsed_time">
-					<span class="x_minutes_ago badge">{{ c.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ") }}</span>
-				</div>
-			{% if c.content_img_url %}
-				</a>
-			{% end %}
-				
-			</div>
-	{% end %}
-	</div>
-	<div class="button">
-		    <button id="btnnextpage">More!</button> 
+	<div id="main-feed" class="main-feed panel panel-default">
 	</div>
 	<div class="waypoint-next" ></div>
 
