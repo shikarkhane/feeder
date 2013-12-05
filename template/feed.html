@@ -88,12 +88,30 @@
 			  	var result = $.get( path, function( data ) {
 							var posts = $.parseJSON(data);
 							$.each(posts, function(){
-									if (this.content_img_url == null){
-									$("#main-feed").append('<div class="main-post row-fluid panel-body breadcrumb"><div class="content_link">'+ this.content_img_url + '</div><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
+									$('#main-feed').append($('<div/>',{
+													    'id'    : this.post_id,
+													    'class' : 'main-post row-fluid panel-body breadcrumb'
+													}));
+									if (!(this.content_img_url == null)){
+										$('#' + this.post_id).addClass("clickable_object");
 									}
-									else{
-									$("#main-feed").append('<div class="main-post row-fluid panel-body breadcrumb clickable_object"><div class="content_link">'+ this.content_img_url + '</div><div class="span1"><span><img src="' + this.user_img_url + '" class="img-responsive"/></span></div><div class="span10"><span>' + this.text + '</span></div><div class="span1 elapsed_time"><span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span></div></div>');
-									}
+									$('#' + this.post_id).append($('<div/>',{
+													    'class' : 'content_link',
+													    html : this.content_img_url
+													}));
+									$('#' + this.post_id).append($('<div/>',{
+													    'class' : 'span1',
+													    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
+													}));
+									$('#' + this.post_id).append($('<div/>',{
+													    'class' : 'span10',
+													    html : this.text
+													}));
+									$('#' + this.post_id).append($('<div/>',{
+													    'class' : 'span1 elapsed_time',
+													    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+													}));
+									
 							    });
 						});
 				handlePageNumber(1);
