@@ -78,7 +78,11 @@
 	};
 
 
-
+	$(document).on('click', "div.clickable_object", function() {
+		var content_url = $(this).children('.content_link').text();
+		window.open(content_url);
+  		return false;
+	});
 {% end %}
 {% block feed %}
 
@@ -89,8 +93,3 @@
 
 
 
-{% block after_scripts %}
-		$(document).on('click', "div.clickable_object", function() {
-			alert('clickable div');
-		});
-{% end %}
