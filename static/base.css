@@ -18,6 +18,7 @@ body
 .clickable_object
 {
 	background-color: #FFC79C;
+	cursor: pointer;
 }
 .content_link{
 	display:none;
