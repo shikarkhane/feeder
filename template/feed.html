@@ -10,6 +10,9 @@
 	
 	$(function() {
 			$('#nav-wrapper').height($("#nav").height());
+			$('#nav').affix({
+		        offset: { top: $('#nav').offset().top }
+		    });
 			$.cookie('FromPosition', 0, { path: '/'});
 			if(($('footer').isOnScreen())){  
 					getFeedData(); // here i am compensating for different screen orientation, so that its full of content
@@ -130,6 +133,7 @@
 {% block feed %}
 
 	<div id="main-feed" class="main-feed panel panel-default">
+	
 	</div>
 
 {% end %}
