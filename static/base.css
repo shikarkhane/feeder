@@ -11,7 +11,7 @@ body
 
 .elapsed_time
 {
-	position: relative;
+	/*position: relative; -- it was causing the elapsed batch to go over navbar while scrolling*/
 	float: right;
 }
 
