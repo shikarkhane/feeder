@@ -9,16 +9,26 @@
 	var stepsize = new Number(10);
 	
 	$(function() {
-			$('#nav-wrapper').height($("#nav").height());
-			$('#nav').affix({
-		        offset: { top: $('#nav').offset().top }
-		    });
+	
 			$.cookie('FromPosition', 0, { path: '/'});
+			
 			if(($('footer').isOnScreen())){  
 					getFeedData(); // here i am compensating for different screen orientation, so that its full of content
 					getFeedData(); // Will deal with this problem later.
 					getFeedData();
 				}
+
+			if ($.cookie('myFilterTags')){
+				$('#txtfiltertags').val(decodeURIComponent($.cookie('myFilterTags')));
+			};
+				
+			$('#btnfiltertags').click(function(event){
+				event.preventDefault();
+				var myencodedfiltertags = encodeURIComponent($('#txtfiltertags').val());
+				alert(myencodedfiltertags);
+				$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
+				location.reload();
+			});
 	});
 	$.fn.isOnScreen = function(){
 	    
@@ -85,41 +95,46 @@
 				$.cookie('FromPosition', nextposition, { path: '/'}); 
 		};
 	};
-	
+	function getAndRenderData(path){
+			  	var result = $.get( path, function( data ) {
+						var posts = $.parseJSON(data);
+						$.each(posts, function(){
+								$('#main-feed').append($('<div/>',{
+												    'id'    : this.post_id,
+												    'class' : 'main-post row-fluid panel-body breadcrumb'
+												}));
+								if (!(this.content_img_url == null)){
+									$('#' + this.post_id).addClass("clickable_object");
+								}
+								$('#' + this.post_id).append($('<div/>',{
+												    'class' : 'content_link',
+												    html : this.content_img_url
+												}));
+								$('#' + this.post_id).append($('<div/>',{
+												    'class' : 'span1',
+												    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
+												}));
+								$('#' + this.post_id).append($('<div/>',{
+												    'class' : 'span10',
+												    html : this.text
+												}));
+								$('#' + this.post_id).append($('<div/>',{
+												    'class' : 'span1 elapsed_time',
+												    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+												}));
+								
+						    });
+					});
+	};
 	function getFeedData(){
 				var path = window.servername + "from/" + $.cookie('FromPosition') + "/";
 		  		if (!($.cookie('MyLat') == null)){			  				
 		    			path = window.servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/";
 		    		}
-			  	var result = $.get( path, function( data ) {
-							var posts = $.parseJSON(data);
-							$.each(posts, function(){
-									$('#main-feed').append($('<div/>',{
-													    'id'    : this.post_id,
-													    'class' : 'main-post row-fluid panel-body breadcrumb'
-													}));
-									if (!(this.content_img_url == null)){
-										$('#' + this.post_id).addClass("clickable_object");
-									}
-									$('#' + this.post_id).append($('<div/>',{
-													    'class' : 'content_link',
-													    html : this.content_img_url
-													}));
-									$('#' + this.post_id).append($('<div/>',{
-													    'class' : 'span1',
-													    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
-													}));
-									$('#' + this.post_id).append($('<div/>',{
-													    'class' : 'span10',
-													    html : this.text
-													}));
-									$('#' + this.post_id).append($('<div/>',{
-													    'class' : 'span1 elapsed_time',
-													    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
-													}));
-									
-							    });
-						});
+		    	if ($.cookie('myFilterTags')){
+		    		path = path + "tags/" + $.cookie('myFilterTags') + "/";
+		    	}
+				getAndRenderData(path);
 				handlePageNumber(1);
 	};
 
@@ -129,6 +144,8 @@
 		window.open(content_url);
   		return false;
 	});
+
+	
 {% end %}
 {% block feed %}
 
