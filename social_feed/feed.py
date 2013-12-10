@@ -34,21 +34,31 @@ class Feed(object):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
         response = urllib2.urlopen(url).read()
         return response
-    def get_random_feed(self, q_from, q_size):
+    def get_random_feed(self, q_from, q_size, decoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
-                   "query": {
-                                "match_all": {}
-                            }
                 }
+        if decoded_tags:
+            data["query"] =     {  
+                                "match" : {
+                                    "text" : {
+                                                "query" : decoded_tags,
+                                                "operator" : "or"
+                                            }
+                                        }
+                                 }
+
+        else:
+            data["query"] =  {"match_all" : {}}
+        
         # have to send the data as JSON
         data = json.dumps(data)
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, coord, q_from, q_size):
+    def get_feed_around_coord(self, coord, q_from, q_size, decoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
@@ -64,12 +74,21 @@ class Feed(object):
                                             "unit" : "km"
                                 }
                             }
-                        ],
-
-                "query": {
-                            "match_all" : {}
-                 }
+                        ]
                 }
+        if decoded_tags:
+            data["query"] =     {  
+                                "match" : {
+                                    "text" : {
+                                                "query" : decoded_tags,
+                                                "operator" : "or"
+                                            }
+                                        }
+                                 }
+
+        else:
+            data["query"] =  {"match_all" : {}}
+        
         # have to send the data as JSON
         data = json.dumps(data)
         req = urllib2.Request(url, data)

@@ -24,21 +24,21 @@ class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler
     '''
-    def get(self, q_from=0):
+    def get(self, q_from=0, encoded_tags=None):
         page_size = 10
         f = Feed_Content()
-        posts = f.get_random_feed_as_json(q_from, page_size)
+        posts = f.get_random_feed_as_json(q_from, page_size, encoded_tags)
         self.write(json.dumps(posts))
         #self.render("feed.html",next_link = next_link, posts=posts)
 class GeoHandler(tornado.web.RequestHandler):
     '''
     handler to find data around coordinates
     '''
-    def get(self, latitude, longitude, q_from=0):
+    def get(self, latitude, longitude, q_from=0, encoded_tags=None):
         page_size = 10
         f = Feed_Content()
         coord = [latitude,longitude]
-        posts = f.get_feed_around_coord_as_json( coord , q_from, page_size)
+        posts = f.get_feed_around_coord_as_json( coord , q_from, page_size, encoded_tags)
         self.write(json.dumps(posts))
         #self.render("feed.html",next_link = next_link, posts=posts)
         
