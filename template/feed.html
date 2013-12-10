@@ -6,16 +6,14 @@
 	if (!($('<a>').prop('href', url).prop('port') == null)){
 		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
 	}
-	var stepsize = new Number(10);
+	var default_pagesize = new Number(10);
 	
 	$(function() {
 	
 			$.cookie('FromPosition', 0, { path: '/'});
 			
 			if(($('footer').isOnScreen())){  
-					getFeedData(); // here i am compensating for different screen orientation, so that its full of content
-					getFeedData(); // Will deal with this problem later.
-					getFeedData();
+					getFeedData(window.default_pagesize*3);
 				}
 
 			if ($.cookie('myFilterTags')){
@@ -50,7 +48,7 @@
 
 	$(window).scroll(function(){
 		if(($('footer').isOnScreen())){  
-							getFeedData();
+							getFeedData(window.default_pagesize);
 						}
 	});
 
@@ -58,9 +56,7 @@
 		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
 			$("#main-feed").empty();
-			getFeedData();
-			getFeedData();
-			getFeedData();		
+			getFeedData(window.default_pagesize*3);
 		 };
 	
 		function couldntFetchPosition(msg){
@@ -79,15 +75,15 @@
 		};
 	};
 	
-	function handlePageNumber(code){
+	function handlePageNumber(code, q_pagesize){
 		if (code == 1){ 
 				setFromPosition();
-				var nextposition = parseInt($.cookie('FromPosition')) + window.stepsize;
+				var nextposition = parseInt($.cookie('FromPosition')) + q_pagesize;
 				$.cookie('FromPosition', nextposition, { path: '/'});
 		};
 		if (code == -1){ //decrement by step size
 				setFromPosition();
-				var nextposition = parseInt($.cookie('FromPosition')) - window.stepsize;
+				var nextposition = parseInt($.cookie('FromPosition')) - q_pagesize;
 				if (nextposition < 0){
 					nextposition = 0;
 				}
@@ -125,16 +121,16 @@
 						    });
 					});
 	};
-	function getFeedData(){
-				var path = window.servername + "from/" + $.cookie('FromPosition') + "/";
+	function getFeedData(q_pagesize){
+				var path = window.servername + "from/" + $.cookie('FromPosition') + "/pagesize/" + q_pagesize + "/";
 		  		if (!($.cookie('MyLat') == null)){			  				
-		    			path = window.servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/";
+		    			path = window.servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/pagesize/" + q_pagesize + "/";
 		    		}
 		    	if ($.cookie('myFilterTags')){
 		    		path = path + "tags/" + $.cookie('myFilterTags') + "/";
 		    	}
 				getAndRenderData(path);
-				handlePageNumber(1);
+				handlePageNumber(1, q_pagesize);
 	};
 
 
