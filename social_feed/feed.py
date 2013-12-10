@@ -41,15 +41,13 @@ class Feed(object):
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
                 }
         if decoded_tags:
-            data["query"] =     {  
-                                "match" : {
-                                    "text" : {
-                                                "query" : decoded_tags,
-                                                "operator" : "or"
-                                            }
-                                        }
-                                 }
-
+            data["query"] =  { 
+                              "terms": 
+                                {
+                                "text" : decoded_tags.split(','),
+                                "minimum_should_match" : 1
+                                }
+                              }
         else:
             data["query"] =  {"match_all" : {}}
         
@@ -77,15 +75,13 @@ class Feed(object):
                         ]
                 }
         if decoded_tags:
-            data["query"] =     {  
-                                "match" : {
-                                    "text" : {
-                                                "query" : decoded_tags,
-                                                "operator" : "or"
-                                            }
-                                        }
-                                 }
-
+            data["query"] =  { 
+                              "terms": 
+                                {
+                                "text" : decoded_tags.split(','),
+                                "minimum_should_match" : 1
+                                }
+                              }
         else:
             data["query"] =  {"match_all" : {}}
         
