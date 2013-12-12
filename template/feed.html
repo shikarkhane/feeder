@@ -22,7 +22,8 @@
 				
 			$('#btnfiltertags').click(function(event){
 				event.preventDefault();
-				var myencodedfiltertags = encodeURIComponent($('#txtfiltertags').val());
+				var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
+				var myencodedfiltertags = encodeURIComponent(filterstring);
 				$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
 				location.reload();
 			});
