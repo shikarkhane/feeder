@@ -36,12 +36,8 @@ class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, q_from, q_size, encoded_tags):
         f = Feed()
-        if encoded_tags:
-            decoded_tags = encoded_tags.decode(encoding='UTF-8')
-        else:
-            decoded_tags = encoded_tags
         data = []
-        result = json.loads(f.get_random_feed(q_from, q_size, decoded_tags))
+        result = json.loads(f.get_random_feed(q_from, q_size, encoded_tags))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -62,11 +58,7 @@ class Feed_Content():
     def get_feed_around_coord(self, coord, q_from, q_size, encoded_tags):
         f = Feed()
         data = []
-        if encoded_tags:
-            decoded_tags = encoded_tags.decode(encoding='UTF-8')
-        else:
-            decoded_tags = encoded_tags
-        result = json.loads(f.get_feed_around_coord(coord, q_from, q_size, decoded_tags))
+        result = json.loads(f.get_feed_around_coord(coord, q_from, q_size, encoded_tags))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]

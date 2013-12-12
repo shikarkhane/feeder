@@ -34,17 +34,17 @@ class Feed(object):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
         response = urllib2.urlopen(url).read()
         return response
-    def get_random_feed(self, q_from, q_size, decoded_tags):
+    def get_random_feed(self, q_from, q_size, encoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
                 }
-        if decoded_tags:
+        if encoded_tags:
             data["query"] =  { 
                               "terms": 
                                 {
-                                "text" : decoded_tags.split(','),
+                                "text" : encoded_tags.split(','),
                                 "minimum_should_match" : 1
                                 }
                               }
@@ -56,7 +56,7 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, coord, q_from, q_size, decoded_tags):
+    def get_feed_around_coord(self, coord, q_from, q_size, encoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
@@ -74,11 +74,11 @@ class Feed(object):
                             }
                         ]
                 }
-        if decoded_tags:
+        if encoded_tags:
             data["query"] =  { 
                               "terms": 
                                 {
-                                "text" : decoded_tags.split(','),
+                                "text" : encoded_tags.split(','),
                                 "minimum_should_match" : 1
                                 }
                               }
