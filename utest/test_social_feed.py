@@ -25,7 +25,7 @@ class Test_feed(unittest.TestCase):
         self.assertGreater(data_json["hits"]["total"],0)
     def test_feed_data_around_a_coord(self):
         f = feed.Feed() 
-        data = f.get_feed_around_coord([60.1796792, 17.27853714], 0, 10, 'min') 
+        data = f.get_feed_around_coord([59.32893001, 18.06491], 0, 10, 'min') 
         data_json = json.loads(data)
         #print data_json['hits']
         self.assertGreater(int(data_json['hits']['total']),0)

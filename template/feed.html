@@ -13,7 +13,7 @@
 			$.cookie('FromPosition', 0, { path: '/'});
 			
 			if(($('footer').isOnScreen())){  
-					getFeedData(window.default_pagesize*3);
+					getFeedData(window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 				}
 
 			if ($.cookie('myFilterTags')){
@@ -46,94 +46,30 @@
 	    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
 	    
 	};
-
-	$(window).scroll(function(){
-		if(($('footer').isOnScreen())){  
-							getFeedData(window.default_pagesize);
-						}
-	});
-
-	function setCoordinateCookie(position){
-		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
-			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
-			$("#main-feed").empty();
-			getFeedData(window.default_pagesize*3);
-		 };
-	
-		function couldntFetchPosition(msg){
-					alert('Location not found!\n Allow browser to access location services and try again.' + msg );
-	 		};
-	
-	 	if ($.cookie('MyLat') == null){
+ 	
+ 	if ($.cookie('MyLat') == null){
 	  	if (navigator.geolocation){
 		    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
-		    }
+			    }
 	};
-	
 	function setFromPosition(){
 		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
 			$.cookie('FromPosition', 0, { path: '/'});
 		};
-	};
+};
 	
-	function handlePageNumber(code, q_pagesize){
-		if (code == 1){ 
-				setFromPosition();
-				var nextposition = parseInt($.cookie('FromPosition')) + q_pagesize;
-				$.cookie('FromPosition', nextposition, { path: '/'});
-		};
-		if (code == -1){ //decrement by step size
-				setFromPosition();
-				var nextposition = parseInt($.cookie('FromPosition')) - q_pagesize;
-				if (nextposition < 0){
-					nextposition = 0;
-				}
-				$.cookie('FromPosition', nextposition, { path: '/'}); 
-		};
-	};
-	function getAndRenderData(path){
-			  	var result = $.get( path, function( data ) {
-						var posts = $.parseJSON(data);
-						$.each(posts, function(){
-								$('#main-feed').append($('<div/>',{
-												    'id'    : this.post_id,
-												    'class' : 'main-post row-fluid panel-body breadcrumb'
-												}));
-								if (!(this.content_img_url == null)){
-									$('#' + this.post_id).addClass("clickable_object");
-								}
-								$('#' + this.post_id).append($('<div/>',{
-												    'class' : 'content_link',
-												    html : this.content_img_url
-												}));
-								$('#' + this.post_id).append($('<div/>',{
-												    'class' : 'span1',
-												    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
-												}));
-								$('#' + this.post_id).append($('<div/>',{
-												    'class' : 'span10',
-												    html : this.text
-												}));
-								$('#' + this.post_id).append($('<div/>',{
-												    'class' : 'span1 elapsed_time',
-												    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
-												}));
-								
-						    });
-					});
-	};
-	function getFeedData(q_pagesize){
-				var path = window.servername + "from/" + $.cookie('FromPosition') + "/pagesize/" + q_pagesize + "/";
-		  		if (!($.cookie('MyLat') == null)){			  				
-		    			path = window.servername +  $.cookie("MyLat") + "/" +  $.cookie("MyLon") + "/from/" + $.cookie('FromPosition') + "/pagesize/" + q_pagesize + "/";
-		    		}
-		    	if ($.cookie('myFilterTags')){
-		    		path = path + "tags/" + $.cookie('myFilterTags') + "/";
-		    	}
-				getAndRenderData(path);
-				handlePageNumber(1, q_pagesize);
-	};
+	function setCoordinateCookie(position){
+		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
+			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
+			$("#main-feed").empty();
+			getFeedData(window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+		 };
 
+	$(window).scroll(function(){
+		if(($('footer').isOnScreen())){  
+							getFeedData(window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+						}
+	});
 
 	$(document).on('click', "div.clickable_object", function() {
 		var content_url = $(this).children('.content_link').text();
@@ -144,6 +80,29 @@
 	
 {% end %}
 {% block feed %}
+	<nav class="navbar navbar-default" data-offset-top="130" data-spy="affix" role="navigation">
+	        <!-- Brand and toggle get grouped for better mobile display -->
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	            <span class="sr-only">Settings</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/">Tipoff</a>
+	        </div>
+	
+	        <!-- Collect the nav links, forms, and other content for toggling -->
+	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	          <form class="navbar-form navbar-left" role="search">
+	            <div class="form-group">
+	              <input id="txtfiltertags" class="form-control tags" placeholder="Filter by tags(,)" type="text">
+	            </div>
+	            <button id="btnfiltertags" type="submit" class="btn btn-default">Tags</button>
+	          </form>
+	        </div><!-- /.navbar-collapse -->
+	      
+	</nav>
 
 	<div id="main-feed" class="main-feed panel panel-default">
 	
