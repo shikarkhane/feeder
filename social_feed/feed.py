@@ -39,6 +39,7 @@ class Feed(object):
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
+                "sort" : [{ "@timestamp" : {"order" : "desc"}}]
                 }
         if encoded_tags:
             data["query"] =  { 
@@ -61,7 +62,7 @@ class Feed(object):
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
-                "sort" : [
+                "sort" : [{ "@timestamp" : {"order" : "desc"}},
                             {
                                 "_geo_distance" : {
                                               "coord" : {
@@ -74,8 +75,17 @@ class Feed(object):
                             }
                         ]
                 }
+        data["query"] = {"filtered":{"filter" :{
+                "geo_distance" : {
+                    "distance" : "10km",
+                    "coord" : {
+                        "lat" : coord[0],
+                        "lon" : coord[1]
+                    }
+                }
+            } }}
         if encoded_tags:
-            data["query"] =  { 
+            data["query"]["filtered"]["query"]= { 
                               "terms": 
                                 {
                                 "text" : encoded_tags.split(','),
@@ -83,10 +93,11 @@ class Feed(object):
                                 }
                               }
         else:
-            data["query"] =  {"match_all" : {}}
-        
+            data["query"]["filtered"]["query"] = {"match_all" : {}}
+       
         # have to send the data as JSON
         data = json.dumps(data)
+        print data
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
