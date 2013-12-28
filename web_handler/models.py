@@ -76,3 +76,14 @@ class Feed_Content():
     def get_feed_around_coord_as_json(self,coord, q_from, q_size, encoded_tags):
         data = self.get_random_feed(q_from, q_size, encoded_tags)
         return [(d.get_as_dict()) for d in data]
+
+class Backoffice_content():
+    '''administrative and analytics'''
+    def get_last_1day_period_activity(self):
+        f = Feed()
+        data = []
+        result = json.loads(f.get_last_1day_period_activity())
+        entries = result['facets']['histo1']['entries']
+        if len(entries) > 0:
+            data = [entry["count"] for entry in entries]
+        return data

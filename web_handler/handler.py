@@ -5,7 +5,7 @@ Created on Oct 3, 2013
 '''
 import tornado.web
 import json
-from models import Feed_Content
+from models import Feed_Content, Backoffice_content
 
 
 # class BaseHandler(tornado.web.RequestHandler):
@@ -43,4 +43,14 @@ class GeoHandler(tornado.web.RequestHandler):
         posts = f.get_feed_around_coord_as_json( coord , q_from, q_page_size, q_encoded_tags)
         self.write(json.dumps(posts))
         #self.render("feed.html",next_link = next_link, posts=posts)
-        
+class BackofficeHandler(tornado.web.RequestHandler):
+    '''
+    tipoff admin page
+    '''
+    def get(self, secretcode):
+        if (int(secretcode) != 7777):
+            return None
+        bo = Backoffice_content()
+        result = bo.get_last_1day_period_activity()
+        #self.write(json.dumps(result))
+        self.render("backoffice.html", activity=result)

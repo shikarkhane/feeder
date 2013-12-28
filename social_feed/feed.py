@@ -34,6 +34,13 @@ class Feed(object):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
         response = urllib2.urlopen(url).read()
         return response
+    def get_last_1day_period_activity(self):
+        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        data = {"size":0,"query":{"filtered":{"filter":{"numeric_range":{"@timestamp":{"gte":"now-1d"}}}}},"facets":{"histo1":{"date_histogram":{"field":"@timestamp","interval":"hour"}}}}
+        data = json.dumps(data)
+        req = urllib2.Request(url, data)
+        out = urllib2.urlopen(req)
+        return out.read()
     def get_random_feed(self, q_from, q_size, encoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
@@ -97,7 +104,6 @@ class Feed(object):
        
         # have to send the data as JSON
         data = json.dumps(data)
-        print data
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
