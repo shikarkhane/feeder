@@ -54,3 +54,10 @@ class BackofficeHandler(tornado.web.RequestHandler):
         result = bo.get_last_1day_period_activity()
         #self.write(json.dumps(result))
         self.render("backoffice.html", activity=result)
+class HelperHandler(tornado.web.RequestHandler):
+    '''
+    renders static html pages like help, about us, privacy etc
+    '''
+    def get(self, pagename):
+        self.render("{0}.html".format(pagename))
+
