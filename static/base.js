@@ -15,6 +15,7 @@ function getAndRenderData(path){
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
 					$.each(posts, function(){
+							if (this.post_id){
 							$('#main-feed').append($('<div/>',{
 											    'id'    : this.post_id,
 											    'class' : 'main-post row-fluid panel-body breadcrumb'
@@ -38,6 +39,7 @@ function getAndRenderData(path){
 											    'class' : 'span1 elapsed_time',
 											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
 											}));
+						}
 							
 					    });
 				});
