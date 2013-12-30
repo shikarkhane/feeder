@@ -27,6 +27,8 @@
 				$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
 				location.reload();
 			});
+			
+		
 	});
 	$.fn.isOnScreen = function(){
 	    
@@ -116,6 +118,12 @@ function getAndRenderData(path){
 		window.open(content_url);
   		return false;
 	});
+
+$(document).on('live', "div.main-post", function(e) {
+		
+				alert("on touch move");
+			    onTouchmove(e);
+			});
 
 	
 {% end %}
