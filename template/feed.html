@@ -70,6 +70,41 @@
 							getFeedData(window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 						}
 	});
+	
+	
+function getAndRenderData(path){
+		  	var result = $.get( path, function( data ) {
+					var posts = $.parseJSON(data);
+					$.each(posts, function(){
+							if (this.post_id){
+							$('#main-feed').append($('<div/>',{
+											    'id'    : this.post_id,
+											    'class' : 'main-post row-fluid panel-body breadcrumb'
+											}));
+							if (!(this.content_img_url == null)){
+								$('#' + this.post_id).addClass("clickable_object");
+							}
+							$('#' + this.post_id).append($('<div/>',{
+											    'class' : 'content_link',
+											    html : this.content_img_url
+											}));
+							$('#' + this.post_id).append($('<div/>',{
+											    'class' : 'span1',
+											    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
+											}));
+							$('#' + this.post_id).append($('<div/>',{
+											    'class' : 'span10',
+											    html : this.text
+											}));
+							$('#' + this.post_id).append($('<div/>',{
+											    'class' : 'span1 elapsed_time',
+											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											}));
+						}
+							
+					    });
+				});
+};
 
 	$(document).on('click', "div.clickable_object", function() {
 		var content_url = $(this).children('.content_link').text();
@@ -79,44 +114,15 @@
 
 	
 {% end %}
-{% block feed %}
-	<nav class="navbar navbar-default" data-offset-top="130" data-spy="affix" role="navigation">
-	        <!-- Brand and toggle get grouped for better mobile display -->
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	            <span class="sr-only">Settings</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <a class="navbar-brand" href="/">tipoff</a>
-	        </div>
-	
-	        <!-- Collect the nav links, forms, and other content for toggling -->
-	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+{% block nav %}
 	          <form class="navbar-form navbar-left" role="search">
 	            <div class="form-group">
 	              <input id="txtfiltertags" class="form-control tags" placeholder="filter by tags(,)" type="text">
 	            </div>
 	            <button id="btnfiltertags" type="submit" class="btn btn-default">Tags</button>
 	          </form>
-	           <ul class="nav navbar-nav navbar-right">
-			      <li class="dropdown">
-			        <a href="#" class="dropdown-toggle" data-toggle="dropdown">We<b class="caret"></b></a>
-			        <ul class="dropdown-menu">
-			          <li><a href="/we/about/">About</a></li>
-			          <li><a href="/we/terms/">Terms</a></li>
-			          <li><a href="/we/privacy/">Privacy</a></li>
-			          <li class="divider"></li>
-			          <li><a href="/we/advertise/">Advertise</a></li>
-			          <li class="divider"></li>
-			          <li><a href="/we/help/">Help</a></li>
-			        </ul>
-			      </li>
-			    </ul>
-	        </div><!-- /.navbar-collapse -->
-	      
-	</nav>
+{% end %}
+{% block feed %}
 
 	<div id="main-feed" class="main-feed panel panel-default">
 	
