@@ -85,6 +85,10 @@ function getAndRenderData(path){
 								$('#' + this.post_id).addClass("clickable_object");
 							}
 							$('#' + this.post_id).append($('<div/>',{
+							    'class' : 'span1',
+							    html : '<img src="static/images/Twitter_logo_blue.png" class="img-responsive content-provider-logo pull-right"/>'
+							}));
+							$('#' + this.post_id).append($('<div/>',{
 											    'class' : 'content_link',
 											    html : this.content_img_url
 											}));
@@ -93,7 +97,7 @@ function getAndRenderData(path){
 											    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
 											}));
 							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span10',
+											    'class' : 'span9',
 											    html : this.text
 											}));
 							$('#' + this.post_id).append($('<div/>',{

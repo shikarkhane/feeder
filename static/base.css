@@ -23,3 +23,8 @@ body
 .content_link{
 	display:none;
 }
+
+.content-provider-logo{
+	max-height: 25px;
+	min-height: 10px;
+}
