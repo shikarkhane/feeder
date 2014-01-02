@@ -76,7 +76,27 @@ class Feed_Content():
     def get_feed_around_coord_as_json(self,coord, q_from, q_size, encoded_tags):
         data = self.get_random_feed(q_from, q_size, encoded_tags)
         return [(d.get_as_dict()) for d in data]
-
+    def increment_upvote(self,data):
+        '''this method should be removed in future when post object is being passed everywhere'''
+        if data.get("up_votes"):
+            data["up_votes"] = int(data["up_votes"]) + 1
+        else:
+            data["up_votes"] = 1
+        return data
+    def like_post(self, document_id):
+        f = Feed()
+        d = f.get_by_document_id(document_id)
+        if (json.loads(d)["hits"]["total"] == 0):
+            return None
+        else:
+            data = json.loads(d)["hits"]["hits"][0]
+            d_index = data["_index"]
+            d_doctype = data["_type"]
+            d_id = document_id
+            fields = data["fields"]
+            fields = self.increment_upvote(fields)
+        f.delete_by_document_id(d_index, d_doctype, d_id)
+        f.create_document(d_index, d_doctype, json.dumps(fields))
 class Backoffice_content():
     '''administrative and analytics'''
     def get_last_1day_period_activity(self):

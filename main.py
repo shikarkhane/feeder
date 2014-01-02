@@ -1,6 +1,6 @@
 import tornado.ioloop
 import config
-from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler
+from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler
 import settings
 
 
@@ -11,6 +11,7 @@ application = tornado.web.Application([
     (r"/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/from/([0-9]+)/pagesize/([0-9]+)/tags/(\S+)/", GeoHandler),
     (r"/backoffice/([0-9]+)/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
+    (r"/like/([\-a-zA-Z0-9]+)/", LikeHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH)
 
 if __name__ == "__main__":

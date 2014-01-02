@@ -124,7 +124,10 @@ function getAndRenderData(path){
 	});
 
 	$(document).on('click', "span.glyphicon-thumbs-up", function() {
-		alert('licking');
+		var doc_id = $(this).closest("div.main-post").attr("id");
+		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/', function() {
+					alert( "success" );
+					});
 	});
 
 	

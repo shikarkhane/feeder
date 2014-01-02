@@ -61,3 +61,11 @@ class HelperHandler(tornado.web.RequestHandler):
     def get(self, pagename):
         self.render("{0}.html".format(pagename))
 
+class LikeHandler(tornado.web.RequestHandler):
+    '''
+    like a tipoff
+    '''
+    def get(self, document_id):
+        m = Feed_Content()
+        m.like_post(document_id)
+        

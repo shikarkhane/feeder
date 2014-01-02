@@ -39,6 +39,7 @@ class Test_feed(unittest.TestCase):
         ''' in elasticsearch with source disabled, we will select, delete existing and insert new'''
         f = feed.Feed()
         res = f.get_by_document_id("XBYPmHdrT-SRSSBEXXMsfg")
+        print res
         found_count = int(json.loads(res)["hits"]["total"])
         self.assertEqual(1, found_count)
     def test_create_document(self):
