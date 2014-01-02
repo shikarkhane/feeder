@@ -107,4 +107,32 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
+    def get_by_document_id(self, document_id):
+        # fetch the document by the id
+        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        data = {
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"]
+                }
+        data["query"] =  {"term":{
+                                "_id" : str(document_id)
+                                }
+                              }
+        data = json.dumps(data)
+        req = urllib2.Request(url, data)
+        out = urllib2.urlopen(req)
+        return out.read()
+    def delete_by_document_id(self, index_name, doc_type, document_id):
+        # fetch the document by the id
+        url = '{0}/{1}/{2}/{3}'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type, document_id)
+        req = urllib2.Request(url)
+        req.get_method = lambda: 'DELETE'
+        out = urllib2.urlopen(req)
+        return out.read()
+    def create_document(self, index_name, doc_type, json_body):
+        # fetch the document by the id
+        url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
+        req = urllib2.Request(url, json_body)
+        req.get_method = lambda: 'POST'
+        out = urllib2.urlopen(req)
+        return out.read()
         

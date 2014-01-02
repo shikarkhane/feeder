@@ -100,12 +100,16 @@ function getAndRenderData(path){
 											    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
 											}));
 							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span9',
+											    'class' : 'span8',
 											    html : this.text
 											}));
 							$('#' + this.post_id).append($('<div/>',{
 											    'class' : 'span1 elapsed_time',
 											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											}));
+							$('#' + this.post_id).append($('<div/>',{
+											    'class' : 'span1',
+											    html : '<a class="btn"><span class="glyphicon glyphicon-thumbs-up"></span></a>'
 											}));
 						}
 							
@@ -119,11 +123,9 @@ function getAndRenderData(path){
   		return false;
 	});
 
-$(document).on('live', "div.main-post", function(e) {
-		
-				alert("on touch move");
-			    onTouchmove(e);
-			});
+	$(document).on('click', "span.glyphicon-thumbs-up", function() {
+		alert('licking');
+	});
 
 	
 {% end %}
