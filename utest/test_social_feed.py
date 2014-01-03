@@ -7,6 +7,7 @@ import unittest
 from social_feed import feed
 import json
 import config
+from time import sleep
 
 class Test_feed(unittest.TestCase):
     def setUp(self):
@@ -38,8 +39,11 @@ class Test_feed(unittest.TestCase):
     def test_get_document_by_id(self):
         ''' in elasticsearch with source disabled, we will select, delete existing and insert new'''
         f = feed.Feed()
-        res = f.get_by_document_id("XBYPmHdrT-SRSSBEXXMsfg")
-        print res
+        # create document to be deleted
+        d_new = self.test_create_document()
+        d_id = d_new["_id"]
+        sleep(5) # cause default indexing delay is 1 sec in elasticsearch
+        res = f.get_by_document_id(d_id)
         found_count = int(json.loads(res)["hits"]["total"])
         self.assertEqual(1, found_count)
     def test_create_document(self):
@@ -49,7 +53,7 @@ class Test_feed(unittest.TestCase):
         d_index = "logstash-testing"
         d_doctype = "twitter"
         # get document to be deleted
-        res = f.create_document(d_index, d_doctype, json.dumps(json_data))
+        res = f.create_document( index_name = d_index, doc_type = d_doctype, document_id = None, json_body = json.dumps(json_data))
         j_res = json.loads(res) 
         self.assertTrue(j_res["ok"])
         return j_res

@@ -81,53 +81,71 @@ function getAndRenderData(path){
 							if (this.post_id){
 							$('#main-feed').append($('<div/>',{
 											    'id'    : this.post_id,
-											    'class' : 'main-post row-fluid panel-body breadcrumb'
+											    'class' : 'main-post panel-body breadcrumb'
 											}));
-							if (!(this.content_img_url == null)){
-								$('#' + this.post_id).addClass("clickable_object");
-							}
-							$('#' + this.post_id).append($('<div/>',{
-							    'class' : 'span1',
-							    html : '<img src="static/images/Twitter_logo_blue.png" class="img-responsive content-provider-logo pull-right"/>'
-							}));
-						
 							$('#' + this.post_id).append($('<div/>',{
 											    'class' : 'content_link',
 											    html : this.content_img_url
 											}));
-							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span1',
+							$('<div/>',{
+								'class' : 'row post-top'
+							}).appendTo('#' + this.post_id)
+								.append($('<div/>',{
+								    'class' : 'col-md-1 pull-right',
+								    'html' : '<img src="static/images/Twitter_logo_blue.png" class="img-responsive content-provider-logo pull-right"/>'
+											}))											
+								.append($('<div/>',{
+											    'class' : 'col-md-3',
 											    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
-											}));
-							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span8',
+											}))
+							;
+							$('<div/>',{
+								'class' : 'row post-middle'
+							}).appendTo('#' + this.post_id)
+								.append($('<div/>',{
+											    'class' : 'col-md-12',
 											    html : this.text
-											}));
-							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span1 elapsed_time',
+											}))											
+							;
+							$('<div/>',{
+								'class' : 'row post-bottom'
+							}).appendTo('#' + this.post_id)
+								.append($('<div/>',{
+											    'class' : 'post-info elapsed_time col-md-4 pull-right',
 											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											}))
+								.append($('<div/>',{
+											    'class' : 'post-actions col-md-8'
+											}))
+							;
+							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
+												'type' : 'button',
+											    'class' : 'btn btn-default',
+											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>'
 											}));
-							$('#' + this.post_id).append($('<div/>',{
-											    'class' : 'span1',
-											    html : '<a class="btn"><span class="glyphicon glyphicon-thumbs-up"></span></a>'
-											}));
+							if (!(this.content_img_url == null)){
+								$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
+													'type' : 'button',
+												    'class' : 'btn btn-default',
+												    html : '<span class="glyphicon glyphicon-link"></span>'
+												}));
+							}
 						}
 							
 					    });
 				});
 };
 
-	$(document).on('click', "div.clickable_object", function() {
-		var content_url = $(this).children('.content_link').text();
+	$(document).on('click', "span.glyphicon-link", function() {
+		var content_url = $(this).closest("div").siblings("div.content_link").text();
 		window.open(content_url);
   		return false;
 	});
 
 	$(document).on('click', "span.glyphicon-thumbs-up", function() {
 		var doc_id = $(this).closest("div.main-post").attr("id");
-		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/', function() {
-					alert( "success" );
-					});
+		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
+		$(this).closest("div").remove();
 	});
 
 	

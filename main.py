@@ -11,7 +11,7 @@ application = tornado.web.Application([
     (r"/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/from/([0-9]+)/pagesize/([0-9]+)/tags/(\S+)/", GeoHandler),
     (r"/backoffice/([0-9]+)/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
-    (r"/like/([\-a-zA-Z0-9]+)/", LikeHandler),
+    (r"/like/(\S+)/", LikeHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH)
 
 if __name__ == "__main__":

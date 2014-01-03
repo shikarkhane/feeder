@@ -111,13 +111,13 @@ class Feed(object):
         # fetch the document by the id
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"]
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"]
                 }
         data["query"] =  {"term":{
                                 "_id" : str(document_id)
                                 }
                               }
-        data = json.dumps(data)
+        data = json.dumps(data) 
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
@@ -128,9 +128,12 @@ class Feed(object):
         req.get_method = lambda: 'DELETE'
         out = urllib2.urlopen(req)
         return out.read()
-    def create_document(self, index_name, doc_type, json_body):
+    def create_document(self, index_name, doc_type, json_body, document_id=None):
         # fetch the document by the id
-        url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
+        if document_id:
+            url = '{0}/{1}/{2}/{3}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type, document_id)
+        else:
+            url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
         req = urllib2.Request(url, json_body)
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)

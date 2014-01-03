@@ -96,7 +96,7 @@ class Feed_Content():
             fields = data["fields"]
             fields = self.increment_upvote(fields)
         f.delete_by_document_id(d_index, d_doctype, d_id)
-        f.create_document(d_index, d_doctype, json.dumps(fields))
+        f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
 class Backoffice_content():
     '''administrative and analytics'''
     def get_last_1day_period_activity(self):
