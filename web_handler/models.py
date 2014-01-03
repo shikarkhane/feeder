@@ -74,7 +74,7 @@ class Feed_Content():
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
     def get_feed_around_coord_as_json(self,coord, q_from, q_size, encoded_tags):
-        data = self.get_random_feed(q_from, q_size, encoded_tags)
+        data = self.get_feed_around_coord(coord, q_from, q_size, encoded_tags)
         return [(d.get_as_dict()) for d in data]
     def increment_upvote(self,data):
         '''this method should be removed in future when post object is being passed everywhere'''
