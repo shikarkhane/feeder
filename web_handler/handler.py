@@ -20,6 +20,12 @@ class PreHandler(tornado.web.RequestHandler):
     '''
     def get(self):
         self.render("feed.html")
+class NewHandler(tornado.web.RequestHandler):
+    '''
+    native tipoff post
+    '''
+    def get(self):
+        self.render("native-post.html")
 class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler
