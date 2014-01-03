@@ -120,13 +120,13 @@ function getAndRenderData(path){
 							;
 							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
 												'type' : 'button',
-											    'class' : 'btn btn-default',
+											    'class' : 'btn btn-default post-like',
 											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>'
 											}));
 							if (!(this.content_img_url == null)){
 								$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
 													'type' : 'button',
-												    'class' : 'btn btn-default',
+												    'class' : 'btn btn-default post-link',
 												    html : '<span class="glyphicon glyphicon-link"></span>'
 												}));
 							}
@@ -136,16 +136,16 @@ function getAndRenderData(path){
 				});
 };
 
-	$(document).on('click', "span.glyphicon-link", function() {
-		var content_url = $(this).closest("div").siblings("div.content_link").text();
+	$(document).on('click', "button.post-link", function() {
+		var content_url = $(this).closest("div.post-bottom").siblings("div.content_link").text();
 		window.open(content_url);
   		return false;
 	});
 
-	$(document).on('click', "span.glyphicon-thumbs-up", function() {
+	$(document).on('click', "button.post-like", function() {
 		var doc_id = $(this).closest("div.main-post").attr("id");
 		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
-		$(this).closest("div").remove();
+		$(this).remove();
 	});
 
 	
