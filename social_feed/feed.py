@@ -45,7 +45,7 @@ class Feed(object):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
                 "sort" : [{ "@timestamp" : {"order" : "desc"}}]
                 }
         from_date_filter = {

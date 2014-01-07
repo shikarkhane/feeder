@@ -19,7 +19,7 @@ class Post():
               "coord" => "15.13412991,58.32243012",
 }
     '''
-    def __init__(self, post_id, text, created, content_img_url, user_img_url, source ):
+    def __init__(self, post_id, text, created, content_img_url, user_img_url, source, up_votes =0 ):
         # post_id is the internal _id of elasticsearch store
         self.post_id = post_id
         self.text = text
@@ -27,10 +27,11 @@ class Post():
         self.content_img_url = content_img_url
         self.user_img_url = user_img_url
         self.source = source
+        self.up_votes = up_votes
         #self.coord = coord   
     def get_as_dict(self):
         d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
-             "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source}
+             "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source, "up_votes": self.up_votes}
         return d      
 class Feed_Content():
     '''Provides feed content'''
@@ -47,7 +48,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
-                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
+                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
@@ -68,7 +69,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("text").encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type")))
+                    data.append(Post( p["_id"], field.get("text").encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, field.get("user_img_url"), field.get("type"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object

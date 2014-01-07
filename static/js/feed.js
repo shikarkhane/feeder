@@ -84,7 +84,7 @@ function getAndRenderData(path){
 							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
 												'type' : 'button',
 											    'class' : 'btn btn-default post-like',
-											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>'
+											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + this.up_votes
 											}));
 							if (!(this.content_img_url == null)){
 								$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
