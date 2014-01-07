@@ -8,14 +8,14 @@
 <!--link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"-->
 
 <!-- tipoff -->
-<link rel="stylesheet" type="text/css" href="/static/base.css">
+<link rel="stylesheet" type="text/css" href="/static/css/base.css">
 
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/moment.js"></script>
-<script src="/static/base.js"></script>
+<script src="/static/js/base.js"></script>
 <script src="/static/jquery.cookie.js"></script>
 <!-- google analytics -->
 <script>
@@ -28,7 +28,8 @@
   ga('send', 'pageview');
 
 </script>
-
+{% block includejs %}
+{% end %}
 <script>{% block jscripts %}
 {% end %}
 </script>
