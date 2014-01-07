@@ -34,7 +34,7 @@ class MainHandler(tornado.web.RequestHandler):
         if int(q_page_size) > 50:
             q_page_size = 50
         f = Feed_Content()
-        posts = f.get_random_feed_as_json(q_from_datetime, q_from, q_page_size, q_encoded_tags, q_radius, q_sort)
+        posts = f.get_random_feed_as_json(q_from_datetime, q_from, q_page_size, q_encoded_tags, int(q_radius), int(q_sort))
         self.write(json.dumps(posts))
         #self.render("feed.html",next_link = next_link, posts=posts)
 class GeoHandler(tornado.web.RequestHandler):
@@ -46,7 +46,7 @@ class GeoHandler(tornado.web.RequestHandler):
             q_page_size = 50
         f = Feed_Content()
         coord = [q_latitude,q_longitude]
-        posts = f.get_feed_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, q_encoded_tags, q_radius, q_sort)
+        posts = f.get_feed_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, q_encoded_tags, int(q_radius), int(q_sort))
         self.write(json.dumps(posts))
         #self.render("feed.html",next_link = next_link, posts=posts)
 class BackofficeHandler(tornado.web.RequestHandler):
