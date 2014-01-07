@@ -41,12 +41,16 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags):
+    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        sortby = []
+        if sort:
+            sortby.append({ "up_votes" : {"order" : "desc"}}) 
+        sortby.append({ "@timestamp" : {"order" : "desc"}})
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
-                "sort" : [{ "@timestamp" : {"order" : "desc"}}]
+                "sort" : sortby
                 }
         from_date_filter = {
             "range" : {
@@ -73,14 +77,14 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags):
+    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         # { "up_votes" : {"order" : "desc"}},
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
-        data = {
-                "from" : q_from, "size" : q_size,
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
-                "sort" : [{ "@timestamp" : {"order" : "desc"}},
-                            {
+        sortby = []
+        if sort:
+            sortby.append({ "up_votes" : {"order" : "desc"}}) 
+        sortby.append({ "@timestamp" : {"order" : "desc"}})
+        sortby.append({
                                 "_geo_distance" : {
                                               "coord" : {
                                                              "lat" : coord[0],
@@ -89,8 +93,12 @@ class Feed(object):
                                             "order" : "asc",
                                             "unit" : "km"
                                 }
-                            }
-                        ]
+                            })
+                        
+        data = {
+                "from" : q_from, "size" : q_size,
+                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
+                "sort" : sortby
                 }
         from_date_filter = {
             "range" : {
@@ -101,7 +109,7 @@ class Feed(object):
          }
         coord_filter = {
                 "geo_distance" : {
-                    "distance" : "10km",
+                    "distance" : "{0}km".format(radius),
                     "coord" : {
                         "lat" : coord[0],
                         "lon" : coord[1]

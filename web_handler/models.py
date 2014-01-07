@@ -35,10 +35,10 @@ class Post():
         return d      
 class Feed_Content():
     '''Provides feed content'''
-    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags):
+    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
         f = Feed()
         data = []
-        result = json.loads(f.get_random_feed(from_datetime, q_from, q_size, encoded_tags))
+        result = json.loads(f.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -53,13 +53,13 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
-    def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags):
-        data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags)
+    def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags, radius, sort):
+        data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort)
         return [(d.get_as_dict()) for d in data]
-    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags):
+    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         f = Feed()
         data = []
-        result = json.loads(f.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags))
+        result = json.loads(f.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -74,8 +74,8 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
-    def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags):
-        data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags)
+    def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
+        data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort)
         return [(d.get_as_dict()) for d in data]
     def increment_upvote(self,data):
         '''this method should be removed in future when post object is being passed everywhere'''

@@ -1,5 +1,5 @@
-function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags){
-			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/";
+function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes){
+			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
 	  		if (!($.cookie('MyLat') == null)){			  				
 	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
 	    		}

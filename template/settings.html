@@ -1,12 +1,68 @@
 {% extends "base.html" %}
 
 {% block jscripts %}
+	$(function() {
+	
+			if ($.cookie('mysearchradius')){
+				$('#searchradius').val($.cookie('mysearchradius'));
+			}
+			if ($.cookie('mysortbyvotes')==1){
+				$('#sortbyvotes').prop('checked', true);
+			}
+			else{
+				$('#sortbyvotes').prop('checked', false);
+			}
+	});
+	
+	$(document).on('click', "#btnsavesettings", function(event){
+		event.preventDefault();
+		var radius = $('#searchradius').val();
+		if($('#sortbyvotes').is(':checked')){
+			$.cookie('mysortbyvotes',  1, { path: '/'});
+		}
+		else{
+			$.cookie('mysortbyvotes',  0, { path: '/'});
+		}
+		if (radius){
+			$.cookie('mysearchradius',  radius, { path: '/'});
+			}
+		else{
+			$.cookie('mysearchradius',  10, { path: '/'});
+		}
+		window.location.replace("/");
+	});
 {% end %}
 
 {% block feed %}
-	<h3>Settings</h3>
-	<div class="alert alert-info"><p>
-	Coming soon!
-    </p></div>
-	  	
+<div class="panel panel-default">
+	<div class="panel-heading">
+    	<h3 class="panel-title">Settings</h3>
+  	</div>
+	<div class="panel-body">
+		<form role="search">	
+				<div class="row ">
+				  <div class="col-md-12">
+				    <div class="input-group">
+				      <span class="input-group-addon">Sort by Up-votes</span>
+				       <span class="input-group-addon">
+				        <input id = "sortbyvotes" type="checkbox">
+				      </span>
+				      
+				    </div><!-- /input-group -->
+				  </div><!-- /.col-md-1 -->
+				</div>
+				<div class="row ">  
+				  <div class="col-md-12">
+				    <div class="input-group">
+				      <span class="input-group-addon">
+				        Search radius <small>(in kms)</small>
+				      </span>
+				      <input id="searchradius" type="number" class="form-control"  placeholder="10Kms">
+				    </div><!-- /input-group -->
+				  </div><!-- /.col-lg-6 -->
+				</div><!-- /.row -->
+		<button id="btnsavesettings" type="submit" class="btn btn-primary">Save</button>
+	</div>
+</div>	  	
 {% end %}
+

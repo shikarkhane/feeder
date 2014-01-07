@@ -14,10 +14,16 @@
 	$(function() {
 	
 			$.cookie('FromPosition', 0, { path: '/'});
-			
+			if (!($.cookie('mysearchradius'))){
+				$.cookie('mysearchradius', 10, { path: '/'});
+			}
+			if (!($.cookie('mysortbyvotes'))){
+				$.cookie('mysortbyvotes', 0, { path: '/'});
+			}
 			window.pageload_utctime = moment.utc().valueOf();
 			if(($('footer').isOnScreen())){  
-					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 				}
 
 			if ($.cookie('myFilterTags')){
@@ -59,12 +65,14 @@
 		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
 			$("#main-feed").empty();
-			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 		 };
 
 	$(window).scroll(function(){
 		if(($('footer').isOnScreen())){  
-							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), 
+							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 						}
 	});
 	
