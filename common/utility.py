@@ -10,6 +10,6 @@ class Url_Handler():
         x = str(string_with_url)
         if x.find("http") == -1:
             return None
-        return str(re.search("(?P<url>https?://[^\s]+)", x).group("url"))
+        return str(re.search("""(?P<url>https?://[^\s|"|']+)""", x).group("url"))
 
             
