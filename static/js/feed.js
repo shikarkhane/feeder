@@ -13,7 +13,7 @@ function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfi
 
 
 function couldntFetchPosition(msg){
-		alert('Location not found!\n Allow browser to access location services and try again.' + msg );
+		alert('Location not found!\n Allow browser to access location services and try again.');
 };
 
 

@@ -24,15 +24,6 @@
 				$('#txtfiltertags').val(decodeURIComponent($.cookie('myFilterTags')));
 			};
 				
-			$('#btnfiltertags').click(function(event){
-				event.preventDefault();
-				var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
-				var myencodedfiltertags = encodeURIComponent(filterstring);
-				$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
-				location.reload();
-			});
-			
-		
 	});
 	$.fn.isOnScreen = function(){
 	    
@@ -62,13 +53,13 @@
 		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
 			$.cookie('FromPosition', 0, { path: '/'});
 		};
-};
+	};
 	
 	function setCoordinateCookie(position){
 		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
 			$("#main-feed").empty();
-			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+			location.reload();
 		 };
 
 	$(window).scroll(function(){
@@ -89,6 +80,14 @@
 		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
 		alert(moment.utc().format("YYYY-MM-DDTHH:mm:ssZ"));
 		$(this).remove();
+	});
+
+	$(document).on('click', "#btnfiltertags", function(event){
+		event.preventDefault();
+		var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
+		var myencodedfiltertags = encodeURIComponent(filterstring);
+		$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
+		location.reload();
 	});
 
 	
