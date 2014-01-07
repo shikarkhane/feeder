@@ -59,7 +59,7 @@
 		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
 			$("#main-feed").empty();
-			location.reload();
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 		 };
 
 	$(window).scroll(function(){
