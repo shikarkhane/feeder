@@ -7,13 +7,14 @@
 		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
 	}
 	var default_pagesize = new Number(10);
-	
+	var pageload_utctime = moment.utc().valueOf(); 
 	$(function() {
 	
 			$.cookie('FromPosition', 0, { path: '/'});
 			
+			window.pageload_utctime = moment.utc().valueOf();
 			if(($('footer').isOnScreen())){  
-					getFeedData(window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 				}
 
 			if ($.cookie('myFilterTags')){
@@ -64,12 +65,12 @@
 		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
 			$("#main-feed").empty();
-			getFeedData(window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 		 };
 
 	$(window).scroll(function(){
 		if(($('footer').isOnScreen())){  
-							getFeedData(window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
+							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'));
 						}
 	});
 	
@@ -145,6 +146,7 @@ function getAndRenderData(path){
 	$(document).on('click', "button.post-like", function() {
 		var doc_id = $(this).closest("div.main-post").attr("id");
 		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
+		alert(moment.utc().format("YYYY-MM-DDTHH:mm:ssZ"));
 		$(this).remove();
 	});
 

@@ -11,11 +11,10 @@ function formatDate(d) {
             pad(d.getUTCSeconds())].join(":") + "Z";
 };
 
-
-function getFeedData(q_pagesize, mylat, mylon, fromposition, myfiltertags){
-			var path = window.servername + "from/" + fromposition + "/pagesize/" + q_pagesize + "/";
+function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags){
+			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/";
 	  		if (!($.cookie('MyLat') == null)){			  				
-	    			path = window.servername +  mylat + "/" +  mylon + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/";
+	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
 	    		}
 	    	if (myfiltertags){
 	    		path = path + "tags/" + myfiltertags + "/";

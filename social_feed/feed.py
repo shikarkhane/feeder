@@ -41,15 +41,24 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_random_feed(self, q_from, q_size, encoded_tags):
+    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord"],
                 "sort" : [{ "@timestamp" : {"order" : "desc"}}]
                 }
+        from_date_filter = {
+            "range" : {
+               "@timestamp" : {
+                  "lte" : from_datetime
+               }
+            }
+         }
+        data["query"] = {"filtered":{"filter" :{"bool":{"must":[ from_date_filter]}}}}
+        
         if encoded_tags:
-            data["query"] =  { 
+            data["query"]["filtered"]["query"]= { 
                               "terms": 
                                 {
                                 "text" : encoded_tags.split(','),
@@ -57,19 +66,20 @@ class Feed(object):
                                 }
                               }
         else:
-            data["query"] =  {"match_all" : {}}
+            data["query"]["filtered"]["query"] = {"match_all" : {}}            
         
         # have to send the data as JSON
         data = json.dumps(data)
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, coord, q_from, q_size, encoded_tags):
+    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags):
+        # { "up_votes" : {"order" : "desc"}},
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
-                "sort" : [{ "up_votes" : {"order" : "desc"}},{ "@timestamp" : {"order" : "desc"}},
+                "sort" : [{ "@timestamp" : {"order" : "desc"}},
                             {
                                 "_geo_distance" : {
                                               "coord" : {
@@ -82,7 +92,14 @@ class Feed(object):
                             }
                         ]
                 }
-        data["query"] = {"filtered":{"filter" :{
+        from_date_filter = {
+            "range" : {
+               "@timestamp" : {
+                  "lte" : from_datetime
+               }
+            }
+         }
+        coord_filter = {
                 "geo_distance" : {
                     "distance" : "10km",
                     "coord" : {
@@ -90,7 +107,9 @@ class Feed(object):
                         "lon" : coord[1]
                     }
                 }
-            } }}
+            } 
+        data["query"] = {"filtered":{"filter" :{"bool":{"must":[coord_filter, from_date_filter]}}}}
+        
         if encoded_tags:
             data["query"]["filtered"]["query"]= { 
                               "terms": 
