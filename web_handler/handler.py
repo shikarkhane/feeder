@@ -41,7 +41,7 @@ class GeoHandler(tornado.web.RequestHandler):
     '''
     handler to find data around coordinates
     '''
-    def get(self, from_datetime, q_latitude, q_longitude, q_from=0, q_page_size = 10, q_encoded_tags=None):
+    def get(self, from_datetime, q_from=0, q_page_size = 10, q_latitude = 58, q_longitude = 16, q_encoded_tags=None):
         if int(q_page_size) > 50:
             q_page_size = 50
         f = Feed_Content()
