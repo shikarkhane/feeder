@@ -41,7 +41,7 @@ function getAndRenderData(path){
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
 					$.each(posts, function(){
-							if (this.post_id){
+							if ((this.post_id) && ($("#" + this.post_id).length == 0)){
 							$('#main-feed').append($('<div/>',{
 											    'id'    : this.post_id,
 											    'class' : 'main-post panel-body breadcrumb'
