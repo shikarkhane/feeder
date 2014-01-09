@@ -1,3 +1,9 @@
+function setFromPosition(){
+		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
+			$.cookie('FromPosition', 0, { path: '/'});
+		};
+	};
+
 function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes){
 			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
 	  		if (!($.cookie('MyLat') == null)){			  				
@@ -9,14 +15,6 @@ function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfi
 			getAndRenderData(path);
 			handlePageNumber(1, q_pagesize);
 };
-
-
-
-function couldntFetchPosition(msg){
-		alert('Location not found!\n Allow browser to access location services and try again.');
-};
-
-
 
 
 function handlePageNumber(code, q_pagesize){

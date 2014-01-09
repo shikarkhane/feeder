@@ -11,6 +11,21 @@
 	}
 	var default_pagesize = new Number(10);
 	var pageload_utctime = moment.utc().valueOf(); 
+	
+	function setCoordinateCookie(position){
+		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
+			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
+			$("#main-feed").empty();
+			$.cookie('FromPosition', 0, { path: '/'});
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+		 };
+	function couldntFetchPosition(msg){
+			alert('Location not found!\n Allow browser to access location services and try again.');
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+	};
+	
 	$(function() {
 	
 			$.cookie('FromPosition', 0, { path: '/'});
@@ -20,14 +35,23 @@
 			if (!($.cookie('mysortbyvotes'))){
 				$.cookie('mysortbyvotes', 0, { path: '/'});
 			}
+			
 			window.pageload_utctime = moment.utc().valueOf();
-			if(($('footer').isOnScreen())){  
-					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
-					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
-				}
-
+			
+			if (!($.cookie('MyLat'))){
+	  			if (navigator.geolocation){
+		    			navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
+			    	}
+			};
+			
 			if ($.cookie('myFilterTags')){
 				$('#txtfiltertags').val(decodeURIComponent($.cookie('myFilterTags')));
+			};
+			
+			// show random, if feed is empty
+			if( !$.trim( $('#main-feed').html() ).length ) {
+					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			};
 				
 	});
@@ -50,32 +74,13 @@
 	    
 	};
  	
- 	if ($.cookie('MyLat') == null){
-	  	if (navigator.geolocation){
-		    	navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
-			    }
-	};
-	function setFromPosition(){
-		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
-			$.cookie('FromPosition', 0, { path: '/'});
-		};
-	};
-	
-	function setCoordinateCookie(position){
-		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
-			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
-			$("#main-feed").empty();
-			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
-			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
-		 };
-
 	$(window).scroll(function(){
 		if(($('footer').isOnScreen())){  
 							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), 
 							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 						}
 	});
-	
+
 
 	$(document).on('click', "button.post-link", function() {
 		var content_url = $(this).closest("div.post-bottom").siblings("div.content_link").text();
