@@ -27,7 +27,11 @@
 	};
 	
 	$(function() {
-	
+			
+			if (!($.cookie('FirstTimeUser'))){
+				window.location.replace("/we/firsttimeuser/");
+			};
+			
 			$.cookie('FromPosition', 0, { path: '/'});
 			if (!($.cookie('mysearchradius'))){
 				$.cookie('mysearchradius', 10, { path: '/'});
@@ -74,7 +78,7 @@
 	};
  	
 	$(window).scroll(function(){
-		if(($('footer').isOnScreen())){  
+		if(($('#footer').isOnScreen())){  
 							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), 
 							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 						}
@@ -121,6 +125,12 @@
 	<div id="main-feed" class="main-feed panel panel-default">
 	
 	</div>
+<div id="footer" class="breadcrumb">
+<blockquote>
+The worst thing one can do is not to try, to be aware of what one wants and not give in to it, to spend years in silent hurt wondering if something could have materialized - never knowing.
+<small>- Jim Rohn</small>
+</blockquote>
+</div>
 
 {% end %}
 

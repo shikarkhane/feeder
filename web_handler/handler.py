@@ -8,12 +8,6 @@ import json
 from models import Feed_Content, Backoffice_content
 
 
-# class BaseHandler(tornado.web.RequestHandler):
-#     def get_current_user(self):
-#         pass
-# #         user_json = self.get_secure_cookie("chatdemo_user")
-# #         if not user_json: return None
-# #         return tornado.escape.json_decode(user_json)
 class PreHandler(tornado.web.RequestHandler):
     '''
     first load to get the basic template, javascripts etc loaded

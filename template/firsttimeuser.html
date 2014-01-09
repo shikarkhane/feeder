@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block jscripts %}
+
+	$(document).on('click', "#gotit", function() {
+		$.cookie('FirstTimeUser', 1, { path: '/'});
+		window.location.replace("/");
+	});
+
+{% end %}
+
+{% block feed %}
+
+
+    <div class="jumbotron">
+  <h1>tipoff.io</h1>
+  <p>We spend 80% of our lives living in a 5km radius. <i>tipoff.io</i> is an effort to help you know your neighbourhood better.</p>
+  <p>We show all geo-tagged content being posted around you.</p>
+  <p><a id="gotit" class="btn btn-primary btn-lg" role="button" >Got it!</a></p>
+</div>
+    
+{% end %}
