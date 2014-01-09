@@ -59,7 +59,7 @@ function getAndRenderData(path){
 											}))											
 								.append($('<div/>',{
 											    'class' : 'col-md-3',
-											    html : '<img src="' + this.user_img_url + '" class="img-responsive"/>'
+											    html : '<a class="btn btn-primary" target="_blank" href="https://twitter.com/intent/user?user_id=' + this.user_id + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
 											}))
 							;
 							$('<div/>',{
@@ -74,13 +74,20 @@ function getAndRenderData(path){
 								'class' : 'row post-bottom'
 							}).appendTo('#' + this.post_id)
 								.append($('<div/>',{
-											    'class' : 'post-info elapsed_time col-md-4 pull-right',
-											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											    'class' : 'post-info col-md-4 pull-right'
 											}))
 								.append($('<div/>',{
 											    'class' : 'post-actions col-md-8'
 											}))
 							;
+							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
+											    'class' : 'elapsed_time',
+											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											}));
+							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
+											    html : '<span class="x_minutes_ago badge">' + this.place_name + '</span>'
+											}));
+
 							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
 												'type' : 'button',
 											    'class' : 'btn btn-default post-like',

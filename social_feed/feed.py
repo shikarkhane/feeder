@@ -16,19 +16,22 @@ class Feed(object):
     Many posts constitute a feed. 
     Json example of a post:
 {
-               "text" => "Euw folk i min klass euw",
-               "lang" => "nl",
-         "@timestamp" => "2013-10-15T10:27:02.000Z",
+               "text" => "@nollbit @johanni ja, klart det bara blir spekulationer. Men samhllsnyttig infrastruktur br vl vara delvis skyddad mot detta?",
+               "lang" => "sv",
+         "@timestamp" => "2014-01-09T10:01:30.449Z",
                "type" => "twitter",
-            "post_id" => 390061246474911745,
+            "post_id" => 418676219430047744,
            "up_votes" => 0,
-       "user_img_url" => "http://a0.twimg.com/profile_images/378800000568858024/f8ce9b2482ad43b8cdf13d40517e0ce6_normal.jpeg",
+       "user_mention" => "{\"id\"=>15809255, \"indices\"=>[0, 8], \"id_str\"=>\"15809255\", \"screen_name\"=>\"nollbit\", \"name\"=>\"johan\"},{\"id\"=>16311319, \"indices\"=>[9, 17], \"id_str\"=>\"16311319\", \"screen_name\"=>\"johanni\", \"name\"=>\"Johan Nilsson\"}",
+         "place_name" => "Knivsta",
+            "user_id" => "14235149",
+       "user_img_url" => "http://pbs.twimg.com/profile_images/378800000478670862/88783a59c7c7e5c200627af584781212_normal.jpeg",
     "content_img_url" => "%{[entities][media_url]}",
-              "coord" =>  "15.13412991,58.32243012",
+              "coord" => "59.74596768,17.78693824"
 }
-
     '''
     def __init__(self):
+        self.field_list = ["user_id", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"] 
         pass 
     def get_indexes(self):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
@@ -49,7 +52,7 @@ class Feed(object):
         sortby.append({ "@timestamp" : {"order" : "desc"}})
         data = {
                 "from" : q_from, "size" : q_size,
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
+                "fields" : self.field_list,
                 "sort" : sortby
                 }
         from_date_filter = {
@@ -97,7 +100,7 @@ class Feed(object):
                         
         data = {
                 "from" : q_from, "size" : q_size,
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"],
+                "fields" : self.field_list,
                 "sort" : sortby
                 }
         from_date_filter = {
@@ -138,7 +141,7 @@ class Feed(object):
         # fetch the document by the id
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
         data = {
-                "fields" : ["text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"]
+                "fields" : self.field_list
                 }
         data["query"] =  {"term":{
                                 "_id" : str(document_id)
