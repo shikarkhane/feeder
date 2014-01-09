@@ -21,7 +21,7 @@
 			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 		 };
 	function couldntFetchPosition(msg){
-			alert('Location not found!\n Allow browser to access location services and try again.');
+			alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
 			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
 			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 	};
@@ -40,18 +40,12 @@
 			
 			if (!($.cookie('MyLat'))){
 	  			if (navigator.geolocation){
-		    			navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition);
+		    			navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
 			    	}
 			};
 			
 			if ($.cookie('myFilterTags')){
 				$('#txtfiltertags').val(decodeURIComponent($.cookie('myFilterTags')));
-			};
-			
-			// show random, if feed is empty
-			if( !$.trim( $('#main-feed').html() ).length ) {
-					getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
-							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			};
 				
 	});
