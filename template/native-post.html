@@ -4,10 +4,9 @@
 
 $(function() {
 		var imageLoader = document.getElementById('imageLoader');
-		    imageLoader.addEventListener('change', handleImage, false);
+		imageLoader.addEventListener('change', handleImage, false);
 		var canvas = document.getElementById('imageCanvas');
 		var ctx = canvas.getContext('2d');
-		
 		
 		function handleImage(e){
 		    var reader = new FileReader();

@@ -10,4 +10,9 @@ function formatDate(d) {
             pad(d.getUTCMinutes()), 
             pad(d.getUTCSeconds())].join(":") + "Z";
 };
-
+function getDate30MinFromNow(){
+ var date = new Date();
+ var minutes = 30;
+ date.setTime(date.getTime() + (minutes * 60 * 1000));
+ return date;
+ }

@@ -13,8 +13,8 @@
 	var pageload_utctime = moment.utc().valueOf(); 
 	
 	function setCoordinateCookie(position){
-		  	$.cookie('MyLat', position.coords.latitude); // Storing latitude value
-			$.cookie('MyLon', position.coords.longitude); // Storing longitude value
+		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
+			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 			$("#main-feed").empty();
 			$.cookie('FromPosition', 0, { path: '/'});
 			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
@@ -106,7 +106,7 @@
 		event.preventDefault();
 		var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
 		var myencodedfiltertags = encodeURIComponent(filterstring);
-		$.cookie('myFilterTags',  myencodedfiltertags, { path: '/'});
+		$.cookie('myFilterTags',  myencodedfiltertags, { expires: getDate30MinFromNow(), path: '/'});
 		location.reload();
 	});
 
