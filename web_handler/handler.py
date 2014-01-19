@@ -22,10 +22,9 @@ class NewHandler(tornado.web.RequestHandler):
     def get(self):
         self.render("native-post.html")
     def post(self, q_latitude, q_longitude, q_encoded_text ):
-        image_data_url = self.get_argument('image', 'No data received')
-        file_body = self.request.files['image'][0]['body']
-        with open('/home/nikhil/temp/test','w') as f:
-            f.write(file_body)
+        img_data = self.request.files['image'][0]['body']
+        f = Feed_Content()
+        f.put_native_post(q_latitude, q_longitude, q_encoded_text, img_data)
         self.write('Success')
 class MainHandler(tornado.web.RequestHandler):
     '''

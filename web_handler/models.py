@@ -1,7 +1,6 @@
 from social_feed.feed import Feed
 import json
-import datetime
-from common.utility import Url_Handler
+from common.utility import Url, Img, Location, Date
 
 class Post():
     '''
@@ -49,12 +48,12 @@ class Feed_Content():
             for p in result["hits"]["hits"]:
                 field = p["fields"]
                 try:
-                    url_util = Url_Handler()
+                    url_util = Url()
                     media_url = url_util.get_url_from_string(field.get("content_img_url"))
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
-                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), media_url, 
+                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url, 
                                       field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
@@ -71,12 +70,12 @@ class Feed_Content():
             for p in result["hits"]["hits"]:
                 field = p["fields"]
                 try:
-                    url_util = Url_Handler()
+                    url_util = Url()
                     media_url = url_util.get_url_from_string(field.get("content_img_url"))
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("text").encode("utf-8"),  datetime.datetime.strptime(field.get("@timestamp"), '%Y-%m-%dT%H:%M:%S.%fZ'), 
+                    data.append(Post( p["_id"], field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")), 
                                       media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
@@ -106,6 +105,13 @@ class Feed_Content():
             fields = self.increment_upvote(fields)
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
+    def put_native_post(self, lat, lon, text, image_data_url):
+        f = Feed()
+        user_id = 0
+        current_utc = Date().get_utcnow_str()
+        uploaded_img_url = './static/uploads/{0}_{1}'.format(user_id, current_utc)
+        if Img().save(uploaded_img_url, image_data_url):
+            f.create_native_document(user_id, '/static/images/user_placeholder.png', text, lat, lon, current_utc, Location().lookup_city(lat, lon))
 class Backoffice_content():
     '''administrative and analytics'''
     def get_last_1day_period_activity(self):

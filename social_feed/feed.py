@@ -6,6 +6,7 @@ Created on Oct 1, 2013
 import urllib2
 import ConfigParser
 import json
+import settings
 
 config = ConfigParser.RawConfigParser()
 config.read('config.cfg') 
@@ -168,4 +169,13 @@ class Feed(object):
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)
         return out.read()
-        
+    def create_native_document(self, user_id, user_img_url, text, lat, lon, post_time, location_name, index_name = settings.NATIVE_INDEX, doc_type = settings.NATIVE_TYPE):
+        # fetch the document by the id
+        url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
+        json_body = {"text": text, "lang" : "na", "@timestamp" : post_time, "type" : doc_type,
+            "post_id" : 0, "up_votes" : 0, "user_mention" : None, "place_name" : location_name,
+            "user_id" : user_id, "user_img_url" : user_img_url, "content_img_url" : "%{[entities][media_url]}", "coord" : "{0},{1}".format(lat,lon)}
+        req = urllib2.Request(url, json.dumps(json_body))
+        req.get_method = lambda: 'POST'
+        out = urllib2.urlopen(req)
+        return out.read()
