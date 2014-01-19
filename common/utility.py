@@ -10,9 +10,12 @@ import settings
 class Url():
     def get_url_from_string(self, string_with_url):
         x = str(string_with_url)
+        if x.find("upload") != -1:
+            return x
         if x.find("http") == -1:
             return None
-        return str(re.search("""(?P<url>https?://[^\s|"|']+)""", x).group("url"))
+        else:
+            return str(re.search("""(?P<url>https?://[^\s|"|']+)""", x).group("url"))
 class Img():
     def save(self, img_file_path, img_data):
         try:
@@ -30,6 +33,8 @@ class Date():
         self.format = settings.DATE_FORMAT
     def get_utcnow_str(self):
         return datetime.utcnow().strftime(self.format)
+    def get_utcnow_number(self):
+        return datetime.utcnow().strftime('%Y%m%d%H%M%S%f')
     def get_str(self, obj):
         return obj.strftime(self.format)
     def get_obj(self, date_str):
