@@ -36,6 +36,23 @@ function handlePageNumber(code, q_pagesize){
 
 	
 function getAndRenderData(path){
+moment.lang('en', {
+    relativeTime : {
+        future: "in %s",
+        past:   "%s",
+        s:  "s",
+        m:  "a min",
+        mm: "%d mi",
+        h:  "an hr",
+        hh: "%d hr",
+        d:  "a day",
+        dd: "%d d",
+        M:  "a mon",
+        MM: "%d months",
+        y:  "a year",
+        yy: "%d years"
+    }
+});
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
 					$.each(posts, function(){
