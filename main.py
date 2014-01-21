@@ -1,6 +1,7 @@
 import tornado.ioloop
 import config
-from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, NewHandler
+from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, \
+    NewHandler, GoogleHandler
 import settings
 
 
@@ -13,8 +14,10 @@ application = tornado.web.Application([
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/", LikeHandler),
     (r"/new/", NewHandler),
+    (r"/login/google/", GoogleHandler),
     (r"/new/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/text/(\S+)/", NewHandler),
-], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH)
+], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
+                                      cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/")
 
 if __name__ == "__main__":
     #create config file

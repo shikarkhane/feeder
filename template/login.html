@@ -1,9 +1,29 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block includejs %}
+{% end %}
+{% block jscripts %}
+	$(function() {
+        var referrer =  get_url_value('next');
+        if (!referrer){referrer = '/'};
+        $.cookie('mypagebeforelogin', referrer, { path: '/'});
+	});
+
+	$(document).on('click', "#btngoogle", function(event){
+		event.preventDefault();
+		window.location.replace("/login/google/");
+	});
+{% end %}
+{% block feed %}
+<div class="input-group">
+   <div class="btn-group">
+      <button type="button" class="btn btn-default" id="btngoogle">Google</button>
+      <button type="button" class="btn btn-default" id="facebook">Facebook</button>
+      <button type="button" class="btn btn-default" id="twitter">Twitter</button>
+    </div>
+</div>
+
+{% end %}
+
+
+
