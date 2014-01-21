@@ -4,7 +4,10 @@ Created on Oct 3, 2013
 @author: nikhil
 '''
 import tornado.web
+import tornado.auth
+import tornado.escape
 import json
+import urllib2
 from models import Feed_Content, Backoffice_content
 import StringIO
 
@@ -54,6 +57,7 @@ class BackofficeHandler(tornado.web.RequestHandler):
     '''
     tipoff admin page
     '''
+    @tornado.web.authenticated
     def get(self, secretcode):
         if (int(secretcode) != 7777):
             return None
@@ -75,4 +79,40 @@ class LikeHandler(tornado.web.RequestHandler):
     def get(self, document_id):
         m = Feed_Content()
         m.like_post(document_id)
-        
+
+class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument("openid.mode", None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authenticate_redirect()
+
+    def _on_auth(self, user):
+        if not user:
+            raise tornado.web.HTTPError(500, "Google auth failed")
+        # Save the user with, e.g., set_secure_cookie()
+           ## auth success
+        identity = self.get_argument('openid.identity', None)
+
+        ## set identity in cookie
+        self.set_secure_cookie('identity', tornado.escape.json_encode(identity))
+        self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
+class TwitterHandler(tornado.web.RequestHandler,
+                     tornado.auth.TwitterMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument("oauth_token", None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authorize_redirect()
+
+    def _on_auth(self, user):
+        if not user:
+            raise tornado.web.HTTPError(500, "Twitter auth failed")
+        # Save the user using, e.g., set_secure_cookie()
+        identity = self.get_argument('openid.identity', None)
+
+        ## set identity in cookie
+        self.set_secure_cookie('identity', tornado.escape.json_encode(identity))
+        self.redirect(self.get_cookie("mypagebeforelogin"))
