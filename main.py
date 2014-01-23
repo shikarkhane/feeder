@@ -1,7 +1,7 @@
 import tornado.ioloop
 import config
 from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, \
-    NewHandler, GoogleHandler
+    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler
 import settings
 
 
@@ -15,12 +15,16 @@ application = tornado.web.Application([
     (r"/like/(\S+)/", LikeHandler),
     (r"/new/", NewHandler),
     (r"/login/google/", GoogleHandler),
+    (r"/login/facebook/", FacebookHandler),
+    (r"/login/twitter/", TwitterHandler),
     (r"/new/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/text/(\S+)/", NewHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
-                                      cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/")
+        cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/",
+        twitter_consumer_key=settings.TWITTER_CONSUMER_KEY, twitter_consumer_secret=settings.TWITTER_CONSUMER_SECRET,
+        facebook_api_key=settings.FACEBOOK_API_KEY, facebook_secret=settings.FACEBOOK_SECRET)
 
 if __name__ == "__main__":
     #create config file
     config.create_config_file("mainkey","mainvalue")
-    application.listen(8888)
+    application.listen(80)
     tornado.ioloop.IOLoop.instance().start()

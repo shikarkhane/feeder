@@ -114,8 +114,7 @@ class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
             self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
         else:
             self.redirect('/')
-class TwitterHandler(tornado.web.RequestHandler,
-                     tornado.auth.TwitterMixin):
+class TwitterHandler(tornado.web.RequestHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument("oauth_token", None):
@@ -126,9 +125,27 @@ class TwitterHandler(tornado.web.RequestHandler,
     def _on_auth(self, user):
         if not user:
             raise tornado.web.HTTPError(500, "Twitter auth failed")
-        # Save the user using, e.g., set_secure_cookie()
-        identity = self.get_argument('openid.identity', None)
 
         ## set identity in cookie
-        self.set_secure_cookie('identity', tornado.escape.json_encode(identity))
-        self.redirect(self.get_cookie("mypagebeforelogin"))
+        self.set_secure_cookie('user', tornado.escape.json_encode(user))
+        if self.get_cookie("mypagebeforelogin"):
+            self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
+        else:
+            self.redirect('/')
+class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookMixin):
+    @tornado.web.asynchronous
+    def get(self):
+        if self.get_argument("session", None):
+            self.get_authenticated_user(self.async_callback(self._on_auth))
+            return
+        self.authenticate_redirect()
+
+    def _on_auth(self, user):
+        if not user:
+            raise tornado.web.HTTPError(500, "Facebook auth failed")
+        ## set identity in cookie
+        self.set_secure_cookie('user', tornado.escape.json_encode(user))
+        if self.get_cookie("mypagebeforelogin"):
+            self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
+        else:
+            self.redirect('/')
