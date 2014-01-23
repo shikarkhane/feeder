@@ -46,7 +46,7 @@ class NewHandler(BaseHandler):
             extn = str(self.request.files['image'][0]['content_type']).split('/')[1]
             f = Feed_Content()
             f.put_native_post(q_latitude, q_longitude, q_encoded_text, img_data, extn)
-            self.write('Success')
+            self.write('Tipoff uploaded!')
 class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler

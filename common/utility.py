@@ -19,7 +19,7 @@ class Url():
 class Img():
     def save(self, img_file_path, img_data):
         try:
-            with open(img_file_path ,'w') as f:
+            with open(settings.DIRNAME + img_file_path ,'w') as f:
                 f.write(img_data)
                 return True
         except Exception as e:
