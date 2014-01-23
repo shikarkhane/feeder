@@ -16,6 +16,8 @@ $(function() {
 		        img.onload = function(){
 		            getCanvas(img, 'imageCanvas',  img.height, img.width);
 		            window.image_on_canvas = 1;
+                    $('#imageLoader').remove();
+                    $('#btn-upload').removeAttr('disabled');
 		        }
 		        img.src = event.target.result;
 		    }
@@ -28,7 +30,7 @@ function setCoordinateCookie(position){
 		$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 	 };
 function couldntFetchPosition(msg){
-		alert('Location not found!\n Allow browser to access location services and try again.');
+		alert('Cannot upload content without gps-location!\n');
 };
 $(document).on('click', "#btn-upload", function() {
 		var text = encodeURIComponent($('#tagline').val());
@@ -66,7 +68,7 @@ $(document).on('click', "#btn-upload", function() {
 <div class="row input-group">
 	<input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
 	<span class="input-group-btn">
-		<button id="btn-upload" class="btn btn-default" type="button"><span class="glyphicon glyphicon-upload"></span></button>
+		<button id="btn-upload" class="btn btn-default" type="button" disabled="true"><span class="glyphicon glyphicon-upload"></span></button>
 	</span>
 </div>
 <div class="row input-group">
