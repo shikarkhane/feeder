@@ -6,3 +6,5 @@ TEMPLATE_PATH = os.path.join(DIRNAME, 'template')
 NATIVE_INDEX = 'logstash-native'
 NATIVE_TYPE = 'native'
 DATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
+TEMPLATE_PATH = os.path.join(DIRNAME, 'template')
+COOKIE_SECRET = '12345678'

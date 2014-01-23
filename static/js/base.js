@@ -55,3 +55,8 @@ function dataURLtoBlob(dataURL) {
   // Return our Blob object
   return new Blob([new Uint8Array(array)], {type: 'image/png'});
 };
+
+function get_url_value(param){
+   if(param=(new RegExp('[?&]'+encodeURIComponent(param)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(param[1]);
+}
