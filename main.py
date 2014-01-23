@@ -10,7 +10,7 @@ application = tornado.web.Application([
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/tags/(\S+)/", MainHandler), 
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/", GeoHandler), 
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
-    (r"/backoffice/([0-9]+)/", BackofficeHandler),
+    (r"/backoffice/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/", LikeHandler),
     (r"/new/", NewHandler),
@@ -22,5 +22,5 @@ application = tornado.web.Application([
 if __name__ == "__main__":
     #create config file
     config.create_config_file("mainkey","mainvalue")
-    application.listen(8888)
+    application.listen(80)
     tornado.ioloop.IOLoop.instance().start()
