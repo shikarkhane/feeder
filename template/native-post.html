@@ -10,14 +10,18 @@ $(function() {
 
 		
 		function handleImage(e){
+            $('#divprogress').css('width','10%');
 		    var reader = new FileReader();
 		    reader.onload = function(event){
+                $('#divprogress').css('width','20%');
 		        var img = new Image();
 		        img.onload = function(){
+                    $('#divprogress').css('width','40%');
 		            getCanvas(img, 'imageCanvas',  img.height, img.width);
 		            window.image_on_canvas = 1;
                     $('#imageLoader').remove();
                     $('#btn-upload').removeAttr('disabled');
+                    $('#divprogress').css('width','50%');
 		        }
 		        img.src = event.target.result;
 		    }
@@ -43,11 +47,13 @@ $(document).on('click', "#btn-upload", function() {
 		var lat = $.cookie('MyLat');
 		var lon = $.cookie('MyLon');
 		
-		if (!(lat.length == 0)){
+		if (lat){
 			var imgfile= dataURLtoBlob(document.getElementById('imageCanvas').toDataURL());
 			var fd = new FormData();
 			fd.append("image", imgfile);
-			
+
+            $('#divprogress').css('width','60%');
+
 			$.ajax({
 				  type: "POST",
 				  url: "/new/location/" + lat + "/" + lon + "/text/"  + text + "/",
@@ -55,8 +61,15 @@ $(document).on('click', "#btn-upload", function() {
 				  processData: false,
    				  contentType: false,
 				}).done(function( respond ) {
-				 			alert(respond);
-						});
+                            $('#divprogress').css('width','100%');
+                            $('#parentprogress').removeClass('progress-striped active');
+                            $('#divprogress').removeClass('progress-bar-info').addClass('progress-bar-success');
+						})
+                     .fail(function(respond) {
+                            alert( "Something went wrong!" );
+                            $('#parentprogress').removeClass('progress-striped active');
+                            $('#divprogress').removeClass('progress-bar-info').addClass('progress-bar-danger');
+                    });
 		}		
 	});
 {% end %}
@@ -75,6 +88,13 @@ $(document).on('click', "#btn-upload", function() {
 	<input type="file" id="imageLoader" class="btn btn-info" accept="image/*;capture=camera"/>
 	<div class="well"><canvas id="imageCanvas"></canvas></div>
 </div>
+
+<div id="parentprogress" class="progress progress-striped active">
+  <div id="divprogress" class="progress-bar progress-bar-info"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+    <span class="sr-only">45% Complete</span>
+  </div>
+</div>
+
 
 {% end %}
 
