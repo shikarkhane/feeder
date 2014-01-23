@@ -13,15 +13,28 @@
 		event.preventDefault();
 		window.location.replace("/login/google/");
 	});
+	$(document).on('click', "#btnfacebook", function(event){
+		event.preventDefault();
+		window.location.replace("/login/facebook/");
+	});
+	$(document).on('click', "#btntwitter", function(event){
+		event.preventDefault();
+		window.location.replace("/login/twitter/");
+	});
+
 {% end %}
 {% block feed %}
-<div class="input-group">
-   <div class="btn-group">
-      <button type="button" class="btn btn-default" id="btngoogle">Google</button>
-      <button type="button" class="btn btn-default" id="facebook">Facebook</button>
-      <button type="button" class="btn btn-default" id="twitter">Twitter</button>
-    </div>
+       <h3>Login via:</h3>
+
+<div >
+
+      <button type="button" class="btn btn-default btn-lg btn-block" id="btngoogle">Google</button>
+      <button type="button" class="btn btn-default btn-lg btn-block" id="btnfacebook">Facebook</button>
+      <button type="button" class="btn btn-default btn-lg btn-block" id="btntwitter">Twitter</button>
+
 </div>
+<div class="spacer"></div>
+<div class="alert alert-info">We just want real people to post on tipoff, not bots or spammers.</div>
 
 {% end %}
 

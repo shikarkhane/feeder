@@ -24,3 +24,7 @@ body { padding-top: 70px; }
 	max-height: 25px;
 	min-height: 10px;
 }
+
+.spacer {
+    margin-top: 10px; /* define margin as you see fit */
+}
