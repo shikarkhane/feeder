@@ -31,7 +31,7 @@ function couldntFetchPosition(msg){
 		alert('Location not found!\n Allow browser to access location services and try again.');
 };
 $(document).on('click', "#btn-upload", function() {
-		var text = encodeURIComponent($('#tagline').val().replace(/\s+/g, ''));
+		var text = encodeURIComponent($('#tagline').val());
 		if (text.length == 0){alert('Comments are missing!'); return;}
 		if (window.image_on_canvas == 0){alert('Image is missing!'); return;}
 
@@ -63,13 +63,17 @@ $(document).on('click', "#btn-upload", function() {
 {% block feed %}
 
 
-<div class="input-group">
-  <span class="input-group-addon">tipoff:</span>
-  <input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
-        <input type="file" id="imageLoader" accept="image/*;capture=camera"/>
-        <canvas id="imageCanvas"></canvas>
-  <button id="btn-upload" type="button" class="btn btn-primary">Upload</button>
+<div class="row input-group">
+	<input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
+	<span class="input-group-btn">
+		<button id="btn-upload" class="btn btn-default" type="button"><span class="glyphicon glyphicon-upload"></span></button>
+	</span>
 </div>
+<div class="row input-group">
+	<input type="file" id="imageLoader" class="btn btn-info" accept="image/*;capture=camera"/>
+	<div class="well"><canvas id="imageCanvas"></canvas></div>
+</div>
+
 {% end %}
 
 
