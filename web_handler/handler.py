@@ -47,6 +47,10 @@ class NewHandler(BaseHandler):
             f = Feed_Content()
             f.put_native_post(q_latitude, q_longitude, q_encoded_text, img_data, extn)
             self.write('Tipoff uploaded!')
+class NativeImageHandler(tornado.web.RequestHandler):
+    '''renders the image file in a nice frame'''
+    def get(self, img_file_name):
+        self.render('native-img.html', imgpath='/static/uploads/{0}'.format(img_file_name))
 class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler
