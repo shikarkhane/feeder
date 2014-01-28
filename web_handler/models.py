@@ -1,6 +1,6 @@
 from social_feed.feed import Feed
 import json
-from common.utility import Url, Img, Location, Date
+from common.utility import Url, Img, Location, Date, User
 
 class Post():
     '''
@@ -32,11 +32,12 @@ class Post():
         self.up_votes = up_votes
         self.user_id = user_id
         self.place_name = place_name
+        self.user_profile_url = User().get_profile_url(user_id, source)
         #self.coord = coord   
     def get_as_dict(self):
         d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source, "up_votes": self.up_votes, 
-             "user_id": self.user_id, "place_name": self.place_name}
+             "user_id": self.user_id, "place_name": self.place_name, "user_profile_url": self.user_profile_url}
         return d      
 class Feed_Content():
     '''Provides feed content'''

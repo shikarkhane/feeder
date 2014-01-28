@@ -42,7 +42,7 @@ function getAndRenderData(path){
                     past:   "%s",
                     s:  "s",
                     m:  "a min",
-                    mm: "%d mi",
+                    mm: "%d min",
                     h:  "an hr",
                     hh: "%d hr",
                     d:  "a day",
@@ -72,11 +72,11 @@ function getAndRenderData(path){
 							}).appendTo('#' + this.post_id)
 								.append($('<div/>',{
 								    'class' : 'col-md-1 pull-right',
-								    'html' : '<img src="static/images/Twitter_logo_blue.png" class="img-responsive content-provider-logo pull-right"/>'
+								    'html' : '<img src="static/images/' + this.source + '_post.png" class="img-responsive content-provider-logo pull-right"/>'
 											}))											
 								.append($('<div/>',{
 											    'class' : 'col-md-3',
-											    html : '<a class="btn btn-primary" target="_blank" href="https://twitter.com/intent/user?user_id=' + this.user_id + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
+											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
 											}))
 							;
 							$('<div/>',{

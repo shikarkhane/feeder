@@ -7,6 +7,12 @@ import re
 from datetime import datetime 
 import settings
 
+class User():
+    def get_profile_url(self, userid, source):
+        if (source == 'twitter'):
+            return '''https://twitter.com/intent/user?user_id={0}'''.format(userid)
+        else:
+            return '''/'''
 class Url():
     def get_url_from_string(self, string_with_url):
         x = str(string_with_url)
