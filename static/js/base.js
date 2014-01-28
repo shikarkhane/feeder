@@ -16,34 +16,7 @@ function getDate30MinFromNow(){
      date.setTime(date.getTime() + (minutes * 60 * 1000));
      return date;
  };
- 
- function getCanvas(img, canvas_id, img_height, img_width){
-    var MAX_WIDTH = 261;
-    var MAX_HEIGHT = 261;
-    var width = img_width;
-    var height = img_height;
 
-    var canvas = document.getElementById(canvas_id);
-    var ctx = canvas.getContext('2d');
-
-    if (width > height) {
-      if (width > MAX_WIDTH) {
-        height *= MAX_WIDTH / width;
-        width = MAX_WIDTH;
-      }
-    }
-    else {
-      if (height > MAX_HEIGHT) {
-        width *= MAX_HEIGHT / height;
-        height = MAX_HEIGHT;
-      }
-    }
-    canvas.width = width;
-    canvas.height = height;
-    var ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0, width, height);
- };
- 
  // Convert dataURL to Blob object
 function dataURLtoBlob(dataURL) {
     // Decode the dataURL
@@ -61,4 +34,24 @@ function dataURLtoBlob(dataURL) {
 function get_url_value(param){
     if(param=(new RegExp('[?&]'+encodeURIComponent(param)+'=([^&]*)')).exec(location.search))
         return decodeURIComponent(param[1]);
+};
+
+function insert_map(append_to_object, coordinates) {
+    var coord = coordinates.split(',');
+   var mapOptions = {
+           zoom: 14,
+           center: new google.maps.LatLng(coord[0],coord[1])
+       };
+    var divmap = document.createElement('div');
+    divmap.setAttribute("id", "mapCanvas");
+    append_to_object.append(divmap);
+
+   var map = new google.maps.Map(divmap, mapOptions);
+
+   var marker = new google.maps.Marker({
+                   map: map,
+                   draggable: false,
+                   position: new google.maps.LatLng(coord[0],coord[1])
+       });
 }
+

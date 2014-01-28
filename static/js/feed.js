@@ -102,7 +102,12 @@ function getAndRenderData(path){
 											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
 											}));
 							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
-											    html : '<span class="x_minutes_ago badge">' + this.place_name + '</span>'
+							                    'class' : 'placename',
+											    html : '<span class="badge">' + this.place_name + '</span>'
+											}));
+							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
+											    'class' : 'coord',
+											    html : this.coord
 											}));
 
 							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{

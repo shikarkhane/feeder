@@ -16,10 +16,13 @@ body { padding-top: 70px; }
 	background-color: #FFC79C;
 	cursor: pointer;
 }
-.content_link{
+.content_link {
 	display:none;
 }
 
+.coord{
+	display:none;
+}
 .content-provider-logo{
 	max-height: 25px;
 	min-height: 10px;
@@ -27,4 +30,8 @@ body { padding-top: 70px; }
 
 .spacer {
     margin-top: 10px; /* define margin as you see fit */
+}
+#mapCanvas{
+    width:100%;
+    height:300px;
 }

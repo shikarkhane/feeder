@@ -21,7 +21,7 @@ class Post():
               "coord" => "59.74596768,17.78693824"
 }
     '''
-    def __init__(self, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, up_votes =0 ):
+    def __init__(self, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord, up_votes =0 ):
         # post_id is the internal _id of elasticsearch store
         self.post_id = post_id
         self.text = text
@@ -33,11 +33,11 @@ class Post():
         self.user_id = user_id
         self.place_name = place_name
         self.user_profile_url = User().get_profile_url(user_id, source)
-        #self.coord = coord   
+        self.coord = coord
     def get_as_dict(self):
         d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source, "up_votes": self.up_votes, 
-             "user_id": self.user_id, "place_name": self.place_name, "user_profile_url": self.user_profile_url}
+             "user_id": self.user_id, "place_name": self.place_name, "user_profile_url": self.user_profile_url, "coord": self.coord}
         return d      
 class Feed_Content():
     '''Provides feed content'''
@@ -55,7 +55,8 @@ class Feed_Content():
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
                     data.append(Post( p["_id"], field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url, 
-                                      field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"), field.get("up_votes")))
+                                      field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"),
+                                      field.get("coord"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
@@ -77,7 +78,8 @@ class Feed_Content():
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
                     data.append(Post( p["_id"], field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")), 
-                                      media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"), field.get("up_votes")))
+                                      media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"),
+                                      field.get("place_name"), field.get("coord"), field.get("up_votes")))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object

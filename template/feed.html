@@ -54,6 +54,7 @@
 			
 			};
 	});
+
 	$.fn.isOnScreen = function(){
 	    
 	    var win = $(window);
@@ -96,6 +97,14 @@
 								    html : likecount 
 								}));
 		$(this).remove();
+	});
+
+    $(document).on('click', "div.placename", function() {
+		var mainpost_id = $(this).closest("div.main-post");
+        var coordinates = $(mainpost_id).find("div.coord").text();
+        insert_map(mainpost_id, coordinates);
+        google.maps.event.addDomListener(window, 'resize', insert_map);
+        google.maps.event.addDomListener(window, 'load', insert_map);
 	});
 
 	$(document).on('click', "#btnfiltertags", function(event){
