@@ -82,26 +82,26 @@
 	});
 
 
-	$(document).on('click', "button.post-link", function() {
+	$(document).on('click', "a.post-link", function() {
 		var content_url = $(this).closest("div.post-bottom").siblings("div.content_link").text();
 		window.open(content_url);
   		return false;
 	});
 
-	$(document).on('click', "button.post-like", function() {
+	$(document).on('click', "a.post-like", function() {
 		var doc_id = $(this).closest("div.main-post").attr("id");
 		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
 		var likecount = parseInt($(this).text(), 10) + 1;
-		$(this).after($('<span/>',{
-								    'class' : 'badge',
-								    html : likecount 
-								}));
-		$(this).remove();
+		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
+		$(this).prop('disabled', true);
 	});
 
-    $(document).on('click', "div.placename", function() {
+    $(document).on('click', "a.placename", function() {
 		var mainpost_id = $(this).closest("div.main-post");
         var coordinates = $(mainpost_id).find("div.coord").text();
+
+        if (mainpost_id.find("div.mapCanvas").length > 0){mainpost_id.find("div.mapCanvas").remove();return;};
+
         insert_map(mainpost_id, coordinates);
         google.maps.event.addDomListener(window, 'resize', insert_map);
         google.maps.event.addDomListener(window, 'load', insert_map);

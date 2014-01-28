@@ -44,6 +44,7 @@ function insert_map(append_to_object, coordinates) {
        };
     var divmap = document.createElement('div');
     divmap.setAttribute("id", "mapCanvas");
+    divmap.setAttribute("class", "mapCanvas");
     append_to_object.append(divmap);
 
    var map = new google.maps.Map(divmap, mapOptions);

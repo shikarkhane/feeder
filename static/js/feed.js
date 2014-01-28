@@ -67,64 +67,55 @@ function getAndRenderData(path){
 											    'class' : 'content_link',
 											    html : this.content_img_url
 											}));
+							$('#' + this.post_id).append($('<div/>',{
+							                    'class' : 'btn btn-default coord',
+											    html : this.coord
+											}));
+
 							$('<div/>',{
 								'class' : 'row post-top'
 							}).appendTo('#' + this.post_id)
 								.append($('<div/>',{
 								    'class' : 'col-md-1 pull-right',
 								    'html' : '<img src="static/images/' + this.source + '_post.png" class="img-responsive content-provider-logo pull-right"/>'
-											}))											
+											}))
 								.append($('<div/>',{
 											    'class' : 'col-md-3',
 											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
 											}))
-							;
-							$('<div/>',{
-								'class' : 'row post-middle'
-							}).appendTo('#' + this.post_id)
 								.append($('<div/>',{
-											    'class' : 'col-md-12',
-											    html : this.text
-											}))											
-							;
-							$('<div/>',{
-								'class' : 'row post-bottom'
-							}).appendTo('#' + this.post_id)
-								.append($('<div/>',{
-											    'class' : 'post-info col-md-4 pull-right'
+											    'class' : 'col-md-7',
+											    html : '<p class="text-left">' + this.text + '</p>'
 											}))
 								.append($('<div/>',{
-											    'class' : 'post-actions col-md-8'
-											}))
-							;
-							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
-											    'class' : 'elapsed_time',
+											    'class' : 'col-md-1 pull-right elapsed_time',
 											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
 											}));
-							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
-							                    'class' : 'placename',
-											    html : '<span class="badge">' + this.place_name + '</span>'
-											}));
-							$('#' + this.post_id + ' > div.post-bottom > div.post-info').append($('<div/>',{
-											    'class' : 'coord',
-											    html : this.coord
-											}));
+							;
 
-							$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
+							$('<div/>',{
+								'class' : 'post-bottom btn-group btn-group-justified'
+							}).appendTo('#' + this.post_id)
+								.append($('<a/>',{
 												'type' : 'button',
 											    'class' : 'btn btn-default post-like',
 											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + this.up_votes
-											}));
-							if (!(this.content_img_url == null)){
-								$('#' + this.post_id + ' > div.post-bottom > div.post-actions').append($('<button/>',{
+											}))
+								.append($('<a/>',{
 													'type' : 'button',
 												    'class' : 'btn btn-default post-link',
 												    html : '<span class="glyphicon glyphicon-link"></span>'
-												}));
+												}))
+								.append($('<a/>',{
+								                'type' : 'button',
+							                    'class' : 'btn btn-default placename',
+											    html : this.place_name
+											}))
+							;
 							}
-						}
+					});
 							
-					    });
-				});
+
+		    });
 };
 
