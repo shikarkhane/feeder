@@ -151,12 +151,24 @@ class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixi
                               client_id=settings.FACEBOOK_API_KEY,
                               extra_params={"scope": "email"})
     def _on_login(self, user):
-        print str(user)
+        # user object looks like this
+        # {'picture': {u'data': {u'url': u'https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/t5/573505_529255170_1940698750_q.jpg', u'is_silhouette': False}},
+        # 'first_name': u'Nikhil', 'last_name': u'Shikarkhane', 'name': u'Nikhil Shikarkhane', 'locale': u'en_US', 'session_expires': ['5183367'],
+        # 'access_token': 'CAAC2deiekxkBANnwk5LicmYU8DID5R14hgqF9CDCpkZAgTM1dhESPcJVaX4VeYmco0QrlomZBqrDEcf24jeRKwk0yoHTZAwilfZBRrZC0qQrdlurdYgHj1pMCtDeNvBotnV9L0DWBZCNHSYcho9OEPDZBOCZCqyZBgOa8Gli72fYAWZCJMYhUXS8T6', 'link': u'https://www.facebook.com/shikarkhane', 'id': u'529255170'}
         if not user:
             raise tornado.web.HTTPError(500, "Facebook auth failed")
         ## set identity in cookie
         self.set_secure_cookie('user', tornado.escape.json_encode(user))
+        self.facebook_request("/me", access_token=user["access_token"], callback=self._save_user_profile)
         if self.get_cookie("mypagebeforelogin"):
             self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
         else:
             self.redirect('/')
+    def _save_user_profile(self, user):
+        print str(user)
+        if not user:
+            raise tornado.web.HTTPError(500, "Facebook authentication failed.")
+        email = user['email']
+        user_json = tornado.escape.json_decode(self.get_secure_cookie("user"))
+        user_json["email"] = email
+        self.set_secure_cookie('user', tornado.escape.json_encode(user_json))
