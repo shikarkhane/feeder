@@ -149,8 +149,9 @@ class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixi
           return
       self.authorize_redirect(redirect_uri='{0}/login/facebook/'.format(settings.SERVER_NAME),
                               client_id=settings.FACEBOOK_API_KEY,
-                              extra_params={"scope": "read_stream,offline_access"})
+                              extra_params={"scope": "email"})
     def _on_login(self, user):
+        print str(user)
         if not user:
             raise tornado.web.HTTPError(500, "Facebook auth failed")
         ## set identity in cookie
