@@ -1,7 +1,7 @@
 import tornado.ioloop
 import config
 from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, \
-    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler
+    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, NativeImageHandler
 import settings
 
 
@@ -17,6 +17,7 @@ application = tornado.web.Application([
     (r"/login/google/", GoogleHandler),
     (r"/login/facebook/", FacebookHandler),
     (r"/login/twitter/", TwitterHandler),
+    (r"/native/uploads/(\S+)/", NativeImageHandler),
     (r"/new/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/text/(\S+)/", NewHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/",

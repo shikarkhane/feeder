@@ -136,15 +136,21 @@ class TwitterHandler(tornado.web.RequestHandler, tornado.auth.TwitterMixin):
             self.redirect(str(urllib2.unquote(self.get_cookie("mypagebeforelogin"))))
         else:
             self.redirect('/')
-class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookMixin):
+class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixin):
     @tornado.web.asynchronous
     def get(self):
-        if self.get_argument("session", None):
-            self.get_authenticated_user(self.async_callback(self._on_auth))
-            return
-        self.authenticate_redirect()
-
-    def _on_auth(self, user):
+      if self.get_argument("code", False):
+          self.get_authenticated_user(
+            redirect_uri='{0}/login/facebook/'.format(settings.SERVER_NAME),
+            client_id=settings.FACEBOOK_API_KEY,
+            client_secret=settings.FACEBOOK_SECRET,
+            code=self.get_argument("code"),
+            callback=self.async_callback(self._on_login))
+          return
+      self.authorize_redirect(redirect_uri='{0}/login/facebook/'.format(settings.SERVER_NAME),
+                              client_id=settings.FACEBOOK_API_KEY,
+                              extra_params={"scope": "read_stream,offline_access"})
+    def _on_login(self, user):
         if not user:
             raise tornado.web.HTTPError(500, "Facebook auth failed")
         ## set identity in cookie
