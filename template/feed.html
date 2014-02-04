@@ -53,6 +53,8 @@
 					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			
 			};
+
+
 	});
 
 	$.fn.isOnScreen = function(){
@@ -100,7 +102,12 @@
 		var mainpost_id = $(this).closest("div.main-post");
         var coordinates = $(mainpost_id).find("div.coord").text();
 
-        if (mainpost_id.find("div.mapCanvas").length > 0){mainpost_id.find("div.mapCanvas").remove();return;};
+        $(this).addClass('btn-success').removeClass('btn-default');
+        if (mainpost_id.find("div.mapCanvas").length > 0){
+                mainpost_id.find("div.mapCanvas").remove();
+                $(this).addClass('btn-default').removeClass('btn-success');
+                return;
+            };
 
         insert_map(mainpost_id, coordinates);
         google.maps.event.addDomListener(window, 'resize', insert_map);
@@ -117,6 +124,8 @@
 		window.pageload_utctime = moment.utc().valueOf();
 		getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
 		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+
+
 	});
 
 	
@@ -144,4 +153,7 @@ The worst thing one can do is not to try, to be aware of what one wants and not 
 {% end %}
 
 
+{% block afterjscripts %}
 
+
+{% end %}

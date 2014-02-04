@@ -14,6 +14,7 @@ function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfi
 	    	}
 			getAndRenderData(path);
 			handlePageNumber(1, q_pagesize);
+
 };
 
 
@@ -33,8 +34,26 @@ function handlePageNumber(code, q_pagesize){
 	};
 };
 
+function addNoFeedAvailable(){
+		$('#main-feed').append($('<div/>',{
+		                                'id' : 'warning-nofeed',
+                                        'class' : 'label label-warning',
+                                        html : ' No geo-tagged data available in your area.'
+                                    }));
+};
 
-	
+function checkIfMainFeedEmpty(){
+    $(function() {
+        console.log($('#main-feed').children().length);
+        if ( $('#main-feed').children('div.main-post').length > 0 ) {
+             //remove nofeed warning
+             $('#warning-nofeed').remove();
+        }
+        else{
+            addNoFeedAvailable();
+        }
+    });
+};
 function getAndRenderData(path){
             moment.lang('en', {
                 relativeTime : {
@@ -80,16 +99,16 @@ function getAndRenderData(path){
 								    'html' : '<img src="static/images/' + this.source + '_post.png" class="img-responsive content-provider-logo pull-right"/>'
 											}))
 								.append($('<div/>',{
+											    'class' : 'col-md-1 pull-right elapsed_time',
+											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
+											}))
+								.append($('<div/>',{
 											    'class' : 'col-md-3',
 											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
 											}))
 								.append($('<div/>',{
 											    'class' : 'col-md-7',
 											    html : '<p class="text-left">' + this.text + '</p>'
-											}))
-								.append($('<div/>',{
-											    'class' : 'col-md-1 pull-right elapsed_time',
-											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
 											}));
 							;
 
@@ -116,6 +135,11 @@ function getAndRenderData(path){
 					});
 							
 
-		    });
+		    })
+		     .always(function() {
+                checkIfMainFeedEmpty();
+            });
+
+
 };
 

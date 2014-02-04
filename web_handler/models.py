@@ -112,8 +112,9 @@ class Feed_Content():
         f = Feed()
         user_id = 0
         current_utc = Date().get_utcnow_str()
-        img_url = '/native/uploads/{0}_{1}.{2}'.format(user_id, Date().get_utcnow_number(), file_extn)
-        uploaded_img_url = '/static/uploads/{0}_{1}.{2}'.format(user_id, Date().get_utcnow_number(), file_extn)
+        filename = '{0}_{1}.{2}'.format(user_id, Date().get_utcnow_number(), file_extn)
+        img_url = '/native/uploads/{0}/'.format(filename)
+        uploaded_img_url = '/static/uploads/{0}'.format(filename)
         if Img().save(uploaded_img_url, image_data_url):
             f.create_native_document(user_id, '/static/images/user_placeholder.png', text, lat, lon, current_utc, Location().lookup_city(lat, lon), img_url)
 class Backoffice_content():
