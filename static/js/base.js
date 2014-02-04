@@ -57,7 +57,7 @@ function insert_map(append_to_object, coordinates) {
 };
 
 function reverseLookupLocality(lat, lon){
-    reverse_api_url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat + ','+ lon + '&sensor=true'
+    reverse_api_url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat + ','+ lon + '&sensor=false'
     $.getJSON( reverse_api_url, function( data ) {
         var result = data;
         var stage;
