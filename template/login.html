@@ -7,6 +7,12 @@
         var referrer =  get_url_value('next');
         if (!referrer){referrer = '/'};
         $.cookie('mypagebeforelogin', referrer, { path: '/'});
+
+
+        if (!($.cookie('MyLat'))){
+            $('#no-coord-warning').removeClass('hide');
+        };
+
 	});
 
 	$(document).on('click', "#btngoogle", function(event){
@@ -22,8 +28,12 @@
 		window.location.replace("/login/twitter/");
 	});
 
+
+
 {% end %}
 {% block feed %}
+<div id="no-coord-warning" class="hide alert alert-danger">Your location is unknown, please allow browser access to GPS.
+You cannot post a tipoff without a location.</div>
        <h3>Login via:</h3>
 
 <div >
@@ -37,6 +47,3 @@
 <div class="alert alert-info">We just want real people to post on tipoff, not bots or spammers.</div>
 
 {% end %}
-
-
-

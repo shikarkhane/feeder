@@ -32,9 +32,11 @@ class NewHandler(BaseHandler):
     native tipoff post
     '''
     def get(self):
-        email = tornado.escape.xhtml_escape(self.current_user["email"])
+        email = None
+        if self.current_user:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
         if not email:
-            self.render('must-login.html')
+            self.render("must-login.html")
         else:
             self.render("native-post.html")
     def post(self, q_latitude, q_longitude, q_encoded_text ):
