@@ -6,6 +6,8 @@ Created on Oct 22, 2013
 import re
 from datetime import datetime 
 import settings
+import urllib2
+import json
 
 class User():
     def get_profile_url(self, userid, source):
@@ -32,7 +34,16 @@ class Img():
             return False
 class Location():
     def lookup_city(self, lat, lon):
-        return 'cityname'
+        reverse_api_url = '''http://maps.googleapis.com/maps/api/geocode/json?latlng={0},{1}&sensor=true'''.format(lat, lon)
+        req = urllib2.Request(reverse_api_url)
+        out = urllib2.urlopen(req)
+        result = json.loads(out.read())
+        if result["status"] == 'OK':
+            subl = [(c["address_components"]) for c in result["results"] if "sublocality" in c["types"]]
+            city = [(i["short_name"]) for i in subl[0] if i["types"][0] == "sublocality"][0]
+            return city
+        else:
+            return 'Nearby!'
 class Date():
     '''to keep the same format all over the site'''
     def __init__(self):
