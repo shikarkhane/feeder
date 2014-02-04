@@ -38,7 +38,7 @@ function addNoFeedAvailable(){
 		$('#main-feed').append($('<div/>',{
 		                                'id' : 'warning-nofeed',
                                         'class' : 'label label-warning',
-                                        html : ' No geo-tagged data available in your area.'
+                                        html : ' No data available right now. Check again in a bit.'
                                     }));
 };
 
