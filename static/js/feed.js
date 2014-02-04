@@ -73,6 +73,7 @@ function getAndRenderData(path){
                 }
             });
 
+            $('#in-progress-wheel').removeClass('hide');
 
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
@@ -141,6 +142,7 @@ function getAndRenderData(path){
 		    })
 		     .always(function() {
                 checkIfMainFeedEmpty();
+                $('#in-progress-wheel').addClass('hide');
             });
 
 

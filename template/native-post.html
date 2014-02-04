@@ -12,10 +12,10 @@ $(function() {
 		imageLoader.addEventListener('change', handleImage, false);
 
 		function handleImage(e){
-            $('#divprogress').css('width','10%');
+            $('#in-progress-wheel').removeClass('hide');
+
 		    var reader = new FileReader();
 		    reader.onload = function(event){
-                $('#divprogress').css('width','20%');
 
                 var canvasEl = fixCanvas(document.createElement('canvas'));
                 canvasEl.setAttribute("id", "imageCanvas");
@@ -24,13 +24,14 @@ $(function() {
                 var imgEl = document.createElement('img');
                 imgEl.onload = function()
                 {
-                    $('#divprogress').css('width','40%');
                     var ctx = canvasEl.getContext('2d');
                     ctx.drawImage(this, 0, 0, 243, 243);
         		    window.image_on_canvas = 1;
                     $('#imageLoader').remove();
                     $('#btn-upload').removeAttr('disabled');
-                    $('#divprogress').css('width','50%');
+                    $('#btn-upload').addClass('btn-success').removeClass('btn-default');
+                    $('#in-progress-wheel').addClass('hide');
+
                 };
                 imgEl.src = event.target.result;
 		    }
@@ -44,8 +45,10 @@ function setCoordinateCookie(position){
 	 };
 function couldntFetchPosition(msg){
 		alert('Cannot upload content without gps-location!\n');
+
 };
 $(document).on('click', "#btn-upload", function() {
+
 		var text = encodeURIComponent($('#tagline').val());
 		if (text.length == 0){alert('Comments are missing!'); return;}
 		if (window.image_on_canvas == 0){alert('Image is missing!'); return;}
@@ -55,13 +58,12 @@ $(document).on('click', "#btn-upload", function() {
 			    	}
 		var lat = $.cookie('MyLat');
 		var lon = $.cookie('MyLon');
-		
+
 		if (lat){
+            $('#in-progress-wheel').removeClass('hide');
 			var imgfile= dataURLtoBlob(document.getElementById('imageCanvas').toDataURL());
 			var fd = new FormData();
 			fd.append("image", imgfile);
-
-            $('#divprogress').css('width','60%');
 
 			$.ajax({
 				  type: "POST",
@@ -70,14 +72,11 @@ $(document).on('click', "#btn-upload", function() {
 				  processData: false,
    				  contentType: false,
 				}).done(function( respond ) {
-                            $('#divprogress').css('width','100%');
-                            $('#parentprogress').removeClass('progress-striped active');
-                            $('#divprogress').removeClass('progress-bar-info').addClass('progress-bar-success');
+                            $('#in-progress-wheel').addClass('hide');
 						})
                      .fail(function(respond) {
                             alert( "Something went wrong!" );
-                            $('#parentprogress').removeClass('progress-striped active');
-                            $('#divprogress').removeClass('progress-bar-info').addClass('progress-bar-danger');
+                            $('#in-progress-wheel').addClass('hide');
                     });
 		}		
 	});
@@ -98,11 +97,6 @@ $(document).on('click', "#btn-upload", function() {
 	<div id="divcanvas" class="well"></div>
 </div>
 
-<div id="parentprogress" class="progress progress-striped active">
-  <div id="divprogress" class="progress-bar progress-bar-info"  role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-    <span class="sr-only">45% Complete</span>
-  </div>
-</div>
 
 
 {% end %}

@@ -91,15 +91,18 @@
 	});
 
 	$(document).on('click', "a.post-like", function() {
+        $('#in-progress-wheel').removeClass('hide');
 		var doc_id = $(this).closest("div.main-post").attr("id");
 		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
 		var likecount = parseInt($(this).text(), 10) + 1;
 		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
 		$(this).prop('disabled', true);
         $(this).addClass('btn-info');
+        $('#in-progress-wheel').addClass('hide');
 	});
 
     $(document).on('click', "a.placename", function() {
+        $('#in-progress-wheel').removeClass('hide');
 		var mainpost_id = $(this).closest("div.main-post");
         var coordinates = $(mainpost_id).find("div.coord").text();
 
@@ -113,10 +116,12 @@
         insert_map(mainpost_id, coordinates);
         google.maps.event.addDomListener(window, 'resize', insert_map);
         google.maps.event.addDomListener(window, 'load', insert_map);
+        $('#in-progress-wheel').addClass('hide');
 	});
 
 	$(document).on('click', "#btnfiltertags", function(event){
 		event.preventDefault();
+        $('#in-progress-wheel').removeClass('hide');
 		var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
 		var myencodedfiltertags = encodeURIComponent(filterstring);
 		$.cookie('myFilterTags',  myencodedfiltertags, { expires: getDate30MinFromNow(), path: '/'});
@@ -127,6 +132,8 @@
 		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 
         $('button.navbar-toggle').trigger('click');
+        $('#in-progress-wheel').addClass('hide');
+
 	});
 
 	
