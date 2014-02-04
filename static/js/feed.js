@@ -44,7 +44,7 @@ function addNoFeedAvailable(){
 
 function checkIfMainFeedEmpty(){
     $(function() {
-        console.log($('#main-feed').children().length);
+
         if ( $('#main-feed').children('div.main-post').length > 0 ) {
              //remove nofeed warning
              $('#warning-nofeed').remove();

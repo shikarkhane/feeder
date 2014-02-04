@@ -19,6 +19,7 @@
 			$.cookie('FromPosition', 0, { path: '/'});
 			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
 			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+            reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
 	function couldntFetchPosition(msg){
 			alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');

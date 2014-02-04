@@ -54,5 +54,45 @@ function insert_map(append_to_object, coordinates) {
                    draggable: false,
                    position: new google.maps.LatLng(coord[0],coord[1])
        });
-}
+};
+
+function reverseLookupLocality(lat, lon){
+    reverse_api_url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat + ','+ lon + '&sensor=true'
+    $.getJSON( reverse_api_url, function( data ) {
+        var result = data;
+        var stage;
+        var localityname= 'Nearby!';
+        if (result["status"] === 'OK'){
+             $.each( result["results"], function( i, item ) {
+                if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
+                    stage = item['address_components']
+                    return false;
+                }
+             });
+             $.each( stage, function( i, item ) {
+                    if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
+                        localityname = item['short_name']
+                        return false;
+                    }
+             });
+        }
+        $.cookie('mylocalityname', localityname, { path: '/'});
+        setLocalityName();
+        return localityname;
+    });
+};
+
+function setLocalityName(){
+    var name = 'Nearby!'
+    console.log($.cookie('mylocalityname'));
+    if ($.cookie('mylocalityname')){
+        name = $.cookie('mylocalityname');
+    }
+    $('#home-brand > span').html( name);
+};
+
+$(function() {
+    setLocalityName();
+});
+
 
