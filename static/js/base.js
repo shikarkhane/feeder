@@ -61,7 +61,7 @@ function reverseLookupLocality(lat, lon){
     $.getJSON( reverse_api_url, function( data ) {
         var result = data;
         var stage;
-        var localityname= 'Nearby!';
+        var localityname= 'Pluto!';
         if (result["status"] === 'OK'){
              $.each( result["results"], function( i, item ) {
                 if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
@@ -83,7 +83,7 @@ function reverseLookupLocality(lat, lon){
 };
 
 function setLocalityName(){
-    var name = 'Nearby!'
+    var name = 'Pluto!'
     console.log($.cookie('mylocalityname'));
     if ($.cookie('mylocalityname')){
         name = $.cookie('mylocalityname');
@@ -95,4 +95,32 @@ $(function() {
     setLocalityName();
 });
 
+function getIpAddress(){
+    url = 'http://jsonip.com/';
+    $.getJSON( url, function( data ) {
+        return data['ip'];
+    });
+};
 
+function setLocationBasedOnIpaddress(){
+    var url = 'http://ipinfo.io/json';
+    var cityname;
+    $.getJSON( url, function( data ) {
+        cityname = data['city'];
+        if (!(cityname)){
+            cityname = 'Pluto!';
+        }
+        $.cookie('mylocalityname', cityname, { path: '/'});
+        setLocalityName();
+    });
+};
+
+function setCoordinatesByLocation(locality){
+    var lat;
+    var lon;
+
+
+
+    $.cookie('MyLat', lat, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
+    $.cookie('MyLon', lon, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+}
