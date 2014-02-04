@@ -96,6 +96,7 @@
 		var likecount = parseInt($(this).text(), 10) + 1;
 		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
 		$(this).prop('disabled', true);
+        $(this).addClass('btn-info');
 	});
 
     $(document).on('click', "a.placename", function() {
