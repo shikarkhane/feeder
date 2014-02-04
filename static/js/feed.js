@@ -122,7 +122,7 @@ function getAndRenderData(path){
 											}))
 								.append($('<a/>',{
 													'type' : 'button',
-												    'class' : 'btn btn-default post-link',
+												    'class' : 'btn btn-default post-link hide',
 												    html : '<span class="glyphicon glyphicon-link"></span>'
 												}))
 								.append($('<a/>',{
@@ -131,6 +131,9 @@ function getAndRenderData(path){
 											    html : this.place_name
 											}))
 							;
+							if (!(this.content_img_url == null)){
+							        $('#' + this.post_id).find('a.post-link').removeClass('hide');
+							    };
 							}
 					});
 							
