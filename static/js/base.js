@@ -56,30 +56,39 @@ function insert_map(append_to_object, coordinates) {
        });
 };
 
-function reverseLookupLocality(lat, lon){
-    reverse_api_url = 'http://maps.googleapis.com/maps/api/geocode/json?latlng='+ lat + ','+ lon + '&sensor=false'
-    $.getJSON( reverse_api_url, function( data ) {
-        var result = data;
-        var stage;
-        var localityname= 'Pluto!';
-        if (result["status"] === 'OK'){
-             $.each( result["results"], function( i, item ) {
+function reverseLookupLocality(lat, lng) {
+    geocoder = new google.maps.Geocoder();
+  var localityname= 'Pluto!';
+  var latlng = new google.maps.LatLng(lat, lng);
+  var stage;
+  geocoder.geocode({'latLng': latlng}, function(result, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      if (result[1]) {
+            console.log(result);
+            $.each( result, function( i, item ) {
+                console.log(item);
                 if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
-                    stage = item['address_components']
+                    stage = item['address_components'];
                     return false;
                 }
              });
              $.each( stage, function( i, item ) {
+                    console.log(item);
                     if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
-                        localityname = item['short_name']
+                        localityname = item['short_name'];
+                        $.cookie('mylocalityname', localityname, { path: '/'});
+                        setLocalityName();
                         return false;
                     }
              });
-        }
-        $.cookie('mylocalityname', localityname, { path: '/'});
-        setLocalityName();
-        return localityname;
-    });
+      } else {
+        localityname = 'Aliens';
+      }
+    } else {
+      console.log('Geocoder failed due to: ' + status);
+    }
+  });
+  return localityname;
 };
 
 function setLocalityName(){
