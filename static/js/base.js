@@ -132,4 +132,17 @@ function setCoordinatesByLocation(locality){
 
     $.cookie('MyLat', lat, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
     $.cookie('MyLon', lon, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+};
+
+function peekFromBottomOfScreen(object){
+     var viewportWidth = jQuery(window).width(),
+            viewportHeight = jQuery(window).height(),
+            $foo = object,
+            elWidth = $foo.width(),
+            elHeight = $foo.height(),
+            elOffset = $foo.offset();
+
+        jQuery(window)
+            .scrollTop(elOffset.top - (viewportHeight/2));
+
 }
