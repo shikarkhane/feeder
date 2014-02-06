@@ -12,7 +12,7 @@ application = tornado.web.Application([
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
     (r"/backoffice/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
-    (r"/like/(\S+)/", LikeHandler),
+    (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
     (r"/new/", NewHandler),
     (r"/login/google/", GoogleHandler),
     (r"/login/facebook/", FacebookHandler),

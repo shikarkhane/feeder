@@ -95,11 +95,19 @@
 	$(document).on('click', "a.post-like", function() {
         $('#in-progress-wheel').removeClass('hide');
 		var doc_id = $(this).closest("div.main-post").attr("id");
-		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/');
-		var likecount = parseInt($(this).text(), 10) + 1;
+		var likecount = parseInt($(this).text(), 10);
+        var increment;
+        if($(this).hasClass('btn-info')){
+                increment = -1;
+                $(this).removeClass('btn-info');
+            }
+        else{
+               increment = 1;
+               $(this).addClass('btn-info');
+        }
+        likecount = likecount + increment;
+		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
 		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
-		$(this).prop('disabled', true);
-        $(this).addClass('btn-info');
         $('#in-progress-wheel').addClass('hide');
 	});
 
@@ -108,13 +116,13 @@
 		var mainpost_id = $(this).closest("div.main-post");
         var coordinates = $(mainpost_id).find("div.coord").text();
 
-        $(this).addClass('btn-success').removeClass('btn-default');
-        if (mainpost_id.find("div.mapCanvas").length > 0){
+        if ($(this).hasClass('btn-success')){
                 mainpost_id.find("div.mapCanvas").remove();
                 $(this).addClass('btn-default').removeClass('btn-success');
                 $('#in-progress-wheel').addClass('hide');
                 return;
             };
+        $(this).addClass('btn-success').removeClass('btn-default');
 
         insert_map(mainpost_id, coordinates);
         google.maps.event.addDomListener(window, 'resize', insert_map);

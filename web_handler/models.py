@@ -87,14 +87,14 @@ class Feed_Content():
     def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort)
         return [(d.get_as_dict()) for d in data]
-    def increment_upvote(self,data):
+    def increment_upvote(self,data, increment):
         '''this method should be removed in future when post object is being passed everywhere'''
         if data.get("up_votes"):
-            data["up_votes"] = int(data["up_votes"]) + 1
+            data["up_votes"] = int(data["up_votes"]) + increment
         else:
-            data["up_votes"] = 1
+            data["up_votes"] = increment
         return data
-    def like_post(self, document_id):
+    def like_post(self, document_id, increment):
         f = Feed()
         d = f.get_by_document_id(document_id)
         if (json.loads(d)["hits"]["total"] == 0):
@@ -105,7 +105,7 @@ class Feed_Content():
             d_doctype = data["_type"]
             d_id = document_id
             fields = data["fields"]
-            fields = self.increment_upvote(fields)
+            fields = self.increment_upvote(fields, increment)
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
     def put_native_post(self, lat, lon, text, image_data_url, file_extn):

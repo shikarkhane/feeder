@@ -99,9 +99,10 @@ class LikeHandler(tornado.web.RequestHandler):
     '''
     like a tipoff
     '''
-    def get(self, document_id):
+    def get(self, document_id, increment):
+        increment = int(increment)
         m = Feed_Content()
-        m.like_post(document_id)
+        m.like_post(document_id, increment)
 
 class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
