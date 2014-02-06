@@ -142,4 +142,4 @@ function peekFromBottomOfScreen(object){
         jQuery(window)
             .scrollTop(elOffset.top - (viewportHeight/2));
 
-}
+};
