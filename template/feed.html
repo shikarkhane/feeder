@@ -22,10 +22,9 @@
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
 	function couldntFetchPosition(msg){
-			alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
+			//alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
             setLocationBasedOnIpaddress();
-			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
-			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+            $('#in-progress-wheel').addClass('hide');
 	};
 	
 	$(function() {
@@ -45,13 +44,12 @@
 			
 			window.pageload_utctime = moment.utc().valueOf();
 			
-			if (!($.cookie('MyLat'))){
-	  			if (navigator.geolocation){
-		    			navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
-			    	}
+			if (!($.cookie('MyLat')) && navigator.geolocation){
+                $('#in-progress-wheel').removeClass('hide');
+                navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
 			}
 			else{
-                reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
+                setLocationBasedOnIpaddress();
 				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
 					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			

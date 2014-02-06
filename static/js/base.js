@@ -67,14 +67,14 @@ function reverseLookupLocality(lat, lng) {
             console.log(result);
             $.each( result, function( i, item ) {
                 console.log(item);
-                if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
+                if ((jQuery.inArray( 'sublocality', item['types'] ) > -1) || (jQuery.inArray( 'locality', item['types'] ) > -1)){
                     stage = item['address_components'];
                     return false;
                 }
              });
              $.each( stage, function( i, item ) {
                     console.log(item);
-                    if (jQuery.inArray( 'sublocality', item['types'] ) > -1){
+                    if ((jQuery.inArray( 'sublocality', item['types'] ) > -1) || (jQuery.inArray( 'locality', item['types'] ) > -1)){
                         localityname = item['short_name'];
                         $.cookie('mylocalityname', localityname, { path: '/'});
                         setLocalityName();
@@ -112,26 +112,23 @@ function getIpAddress(){
 };
 
 function setLocationBasedOnIpaddress(){
+    console.log('set location by ip');
     var url = 'http://ipinfo.io/json';
-    var cityname;
     $.getJSON( url, function( data ) {
-        cityname = data['city'];
-        if (!(cityname)){
-            cityname = '';
+        console.log('calling ip info');
+        coord = data['loc'];
+        console.log(coord);
+        if (coord){
+                console.log(coord);
+                $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
+                $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+                console.log('before call');
+                getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+			    console.log('after call');
+                reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
         }
-        $.cookie('mylocalityname', cityname, { path: '/'});
-        setLocalityName();
     });
-};
-
-function setCoordinatesByLocation(locality){
-    var lat;
-    var lon;
-
-
-
-    $.cookie('MyLat', lat, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
-    $.cookie('MyLon', lon, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 };
 
 function peekFromBottomOfScreen(object){

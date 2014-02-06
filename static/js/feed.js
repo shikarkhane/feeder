@@ -43,16 +43,13 @@ function addNoFeedAvailable(){
 };
 
 function checkIfMainFeedEmpty(){
-    $(function() {
-
-        if ( $('#main-feed').children('div.main-post').length > 0 ) {
-             //remove nofeed warning
-             $('#warning-nofeed').remove();
-        }
-        else{
-            addNoFeedAvailable();
-        }
-    });
+    if ( $('#main-feed').children('div.main-post').length > 0 ) {
+         //remove nofeed warning
+         $('#warning-nofeed').remove();
+    }
+    else{
+        addNoFeedAvailable();
+    }
 };
 function getAndRenderData(path){
             moment.lang('en', {

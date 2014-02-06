@@ -8,8 +8,8 @@ import settings
 application = tornado.web.Application([
     (r"/", PreHandler), (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1})/sort/([0-1]?)/", MainHandler), 
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/tags/(\S+)/", MainHandler), 
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/", GeoHandler), 
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", GeoHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
     (r"/backoffice/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
