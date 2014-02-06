@@ -108,7 +108,7 @@ class Feed_Content():
             fields = self.increment_upvote(fields, increment)
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
-    def put_native_post(self, lat, lon, text, image_data_url, file_extn):
+    def put_native_post(self, lat, lon, text, image_data_url, file_extn, cityname):
         f = Feed()
         user_id = 0
         current_utc = Date().get_utcnow_str()
@@ -116,7 +116,7 @@ class Feed_Content():
         img_url = '/native/uploads/{0}/'.format(filename)
         uploaded_img_url = '/static/uploads/{0}'.format(filename)
         if Img().save(uploaded_img_url, image_data_url):
-            f.create_native_document(user_id, '/static/images/user_placeholder.png', text, lat, lon, current_utc, Location().lookup_city(lat, lon), img_url)
+            f.create_native_document(user_id, '/static/images/user_placeholder.png', text, lat, lon, current_utc, cityname, img_url)
 class Backoffice_content():
     '''administrative and analytics'''
     def get_last_1day_period_activity(self):

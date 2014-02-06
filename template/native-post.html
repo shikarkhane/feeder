@@ -39,25 +39,15 @@ $(function() {
 		}
 });
 
-function setCoordinateCookie(position){
-	  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
-		$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-	 };
-function couldntFetchPosition(msg){
-		alert('Cannot upload content without gps-location!\n');
-
-};
 $(document).on('click', "#btn-upload", function() {
 
 		var text = encodeURIComponent($('#tagline').val());
 		if (text.length == 0){alert('Comments are missing!'); return;}
 		if (window.image_on_canvas == 0){alert('Image is missing!'); return;}
 
-		if (navigator.geolocation){
-		    			navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
-			    	}
 		var lat = $.cookie('MyLat');
 		var lon = $.cookie('MyLon');
+        var cityname = $.cookie('mylocalityname');
 
 		if (lat){
             $('#in-progress-wheel').removeClass('hide');
@@ -67,7 +57,7 @@ $(document).on('click', "#btn-upload", function() {
 
 			$.ajax({
 				  type: "POST",
-				  url: "/new/location/" + lat + "/" + lon + "/text/"  + text + "/",
+				  url: "/new/location/" + lat + "/" + lon + "/text/"  + text + "/place/" + cityname + "/",
 				  data: fd,
 				  processData: false,
    				  contentType: false,
@@ -75,6 +65,7 @@ $(document).on('click', "#btn-upload", function() {
                             $('#in-progress-wheel').addClass('hide');
 						})
                      .fail(function(respond) {
+                            //alert(respond);
                             alert( "Something went wrong!" );
                             $('#in-progress-wheel').addClass('hide');
                     });
@@ -89,14 +80,12 @@ $(document).on('click', "#btn-upload", function() {
 
 
 <div class="row input-group">
-	<input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
-	<span class="input-group-btn">
-		<button id="btn-upload" class="btn btn-default" type="button" disabled="true"><span class="glyphicon glyphicon-upload"></span></button>
-	</span>
-</div>
-<div class="row input-group">
+    <h3>Post a tipoff:</h3>
 	<input type="file" id="imageLoader" class="btn btn-info" accept="image/*;capture=camera"/>
 	<div id="divcanvas" class="well"></div>
+    <input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
+   <button id="btn-upload" class="btn btn-default btn-lg btn-block" type="button" disabled="true"><span class="glyphicon glyphicon-upload"></span></button>
+
 </div>
 
 

@@ -18,7 +18,7 @@ application = tornado.web.Application([
     (r"/login/facebook/", FacebookHandler),
     (r"/login/twitter/", TwitterHandler),
     (r"/native/uploads/(\S+)/", NativeImageHandler),
-    (r"/new/location/(\d+(?:\.\d+)?)/(\d+(?:\.\d+)?)/text/(\S+)/", NewHandler),
+    (r"/new/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/text/(\S+)/place/(\S+)/", NewHandler),
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/",
         twitter_consumer_key=settings.TWITTER_CONSUMER_KEY, twitter_consumer_secret=settings.TWITTER_CONSUMER_SECRET,

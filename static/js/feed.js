@@ -35,7 +35,7 @@ function handlePageNumber(code, q_pagesize){
 };
 
 function addNoFeedAvailable(){
-		$('#main-feed').append($('<div/>',{
+		$('#main-feed').html($('<div/>',{
 		                                'id' : 'warning-nofeed',
                                         'class' : 'label label-warning',
                                         html : ' No data available right now. Check again in a bit.'

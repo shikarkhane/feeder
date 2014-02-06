@@ -39,7 +39,7 @@ class NewHandler(BaseHandler):
             self.render("must-login.html")
         else:
             self.render("native-post.html")
-    def post(self, q_latitude, q_longitude, q_encoded_text ):
+    def post(self, q_latitude, q_longitude, q_encoded_text, q_city_name):
         email = tornado.escape.xhtml_escape(self.current_user["email"])
         if not email:
             self.render('must-login.html')
@@ -47,7 +47,7 @@ class NewHandler(BaseHandler):
             img_data = self.request.files['image'][0]['body']
             extn = str(self.request.files['image'][0]['content_type']).split('/')[1]
             f = Feed_Content()
-            f.put_native_post(q_latitude, q_longitude, q_encoded_text, img_data, extn)
+            f.put_native_post(q_latitude, q_longitude, q_encoded_text, img_data, extn, q_city_name)
             self.write('Tipoff uploaded!')
 class NativeImageHandler(tornado.web.RequestHandler):
     '''renders the image file in a nice frame'''
