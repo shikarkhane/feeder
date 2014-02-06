@@ -58,7 +58,7 @@ function insert_map(append_to_object, coordinates) {
 
 function reverseLookupLocality(lat, lng) {
     geocoder = new google.maps.Geocoder();
-  var localityname= 'Pluto!';
+  var localityname= '';
   var latlng = new google.maps.LatLng(lat, lng);
   var stage;
   geocoder.geocode({'latLng': latlng}, function(result, status) {
@@ -92,7 +92,7 @@ function reverseLookupLocality(lat, lng) {
 };
 
 function setLocalityName(){
-    var name = 'Pluto!'
+    var name = ''
     console.log($.cookie('mylocalityname'));
     if ($.cookie('mylocalityname')){
         name = $.cookie('mylocalityname');
@@ -117,7 +117,7 @@ function setLocationBasedOnIpaddress(){
     $.getJSON( url, function( data ) {
         cityname = data['city'];
         if (!(cityname)){
-            cityname = 'Pluto!';
+            cityname = '';
         }
         $.cookie('mylocalityname', cityname, { path: '/'});
         setLocalityName();
