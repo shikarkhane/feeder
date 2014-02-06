@@ -78,6 +78,8 @@ $(document).on('click', "#btn-upload", function() {
                             alert( "Something went wrong!" );
                             $('#in-progress-wheel').addClass('hide');
                     });
+            alert('Your tipoff is being uploaded!\nIt will appear shortly in the listing.');
+            window.location.replace("/");
 		}		
 	});
 {% end %}
