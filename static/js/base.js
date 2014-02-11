@@ -64,6 +64,7 @@ alert(lat + ',' + lng);
   var stage;
   geocoder.geocode({'latLng': latlng}, function(result, status) {
     if (status == google.maps.GeocoderStatus.OK) {
+        alert(status);
       if (result[1]) {
             //console.log(result);
             $.each( result, function( i, item ) {
