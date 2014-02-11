@@ -4,7 +4,7 @@
 <script src="/static/js/feed.js"></script>
 {% end %}
 {% block jscripts %}
-    var geocoder;
+
 	var url = window.location.pathname;
 	var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
 	if (!($('<a>').prop('href', url).prop('port') == null)){
@@ -14,7 +14,7 @@
 	var pageload_utctime = moment.utc().valueOf(); 
 	
 	function setCoordinateCookie(position){
-            alert('set coord');
+            //alert('set coord');
 		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 			$("#main-feed").empty();
@@ -24,13 +24,13 @@
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
 	function couldntFetchPosition(msg){
-			alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
+			//alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
             setLocationBasedOnIpaddress();
             $('#in-progress-wheel').addClass('hide');
 	};
 	
 	$(function() {
-            geocoder = new google.maps.Geocoder();
+
 
 			if (!($.cookie('FirstTimeUser'))){
 				window.location.replace("/we/firsttimeuser/");

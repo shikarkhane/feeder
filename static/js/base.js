@@ -58,13 +58,14 @@ function insert_map(append_to_object, coordinates) {
 };
 
 function reverseLookupLocality(lat, lng) {
-alert(lat + ',' + lng);
+//alert(lat + ',' + lng);
+  var  geocoder = new google.maps.Geocoder();
   var localityname= '';
   var latlng = new google.maps.LatLng(lat, lng);
   var stage;
-  alert(window.geocoder);
-  window.geocoder.geocode({'latLng': latlng}, function(result, status) {
-  alert(status);
+  //alert(geocoder);
+  geocoder.geocode({'latLng': latlng}, function(result, status) {
+  //alert(status);
     if (status == google.maps.GeocoderStatus.OK) {
 
       if (result[1]) {
