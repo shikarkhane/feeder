@@ -1,6 +1,6 @@
 var geocoder;
 function init_geocoder(){
-    geocoder = new google.maps.Geocoder();
+    window.geocoder = new google.maps.Geocoder();
 };
 
 function pad(num) {
@@ -66,7 +66,8 @@ alert(lat + ',' + lng);
   var localityname= '';
   var latlng = new google.maps.LatLng(lat, lng);
   var stage;
-  geocoder.geocode({'latLng': latlng}, function(result, status) {
+  alert(window.geocoder);
+  window.geocoder.geocode({'latLng': latlng}, function(result, status) {
   alert(status);
     if (status == google.maps.GeocoderStatus.OK) {
 

@@ -29,7 +29,8 @@
 	};
 	
 	$(function() {
-			
+            google.maps.event.addDomListener(window, 'load', init_geocoder);
+
 			if (!($.cookie('FirstTimeUser'))){
 				window.location.replace("/we/firsttimeuser/");
 			};
@@ -54,9 +55,6 @@
 					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			
 			};
-
-            google.maps.event.addDomListener(window, 'load', init_geocoder);
-
 	});
 
 	$.fn.isOnScreen = function(){
