@@ -1,4 +1,7 @@
 var geocoder;
+function init_geocoder(){
+    geocoder = new google.maps.Geocoder();
+};
 
 function pad(num) {
     return ("0" + num).slice(-2);
@@ -60,7 +63,6 @@ function insert_map(append_to_object, coordinates) {
 
 function reverseLookupLocality(lat, lng) {
 alert(lat + ',' + lng);
-  geocoder = new google.maps.Geocoder();
   var localityname= '';
   var latlng = new google.maps.LatLng(lat, lng);
   var stage;
