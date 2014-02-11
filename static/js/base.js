@@ -1,7 +1,3 @@
-var geocoder;
-function init_geocoder(){
-    window.geocoder = new google.maps.Geocoder();
-};
 
 function pad(num) {
     return ("0" + num).slice(-2);
