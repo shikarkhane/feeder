@@ -50,8 +50,7 @@
                 navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
 			}
 			else{
-                setLocationBasedOnIpaddress();
-				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
 					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 			
 			};
