@@ -29,18 +29,20 @@ class Feed(object):
        "user_img_url" => "http://pbs.twimg.com/profile_images/378800000478670862/88783a59c7c7e5c200627af584781212_normal.jpeg",
     "content_img_url" => "%{[entities][media_url]}",
               "coord" => "59.74596768,17.78693824"
+              "username" => "zube32"
 }
     '''
     def __init__(self):
-        self.field_list = ["user_id", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url", "content_img_url", "coord", "up_votes"] 
-        pass 
+        self.field_list = ["user_id", "username", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url",
+                           "content_img_url", "coord", "up_votes"]
     def get_indexes(self):
         url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
         response = urllib2.urlopen(url).read()
         return response
     def get_last_1day_period_activity(self):
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
-        data = {"size":0,"query":{"filtered":{"filter":{"numeric_range":{"@timestamp":{"gte":"now-1d"}}}}},"facets":{"histo1":{"date_histogram":{"field":"@timestamp","interval":"hour"}}}}
+        data = {"size":0,"query":{"filtered":{"filter":{"numeric_range":{"@timestamp":{"gte":"now-1d"}}}}},
+                "facets":{"histo1":{"date_histogram":{"field":"@timestamp","interval":"hour"}}}}
         data = json.dumps(data)
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
@@ -169,12 +171,14 @@ class Feed(object):
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)
         return out.read()
-    def create_native_document(self, user_id, user_img_url, text, lat, lon, post_time, location_name, content_url, index_name = settings.NATIVE_INDEX, doc_type = settings.NATIVE_TYPE):
+    def create_native_document(self, user_id, user_img_url, text, lat, lon, post_time, location_name, content_url,
+                               username, index_name = settings.NATIVE_INDEX, doc_type = settings.NATIVE_TYPE):
         # fetch the document by the id
         url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
         json_body = {"text": text, "lang" : "na", "@timestamp" : post_time, "type" : doc_type,
             "post_id" : 0, "up_votes" : 0, "user_mention" : None, "place_name" : location_name,
-            "user_id" : user_id, "user_img_url" : user_img_url, "content_img_url" : content_url, "coord" : "{0},{1}".format(lat,lon)}
+            "user_id" : user_id, "user_img_url" : user_img_url, "content_img_url" : content_url,
+            "coord" : "{0},{1}".format(lat,lon), "username": username}
         req = urllib2.Request(url, json.dumps(json_body))
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)

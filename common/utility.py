@@ -10,9 +10,11 @@ import urllib2
 import json
 
 class User():
-    def get_profile_url(self, userid, source):
+    def get_profile_url(self, userid, username, source):
         if (source == 'twitter'):
             return '''https://twitter.com/intent/user?user_id={0}'''.format(userid)
+        elif (source == 'instagram'):
+            return 'http://instagram.com/{0}/'.format(username)
         else:
             return '''/'''
 class Url():
