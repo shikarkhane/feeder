@@ -74,24 +74,26 @@ function getAndRenderData(path){
 
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
+					var id_to_use;
 					$.each(posts, function(){
-							if ((this.post_id) && ($("#" + this.post_id).length == 0)){
+					        id_to_use = String(this.doc_id) + String(this.post_id);
+							if ((id_to_use) && ($("#" + id_to_use).length == 0)){
 							$('#main-feed').append($('<div/>',{
-											    'id'    : this.post_id,
+											    'id'    : id_to_use,
 											    'class' : 'main-post panel-body breadcrumb'
 											}));
-							$('#' + this.post_id).append($('<div/>',{
+							$('#' + id_to_use).append($('<div/>',{
 											    'class' : 'content_link',
 											    html : this.content_img_url
 											}));
-							$('#' + this.post_id).append($('<div/>',{
+							$('#' + id_to_use).append($('<div/>',{
 							                    'class' : 'btn btn-default coord',
 											    html : this.coord
 											}));
 
 							$('<div/>',{
 								'class' : 'row post-top'
-							}).appendTo('#' + this.post_id)
+							}).appendTo('#' + id_to_use)
 								.append($('<div/>',{
 								    'class' : 'col-md-1 pull-right',
 								    'html' : '<img src="static/images/' + this.source + '_post.png" class="img-responsive content-provider-logo pull-right"/>'
@@ -112,7 +114,7 @@ function getAndRenderData(path){
 
 							$('<div/>',{
 								'class' : 'post-bottom btn-group btn-group-justified'
-							}).appendTo('#' + this.post_id)
+							}).appendTo('#' + id_to_use)
 								.append($('<a/>',{
 												'type' : 'button',
 											    'class' : 'btn btn-default post-like',
@@ -130,7 +132,7 @@ function getAndRenderData(path){
 											}))
 							;
 							if (!(this.content_img_url == null)){
-							        $('#' + this.post_id).find('a.post-link').removeClass('hide');
+							        $('#' + id_to_use).find('a.post-link').removeClass('hide');
 							    };
 							}
 					});

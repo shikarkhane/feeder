@@ -21,9 +21,10 @@ class Post():
               "username" => "zube23"
 }
     '''
-    def __init__(self, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
+    def __init__(self, doc_id, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
                  username, up_votes =0 ):
         # post_id is the internal _id of elasticsearch store
+        self.doc_id = doc_id
         self.post_id = post_id
         self.text = text
         self.created = created
@@ -37,7 +38,7 @@ class Post():
         self.user_profile_url = User().get_profile_url(userid = user_id, source=source, username=username)
         self.coord = coord
     def get_as_dict(self):
-        d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"), 
+        d = {"doc_id": self.doc_id, "post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source,
              "up_votes": self.up_votes, "user_id": self.user_id, "place_name": self.place_name,
              "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username}
@@ -57,7 +58,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
-                    data.append(Post( p["_id"], field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url, 
+                    data.append(Post( p["_id"], p["post_id"], field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url,
                                       field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"),
                                       field.get("coord"), field.get("username"), field.get("up_votes")))
                 except Exception, e:
@@ -80,7 +81,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")), 
+                    data.append(Post( p["_id"], p["post_id"], field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")),
                                       media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"),
                                       field.get("place_name"), field.get("coord"), field.get("username"), field.get("up_votes")))
                 except Exception, e:
