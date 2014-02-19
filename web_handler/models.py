@@ -58,7 +58,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
-                    data.append(Post( p["_id"], p["post_id"], field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url,
+                    data.append(Post( p["_id"], field.get("post_id"), field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url,
                                       field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"),
                                       field.get("coord"), field.get("username"), field.get("up_votes")))
                 except Exception, e:
@@ -81,7 +81,7 @@ class Feed_Content():
                     if not media_url:
                         # see if text field has a url in it
                         media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
-                    data.append(Post( p["_id"], p["post_id"], field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")),
+                    data.append(Post( p["_id"], field.get("post_id"), field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")),
                                       media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"),
                                       field.get("place_name"), field.get("coord"), field.get("username"), field.get("up_votes")))
                 except Exception, e:
