@@ -8,10 +8,9 @@ class Post():
     Json example of a post:
 {
                "text" => "@nollbit @johanni ja, klart det bara blir spekulationer. Men samhllsnyttig infrastruktur br vl vara delvis skyddad mot detta?",
-               "lang" => "sv",
          "@timestamp" => "2014-01-09T10:01:30.449Z",
                "type" => "twitter",
-            "post_id" => 418676219430047744,
+            "post_id" => "418676219430047744",
            "up_votes" => 0,
        "user_mention" => "{\"id\"=>15809255, \"indices\"=>[0, 8], \"id_str\"=>\"15809255\", \"screen_name\"=>\"nollbit\", \"name\"=>\"johan\"},{\"id\"=>16311319, \"indices\"=>[9, 17], \"id_str\"=>\"16311319\", \"screen_name\"=>\"johanni\", \"name\"=>\"Johan Nilsson\"}",
          "place_name" => "Knivsta",
@@ -19,7 +18,7 @@ class Post():
        "user_img_url" => "http://pbs.twimg.com/profile_images/378800000478670862/88783a59c7c7e5c200627af584781212_normal.jpeg",
     "content_img_url" => "%{[entities][media_url]}",
               "coord" => "59.74596768,17.78693824",
-              "username" => 'zube23'
+              "username" => "zube23"
 }
     '''
     def __init__(self, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,

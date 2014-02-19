@@ -44,3 +44,14 @@ body { padding-top: 70px; }
     margin-top: -32px;  /* -1 * image height / 2 */
     display: block;
 }
+
+.profile-img{
+    max-height:50px;
+    max-width:50px;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

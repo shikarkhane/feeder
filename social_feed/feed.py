@@ -17,20 +17,35 @@ class Feed(object):
     Many posts constitute a feed. 
     Json example of a post:
 {
-               "text" => "@nollbit @johanni ja, klart det bara blir spekulationer. Men samhllsnyttig infrastruktur br vl vara delvis skyddad mot detta?",
-               "lang" => "sv",
-         "@timestamp" => "2014-01-09T10:01:30.449Z",
-               "type" => "twitter",
-            "post_id" => 418676219430047744,
-           "up_votes" => 0,
-       "user_mention" => "{\"id\"=>15809255, \"indices\"=>[0, 8], \"id_str\"=>\"15809255\", \"screen_name\"=>\"nollbit\", \"name\"=>\"johan\"},{\"id\"=>16311319, \"indices\"=>[9, 17], \"id_str\"=>\"16311319\", \"screen_name\"=>\"johanni\", \"name\"=>\"Johan Nilsson\"}",
-         "place_name" => "Knivsta",
-            "user_id" => "14235149",
-       "user_img_url" => "http://pbs.twimg.com/profile_images/378800000478670862/88783a59c7c7e5c200627af584781212_normal.jpeg",
-    "content_img_url" => "%{[entities][media_url]}",
-              "coord" => "59.74596768,17.78693824"
-              "username" => "zube32"
+           "username" => "annagereben",
+           "up_votes" => 2,
+               "text" => "@lindawilhelmsson",
+            "post_id" => "655070967730519194_7494078",
+       "user_img_url" => "http://images.ak.instagram.com/profiles/profile_7494078_75sq_1384035755.jpg",
+         "place_name" => "John Chris",
+            "user_id" => "7494078",
+              "coord" => "59.331336,18.063978",
+    "content_img_url" => "http://instagram.com/p/kXR5MOP7ya/",
+         "@timestamp" => "2014-02-19T07:44:19.093Z",
+               "type" => "instagram",
+       "user_mention" => ""
 }
+{
+               "text" => "k om p mig sjlv  att sitta och rkna upp metanserien som jag lrde mig i ttan.. Att jag kom ig den haha!",
+               "lang" => "sv",
+         "@timestamp" => "2014-02-19T07:44:44.076Z",
+               "type" => "twitter",
+            "post_id" => "433998347813535745",
+           "up_votes" => 0,
+       "user_mention" => "",
+         "place_name" => "Sollefte",
+            "user_id" => "439237009",
+           "username" => "ksdfja",
+       "user_img_url" => "http://pbs.twimg.com/profile_images/2578959735/image_normal.jpg",
+    "content_img_url" => "%{[entities][media_url]}",
+              "coord" => "63.17168396,17.79328865"
+}
+
     '''
     def __init__(self):
         self.field_list = ["user_id", "username", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url",

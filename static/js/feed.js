@@ -102,11 +102,11 @@ function getAndRenderData(path){
 											}))
 								.append($('<div/>',{
 											    'class' : 'col-md-3',
-											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="img-responsive"/></a>'
+											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="profile-img img-responsive"/></a>'
 											}))
 								.append($('<div/>',{
 											    'class' : 'col-md-7',
-											    html : '<p class="text-left">' + this.text + '</p>'
+											    html : '<p class="text-left truncate">' + this.text + '</p>'
 											}));
 							;
 
@@ -125,7 +125,7 @@ function getAndRenderData(path){
 												}))
 								.append($('<a/>',{
 								                'type' : 'button',
-							                    'class' : 'btn btn-default placename',
+							                    'class' : 'btn btn-default placename truncate',
 											    html : this.place_name
 											}))
 							;
