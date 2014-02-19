@@ -106,7 +106,7 @@ function getAndRenderData(path){
 											}))
 								.append($('<div/>',{
 											    'class' : 'col-md-7',
-											    html : '<p class="text-left">' + this.text + '</p>'
+											    html : '<p class="text-left text">' + this.text + '</p>'
 											}));
 							;
 
