@@ -75,14 +75,17 @@ function getAndRenderData(path){
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
 					var id_to_use;
+					var id_to_check_duplicates;
 					$.each(posts, function(){
-					        id_to_use = String(this.doc_id) + String(this.post_id);
-							if ((id_to_use) && ($("#" + id_to_use).length == 0)){
+					        id_to_use = String(this.doc_id);
+					        id_to_check_duplicates = this.source + String(this.post_id);
+							if ((id_to_use) && ($("#" + id_to_check_duplicates).length == 0)){
 							$('#main-feed').append($('<div/>',{
 											    'id'    : id_to_use,
 											    'class' : 'main-post panel-body breadcrumb'
 											}));
 							$('#' + id_to_use).append($('<div/>',{
+							                    'id'    : id_to_check_duplicates,
 											    'class' : 'content_link',
 											    html : this.content_img_url
 											}));
