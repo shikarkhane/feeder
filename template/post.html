@@ -2,10 +2,12 @@
 
 {% block jscripts %}
  function initialize() {
-        var map_canvas = document.getElementById('map_canvas');
+        var timelabel = moment(formatDate(new Date("{{ post.created }}")), "YYYY-MM-DDTHH:mm:ssZ").fromNow();
+        $('#time_since').html(timelabel);
+        var map_canvas = document.getElementById('mapCanvas');
         var map_options = {
           center: new google.maps.LatLng({{ post.coord }}),
-          zoom: 8,
+          zoom: 14,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         var map = new google.maps.Map(map_canvas, map_options)
@@ -31,7 +33,7 @@
             <img src="/static/images/{{ post.source }}_post.png" class="img-responsive content-provider-logo pull-right">
         </div>
         <div class="col-md-1 pull-right elapsed_time">
-            <span class="x_minutes_ago badge">{{ post.created }}</span>
+            <span id="time_since" class="x_minutes_ago badge">{{ post.created }}</span>
         </div>
         <div class="col-md-3">
             <a class="btn btn-primary" target="_blank" href="{{ post.user_profile_url }}" >
@@ -56,7 +58,7 @@
             {{ post.place_name }}
         </a>
     </div>
-    <div id="map_canvas" style="width:100%;height:400px;"> </div>
+    <div id="mapCanvas" > </div>
 
 </div>
 
