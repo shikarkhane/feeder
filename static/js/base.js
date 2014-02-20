@@ -164,7 +164,7 @@ $(document).on('click', "a.post-like", function() {
                $(this).addClass('btn-info');
         }
         likecount = likecount + increment;
-		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
+		var jqxhr = $.get( $.cookie('myservername') + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
 		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
         $('#in-progress-wheel').addClass('hide');
 	});
