@@ -47,24 +47,35 @@ class Post():
         self.doc_id = post_json["doc_id"]
         self.post_id = post_json["post_id"]
         self.text = post_json["text"]
+
         if post_json.get('created'):
             self.created = post_json["created"]
         else:
             self.created = post_json["@timestamp"]
-        self.content_img_url = post_json["content_img_url"]
+
+        url_util = Url()
+        media_url = url_util.get_url_from_string(post_json["content_img_url"])
+        if not media_url:
+            # see if text field has a url in it
+            media_url = url_util.get_url_from_string(post_json["text"].encode("utf-8"))
+        self.content_img_url = media_url
         self.user_img_url = post_json["user_img_url"]
+
         if post_json.get('source'):
             self.source = post_json["source"]
         else:
             self.source = post_json["type"]
+
         self.up_votes = post_json["up_votes"]
         self.user_id = post_json["user_id"]
         self.username = post_json["username"]
         self.place_name = post_json["place_name"]
+
         if post_json.get("user_profile_url"):
             self.user_profile_url = post_json["user_profile_url"]
         else:
             self.user_profile_url = User().get_profile_url(userid = self.user_id, source=self.source, username=self.username)
+
         self.coord = post_json["coord"]
     def get_as_dict(self):
         d = {"doc_id": self.doc_id, "post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
