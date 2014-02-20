@@ -148,3 +148,23 @@ function peekFromBottomOfScreen(object){
             .scrollTop(elOffset.top - (viewportHeight/2));
 
 };
+
+
+$(document).on('click', "a.post-like", function() {
+        $('#in-progress-wheel').removeClass('hide');
+		var doc_id = $(this).closest("div.main-post").attr("id");
+		var likecount = parseInt($(this).text(), 10);
+        var increment;
+        if($(this).hasClass('btn-info')){
+                increment = -1;
+                $(this).removeClass('btn-info');
+            }
+        else{
+               increment = 1;
+               $(this).addClass('btn-info');
+        }
+        likecount = likecount + increment;
+		var jqxhr = $.get( window.servername + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
+		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
+        $('#in-progress-wheel').addClass('hide');
+	});

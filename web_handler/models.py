@@ -21,7 +21,13 @@ class Post():
               "username" => "zube23"
 }
     '''
-    def __init__(self, doc_id, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
+    def __init__(self, *args):
+        '''allow initizing the object using parameters or a single json '''
+        if len(args) == 1:
+            self.set_using_json(*args)
+        else:
+            self.set(*args)
+    def set(self, doc_id, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
                  username, up_votes =0 ):
         # post_id is the internal _id of elasticsearch store
         self.doc_id = doc_id
@@ -37,12 +43,35 @@ class Post():
         self.place_name = place_name
         self.user_profile_url = User().get_profile_url(userid = user_id, source=source, username=username)
         self.coord = coord
+    def set_using_json(self, post_json):
+        self.doc_id = post_json["doc_id"]
+        self.post_id = post_json["post_id"]
+        self.text = post_json["text"]
+        if post_json.get('created'):
+            self.created = post_json["created"]
+        else:
+            self.created = post_json["@timestamp"]
+        self.content_img_url = post_json["content_img_url"]
+        self.user_img_url = post_json["user_img_url"]
+        if post_json.get('source'):
+            self.source = post_json["source"]
+        else:
+            self.source = post_json["type"]
+        self.up_votes = post_json["up_votes"]
+        self.user_id = post_json["user_id"]
+        self.username = post_json["username"]
+        self.place_name = post_json["place_name"]
+        if post_json.get("user_profile_url"):
+            self.user_profile_url = post_json["user_profile_url"]
+        else:
+            self.user_profile_url = User().get_profile_url(userid = self.user_id, source=self.source, username=self.username)
+        self.coord = post_json["coord"]
     def get_as_dict(self):
         d = {"doc_id": self.doc_id, "post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source,
              "up_votes": self.up_votes, "user_id": self.user_id, "place_name": self.place_name,
              "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username}
-        return d      
+        return d
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
@@ -98,13 +127,18 @@ class Feed_Content():
         else:
             data["up_votes"] = increment
         return data
-    def like_post(self, document_id, increment):
-        f = Feed()
-        d = f.get_by_document_id(document_id)
+    def get_post_by_id(self, doc_id):
+        d = Feed().get_by_document_id(doc_id)
         if (json.loads(d)["hits"]["total"] == 0):
             return None
         else:
-            data = json.loads(d)["hits"]["hits"][0]
+            return json.loads(d)["hits"]["hits"][0]
+    def like_post(self, document_id, increment):
+        f = Feed()
+        data = self.get_post_by_id(document_id)
+        if not data:
+            return None
+        else:
             d_index = data["_index"]
             d_doctype = data["_type"]
             d_id = document_id

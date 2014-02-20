@@ -9,7 +9,7 @@ import tornado.escape
 import json
 import urllib2
 import urllib
-from models import Feed_Content, Backoffice_content
+from models import Feed_Content, Backoffice_content, Post
 import settings
  
 class BaseHandler(tornado.web.RequestHandler):
@@ -53,6 +53,17 @@ class NativeImageHandler(tornado.web.RequestHandler):
     '''renders the image file in a nice frame'''
     def get(self, img_file_name):
         self.render('native-img.html', imgpath='/static/uploads/{0}'.format(img_file_name))
+class ShowPostHandler(tornado.web.RequestHandler):
+    '''returns json with details of given doc id'''
+    def get(self, doc_id):
+        fc = Feed_Content()
+        data = fc.get_post_by_id(doc_id)
+        if data:
+            d = data["fields"]
+            d["doc_id"] = doc_id
+            self.render('post.html', post=Post(d))
+        else:
+            self.render('page-not-found.html')
 class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler

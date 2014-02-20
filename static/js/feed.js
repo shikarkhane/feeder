@@ -129,6 +129,12 @@ function getAndRenderData(path){
 												    html : '<span class="glyphicon glyphicon-link"></span>'
 												}))
 								.append($('<a/>',{
+													'type' : 'button',
+												    'class' : 'btn btn-default',
+												    'href' : '/post/' + id_to_use + '/',
+												    html : '<span class="glyphicon glyphicon-folder-open"></span>'
+												}))
+								.append($('<a/>',{
 								                'type' : 'button',
 							                    'class' : 'btn btn-default placename truncate',
 											    html : this.place_name
