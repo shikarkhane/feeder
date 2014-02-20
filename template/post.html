@@ -4,6 +4,14 @@
  function initialize() {
         var timelabel = moment(formatDate(new Date("{{ post.created }}")), "YYYY-MM-DDTHH:mm:ssZ").fromNow();
         $('#time_since').html(timelabel);
+
+        var viewportWidth = jQuery(window).width();
+        if ( viewportWidth > 350 ){
+            viewportWidth = 350;
+        }
+        $('#popular-frame').width(viewportWidth);
+        $('#popular-frame').height(viewportWidth);
+
         var map_canvas = document.getElementById('mapCanvas');
         var map_options = {
           center: new google.maps.LatLng({{ post.coord }}),
@@ -23,12 +31,19 @@
 
 {% block feed %}
 
+    {% if post.content_img_url %}
+        <div class="row post-top" style="margin-bottom:5px;">
+            <img id="popular-frame" href="{{ post.content_img_url }}" align="middle">
+
+
+        </div>
+    {% end if %}
 
 <div id="{{ post.doc_id }}" class="main-post panel-body breadcrumb">
     <div id="{{ post.post_id }}" class="content_link"></div>
     <div class="btn btn-default coord">{{ post.coord }}</div>
 
-    <div class="row post-top">
+    <div class="row post-middle">
         <div class="col-md-1 pull-right">
             <img src="/static/images/{{ post.source }}_post.png" class="img-responsive content-provider-logo pull-right">
         </div>

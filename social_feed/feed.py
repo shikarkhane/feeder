@@ -155,6 +155,63 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
+    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source='instagram'):
+        # { "up_votes" : {"order" : "desc"}},
+        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        sortby = []
+        if sort:
+            sortby.append({ "up_votes" : {"order" : "desc"}})
+        sortby.append({ "@timestamp" : {"order" : "desc"}})
+        sortby.append({
+                                "_geo_distance" : {
+                                              "coord" : {
+                                                             "lat" : coord[0],
+                                                            "lon" : coord[1]
+                                                    },
+                                            "order" : "asc",
+                                            "unit" : "km"
+                                }
+                            })
+
+        data = {
+                "from" : q_from, "size" : q_size,
+                "fields" : self.field_list,
+                "sort" : sortby
+                }
+        from_date_filter = {
+            "range" : {
+               "@timestamp" : {
+                  "lte" : from_datetime
+               }
+            }
+         }
+        coord_filter = {
+                "geo_distance" : {
+                    "distance" : "{0}km".format(radius),
+                    "coord" : {
+                        "lat" : coord[0],
+                        "lon" : coord[1]
+                    }
+                }
+            }
+        data["query"] = {"filtered":{"filter" :{"bool":{"must":[coord_filter, from_date_filter]}}}}
+
+        if encoded_tags:
+            data["query"]["filtered"]["query"]= {
+                              "terms":
+                                {
+                                "text" : encoded_tags.split(','),
+                                "minimum_should_match" : 1
+                                }
+                              }
+        else:
+            data["query"]["filtered"]["query"] = {"match_all" : {}}
+
+        # have to send the data as JSON
+        data = json.dumps(data)
+        req = urllib2.Request(url, data)
+        out = urllib2.urlopen(req)
+        return out.read()
     def get_by_document_id(self, document_id):
         # fetch the document by the id
         url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))

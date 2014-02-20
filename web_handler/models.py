@@ -128,8 +128,31 @@ class Feed_Content():
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
         return data
+    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
+        f = Feed()
+        data = []
+        result = json.loads(f.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source))
+        if result["hits"]["total"] > 0:
+            for p in result["hits"]["hits"]:
+                field = p["fields"]
+                try:
+                    url_util = Url()
+                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    if not media_url:
+                        # see if text field has a url in it
+                        media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
+                    data.append(Post( p["_id"], field.get("post_id"), field.get("text").encode("utf-8"), Date().get_obj(field.get("@timestamp")),
+                                      media_url, field.get("user_img_url"), field.get("type"), field.get("user_id"),
+                                      field.get("place_name"), field.get("coord"), field.get("username"), field.get("up_votes")))
+                except Exception, e:
+                    print str(e), p
+                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+        return data
     def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort)
+        return [(d.get_as_dict()) for d in data]
+    def get_popular_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
+        data = self.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source)
         return [(d.get_as_dict()) for d in data]
     def increment_upvote(self,data, increment):
         '''this method should be removed in future when post object is being passed everywhere'''

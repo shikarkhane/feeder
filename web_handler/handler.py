@@ -74,7 +74,6 @@ class MainHandler(tornado.web.RequestHandler):
         f = Feed_Content()
         posts = f.get_random_feed_as_json(q_from_datetime, q_from, q_page_size, q_encoded_tags, int(q_radius), int(q_sort))
         self.write(json.dumps(posts))
-        #self.render("feed.html",next_link = next_link, posts=posts)
 class GeoHandler(tornado.web.RequestHandler):
     '''
     handler to find data around coordinates
@@ -86,7 +85,19 @@ class GeoHandler(tornado.web.RequestHandler):
         coord = [q_latitude,q_longitude]
         posts = f.get_feed_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, q_encoded_tags, int(q_radius), int(q_sort))
         self.write(json.dumps(posts))
-        #self.render("feed.html",next_link = next_link, posts=posts)
+class PopularHandler(tornado.web.RequestHandler):
+    '''
+    handler to find popular data around coordinates
+    '''
+    def get(self, q_from_datetime, q_from=0, q_page_size = 10, q_radius = 10, q_sort=0, q_latitude = 58, q_longitude = 16,
+            q_source='instagram'):
+        if int(q_page_size) > 50:
+            q_page_size = 50
+        f = Feed_Content()
+        coord = [q_latitude,q_longitude]
+        posts = f.get_popular_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, None,
+                                                 int(q_radius), 1, q_source)
+        self.write(json.dumps(posts))
 class BackofficeHandler(BaseHandler):
     '''
     tipoff admin page

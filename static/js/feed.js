@@ -6,13 +6,17 @@ function setFromPosition(){
 
 function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes){
 			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
+			var popular_path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/4/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
 	  		if (!($.cookie('MyLat') == null)){			  				
 	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
+	    			popular_path = popular_path +  "location/" + mylat + "/" +  mylon + "/";
 	    		}
 	    	if (myfiltertags){
 	    		path = path + "tags/" + myfiltertags + "/";
+	    		popular_path = popular_path + "tags/" + myfiltertags + "/";
 	    	}
-			getAndRenderData(path);
+	    	popular_path = popular_path + "source/instagram/";
+			getAndRenderData(path, popular_path);
 			handlePageNumber(1, q_pagesize);
 
 };
@@ -51,7 +55,7 @@ function checkIfMainFeedEmpty(){
         addNoFeedAvailable();
     }
 };
-function getAndRenderData(path){
+function getAndRenderData(path, popular_path){
             moment.lang('en', {
                 relativeTime : {
                     future: "in %s",
@@ -71,7 +75,28 @@ function getAndRenderData(path){
             });
 
             $('#in-progress-wheel').removeClass('hide');
-
+            var pop_result = $.get( popular_path, function( data ) {
+					var posts = $.parseJSON(data);
+					var viewportWidth = jQuery(window).width();
+					var sq_pic_size = viewportWidth/2;
+					if (posts[0]){
+					    var id_to_use = 'popular' + posts[0].doc_id;
+                        $('#main-feed').append($('<div/>',{
+                                            'id'    : id_to_use,
+                                            'class' : 'main-post panel-body breadcrumb'
+                                        }));
+                        $('#' + id_to_use).append($('<div/>',{
+                                            'class' : 'row popular'
+                                        }));
+                        $.each(posts, function(){
+                               $('#' + id_to_use + " > div.popular").append($('<div/>',{
+                                        'class' : 'col-xs-6 col-md-3',
+                                        'html' : '<a href="/post/' + this.doc_id + '/" class="thumbnail"><img data-src="'
+                                        + this.content_img_url + '" /></a>'
+                                                }));
+                        });
+					}
+            });
 		  	var result = $.get( path, function( data ) {
 					var posts = $.parseJSON(data);
 					var id_to_use;
@@ -125,11 +150,6 @@ function getAndRenderData(path){
 											}))
 								.append($('<a/>',{
 													'type' : 'button',
-												    'class' : 'btn btn-default post-link hide',
-												    html : '<span class="glyphicon glyphicon-link"></span>'
-												}))
-								.append($('<a/>',{
-													'type' : 'button',
 												    'class' : 'btn btn-default',
 												    'href' : '/post/' + id_to_use + '/',
 												    html : '<span class="glyphicon glyphicon-folder-open"></span>'
@@ -140,9 +160,6 @@ function getAndRenderData(path){
 											    html : this.place_name
 											}))
 							;
-							if (!(this.content_img_url == null)){
-							        $('#' + id_to_use).find('a.post-link').removeClass('hide');
-							    };
 							}
 					});
 							
