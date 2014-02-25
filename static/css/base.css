@@ -37,7 +37,7 @@ body { padding-top: 70px; }
 }
 
 .ajax-loader {
-    position: absolute;
+    position: relative;
     left: 50%;
     top: 50%;
     margin-left: -32px; /* -1 * image width / 2 */
