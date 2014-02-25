@@ -20,6 +20,8 @@
       }
       google.maps.event.addDomListener(window, 'load', initialize);
 
+
+
 {% end %}
 
 {% block feed %}
@@ -31,7 +33,7 @@
     <div class="btn btn-default coord">{{ post.coord }}</div>
 
     {% if post.content_img_url %}
-        <div class="row post-top" style="margin-bottom:5px;">
+        <div id="pop-div" class="row post-top" style="margin-bottom:5px;">
             <div class="col-xs-12 col-md-12">
                 <a href="{{ post.user_profile_url }}" target="_blank" class="thumbnail">
                     <img id="popular-frame" src="{{ post.content_img_url }}" >
@@ -75,4 +77,10 @@
 </div>
 
 
+{% end %}
+
+{% block afterjscripts %}
+$( "#popular-frame" ).error(function() {
+        $('#pop-div').remove();
+});
 {% end %}
