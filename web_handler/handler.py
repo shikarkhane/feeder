@@ -57,6 +57,7 @@ class ShowPostHandler(tornado.web.RequestHandler):
     '''returns json with details of given doc id'''
     def get(self, doc_id):
         fc = Feed_Content()
+        can_delete = 0
         data = fc.get_post_by_id(doc_id)
         if data:
             d = data["fields"]
