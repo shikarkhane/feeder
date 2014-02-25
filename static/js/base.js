@@ -168,3 +168,4 @@ $(document).on('click', "a.post-like", function() {
 		$(this).html('<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + likecount);
         $('#in-progress-wheel').addClass('hide');
 	});
+
