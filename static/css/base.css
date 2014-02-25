@@ -60,3 +60,8 @@ body { padding-top: 70px; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.pop-thumbnail{
+    max-height:75px;
+    max-width:75px;
+}

@@ -77,8 +77,6 @@ function getAndRenderData(path, popular_path){
             $('#in-progress-wheel').removeClass('hide');
             var pop_result = $.get( popular_path, function( data ) {
 					var posts = $.parseJSON(data);
-					var viewportWidth = jQuery(window).width();
-					var sq_pic_size = viewportWidth/2;
 					if (posts[0]){
 					    var id_to_use = 'popular' + posts[0].doc_id;
                         $('#main-feed').append($('<div/>',{
@@ -91,8 +89,8 @@ function getAndRenderData(path, popular_path){
                         $.each(posts, function(){
                                $('#' + id_to_use + " > div.popular").append($('<div/>',{
                                         'class' : 'col-xs-6 col-md-3',
-                                        'html' : '<a href="/post/' + this.doc_id + '/" class="thumbnail"><img data-src="'
-                                        + this.content_img_url + '" /></a>'
+                                        'html' : '<a href="/post/' + this.doc_id + '/" class="thumbnail"><img src="'
+                                        + this.content_img_url + '" class="img-responsive"/></a>'
                                                 }));
                         });
 					}
