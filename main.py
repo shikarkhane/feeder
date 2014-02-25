@@ -1,7 +1,8 @@
 import tornado.ioloop
 import config
 from web_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, \
-    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, NativeImageHandler, ShowPostHandler, PopularHandler
+    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, NativeImageHandler, ShowPostHandler, PopularHandler, \
+    DeleteHandler
 import settings
 
 
@@ -14,6 +15,7 @@ application = tornado.web.Application([
     (r"/backoffice/", BackofficeHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
+    (r"/delete/(\S+)/", DeleteHandler),
     (r"/new/", NewHandler),
     (r"/post/(\S+)/", ShowPostHandler),
     (r"/login/google/", GoogleHandler),

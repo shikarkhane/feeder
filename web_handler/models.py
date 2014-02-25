@@ -180,6 +180,17 @@ class Feed_Content():
             fields = self.increment_upvote(fields, increment)
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
+    def delete_post(self, document_id):
+        f = Feed()
+        data = self.get_post_by_id(document_id)
+        if not data:
+            return False
+        else:
+            d_index = data["_index"]
+            d_doctype = data["_type"]
+            d_id = document_id
+        f.delete_by_document_id(d_index, d_doctype, d_id)
+        return True
     def put_native_post(self, lat, lon, text, image_data_url, file_extn, cityname):
         f = Feed()
         user_id = 0

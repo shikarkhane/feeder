@@ -125,7 +125,15 @@ class LikeHandler(tornado.web.RequestHandler):
         increment = int(increment)
         m = Feed_Content()
         m.like_post(document_id, increment)
-
+class DeleteHandler(BaseHandler):
+    '''
+    delete a tipoff
+    '''
+    def get(self, document_id):
+        email = tornado.escape.xhtml_escape(self.current_user["email"])
+        if email in settings.ADMIN_EMAILS:
+            m = Feed_Content()
+            m.delete_post(document_id)
 class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
