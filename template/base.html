@@ -22,13 +22,7 @@
 <link rel="stylesheet" type="text/css" href="/static/css/base.css">
 
 <!--script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDrCi3SP48DSMYNSlXbNHSiiM_FSfdaJhQ&sensor=true"></script-->
-<script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    
-<script src="/static/bootstrap/js/bootstrap.min.js"></script>
-<script src="/static/moment.js"></script>
-<script src="/static/js/base.js"></script>
-<script src="/static/jquery.cookie.js"></script>
+
 <!-- google analytics -->
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -40,11 +34,7 @@
   ga('send', 'pageview');
 
 </script>
-{% block includejs %}
-{% end %}
-<script>{% block jscripts %}
-{% end %}
-</script>
+
 	</head>
 <body>
 
@@ -94,7 +84,15 @@
 		{% end %}
 	</div>
 <img id="in-progress-wheel" src="/static/images/loading.gif" class="ajax-loader hide"/>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/moment.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+{% block afterincludejs %}
+{% end %}
 <script>{% block afterjscripts %}
 {% end %}
 </script>

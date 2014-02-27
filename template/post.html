@@ -1,36 +1,5 @@
 {% extends "base.html" %}
 
-{% block jscripts %}
- function initialize() {
-        var timelabel = moment(formatDate(new Date("{{ post.created }}")), "YYYY-MM-DDTHH:mm:ssZ").fromNow();
-        $('#time_since').html(timelabel);
-
-        var map_canvas = document.getElementById('mapCanvas');
-        var map_options = {
-          center: new google.maps.LatLng({{ post.coord }}),
-          zoom: 14,
-          mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var map = new google.maps.Map(map_canvas, map_options)
-        var marker = new google.maps.Marker({
-                   map: map,
-                   draggable: false,
-                   position: new google.maps.LatLng({{ post.coord }})
-       });
-      }
-      google.maps.event.addDomListener(window, 'load', initialize);
-
-$(function() {
-    $('#home-brand > span').attr('class', 'glyphicon glyphicon-chevron-left');
-});
-
-$(document).on('click', "#home-brand", function(event){
-        parent.history.back();
-        return false;
-});
-
-{% end %}
-
 {% block feed %}
 
 
@@ -84,15 +53,17 @@ $(document).on('click', "#home-brand", function(event){
             </a>
         {% end if %}
     </div>
-    <div id="mapCanvas" > </div>
+
 
 </div>
 
 
 {% end %}
 
+{% block afterincludejs %}
+            <script src="/static/js/location.js"></script>
+            <script src="/static/js/utility.js"></script>
+            <script src="/static/js/post.js"></script>
+{% end %}
 {% block afterjscripts %}
-$( "#popular-frame" ).error(function() {
-        $('#pop-div').remove();
-});
 {% end %}

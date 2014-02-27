@@ -1,10 +1,34 @@
 {% extends "base.html" %}
 
-{% block includejs %}
-<script src="/static/js/feed.js"></script>
+{% block nav %}
+	          <!--form class="navbar-form navbar-right" role="search">
+	            <div class="form-group">
+	              <input id="txtfiltertags" class="form-control tags" placeholder="filter by tags(,)" type="text">
+	            </div>
+	            <button id="btnfiltertags" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+	          </form-->
 {% end %}
-{% block jscripts %}
+{% block feed %}
 
+	<div id="main-feed" class="main-feed panel panel-default">
+
+	</div>
+<div id="footer" class="breadcrumb">
+<blockquote>
+The worst thing one can do is not to try, to be aware of what one wants and not give in to it, to spend years in silent hurt wondering if something could have materialized - never knowing.
+<small>- Jim Rohn</small>
+</blockquote>
+</div>
+
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/location.js"></script>
+            <script src="/static/js/usability.js"></script>
+            <script src="/static/js/utility.js"></script>
+            <script src="/static/js/feed.js"></script>
+{% end %}
+{% block afterjscripts %}
 	var url = window.location.pathname;
 	var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
 	if (!($('<a>').prop('href', url).prop('port') == null)){
@@ -12,15 +36,20 @@
         $.cookie('myservername', servername, { path: '/'});
 	}
 	var default_pagesize = new Number(10);
-	var pageload_utctime = moment.utc().valueOf(); 
-	
+	var pageload_utctime = moment.utc().valueOf();
+
+    $(function() {
+        setLocalityName();
+    });
+
+
 	function setCoordinateCookie(position){
             //alert('set coord');
 		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 			$("#main-feed").empty();
 			$.cookie('FromPosition', 0, { path: '/'});
-			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
 			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
@@ -29,12 +58,12 @@
             setLocationBasedOnIpaddress();
             $('#in-progress-wheel').addClass('hide');
 	};
-	
+
 	$(function() {
 			if (!($.cookie('FirstTimeUser'))){
 				window.location.replace("/we/firsttimeuser/");
 			};
-			
+
 			$.cookie('FromPosition', 0, { path: '/'});
 			$.cookie('myFilterTags', '', { path: '/'});
 			if (!($.cookie('mysearchradius'))){
@@ -43,9 +72,9 @@
 			if (!($.cookie('mysortbyvotes'))){
 				$.cookie('mysortbyvotes', 0, { path: '/'});
 			}
-			
+
 			window.pageload_utctime = moment.utc().valueOf();
-			
+
 			if (!($.cookie('MyLat')) && navigator.geolocation){
                 $('#in-progress-wheel').removeClass('hide');
                 navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
@@ -53,32 +82,32 @@
 			else{
 				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
 					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
-			
+
 			};
 	});
 
 	$.fn.isOnScreen = function(){
-	    
+
 	    var win = $(window);
-	    
+
 	    var viewport = {
 	        top : win.scrollTop(),
 	        left : win.scrollLeft()
 	    };
 	    viewport.right = viewport.left + win.width();
 	    viewport.bottom = viewport.top + win.height();
-	    
+
 	    var bounds = this.offset();
 	    bounds.right = bounds.left + this.outerWidth();
 	    bounds.bottom = bounds.top + this.outerHeight();
-	    
+
 	    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-	    
+
 	};
- 	
+
 	$(window).scroll(function(){
-		if(($('#footer').isOnScreen())){  
-							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'), 
+		if(($('#footer').isOnScreen())){
+							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'),
 							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 						}
 	});
@@ -121,7 +150,7 @@
 		$("#main-feed").empty();
 		$.cookie('FromPosition', 0, { path: '/'});
 		window.pageload_utctime = moment.utc().valueOf();
-		getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'), 
+		getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
 		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
 
         $('button.navbar-toggle').trigger('click');
@@ -133,32 +162,5 @@ $(function() {
     $('#home-brand > span').attr('class', 'glyphicon glyphicon-home');
     $('#home-brand').attr('href', '/');
 });
-
-
-{% end %}
-{% block nav %}
-	          <!--form class="navbar-form navbar-right" role="search">
-	            <div class="form-group">
-	              <input id="txtfiltertags" class="form-control tags" placeholder="filter by tags(,)" type="text">
-	            </div>
-	            <button id="btnfiltertags" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
-	          </form-->
-{% end %}
-{% block feed %}
-
-	<div id="main-feed" class="main-feed panel panel-default">
-	
-	</div>
-<div id="footer" class="breadcrumb">
-<blockquote>
-The worst thing one can do is not to try, to be aware of what one wants and not give in to it, to spend years in silent hurt wondering if something could have materialized - never knowing.
-<small>- Jim Rohn</small>
-</blockquote>
-</div>
-
-{% end %}
-
-
-{% block afterjscripts %}
 
 {% end %}

@@ -1,14 +1,5 @@
 {% extends "base.html" %}
 
-{% block jscripts %}
-
-	$(document).on('click', "#gotit", function() {
-		$.cookie('FirstTimeUser', 1, { expires: 30, path: '/'});
-		window.location.replace("/");
-	});
-
-{% end %}
-
 {% block feed %}
 
 
@@ -19,4 +10,11 @@
   <p><a id="gotit" class="btn btn-primary btn-lg" role="button" >Got it!</a></p>
 </div>
     
+{% end %}
+
+
+{% block afterincludejs %}
+            <script src="/static/js/firsttimeuser.js"></script>
+{% end %}
+{% block afterjscripts %}
 {% end %}
