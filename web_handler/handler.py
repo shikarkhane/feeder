@@ -57,12 +57,21 @@ class ShowPostHandler(tornado.web.RequestHandler):
     '''returns json with details of given doc id'''
     def get(self, doc_id):
         fc = Feed_Content()
-        can_delete = 0
+        can_delete = False
+        try:
+            user_json = self.get_secure_cookie("user")
+            if user_json:
+                email = tornado.escape.json_decode(user_json)['email']
+                if email in settings.ADMIN_EMAILS:
+                    can_delete = True
+        except Exception, e:
+            #print str(e), p
+            can_delete = False
         data = fc.get_post_by_id(doc_id)
         if data:
             d = data["fields"]
             d["doc_id"] = doc_id
-            self.render('post.html', post=Post(d))
+            self.render('post.html', post=Post(d), can_delete= can_delete)
         else:
             self.render('page-not-found.html')
 class MainHandler(tornado.web.RequestHandler):

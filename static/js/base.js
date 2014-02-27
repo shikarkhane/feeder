@@ -172,4 +172,5 @@ $(document).on('click', "a.post-like", function() {
 $(document).on('click', "#delete-post", function() {
         var doc_id = $(this).closest("div.main-post").attr("id");
 		var jqxhr = $.get( $.cookie('myservername') + 'delete/'+ encodeURIComponent(doc_id) +'/' );
+		window.location.replace("/");
 	});
