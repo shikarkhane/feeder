@@ -197,11 +197,10 @@ class Feed_Content():
         username = 'native'
         current_utc = Date().get_utcnow_str()
         filename = '{0}_{1}.{2}'.format(user_id, Date().get_utcnow_number(), file_extn)
-        img_url = '/native/uploads/{0}/'.format(filename)
         uploaded_img_url = '/static/uploads/{0}'.format(filename)
         if Img().save(uploaded_img_url, image_data_url):
             f.create_native_document(user_id, '/static/images/user_placeholder.png', text, lat, lon, current_utc,
-                                     cityname, img_url, username)
+                                     cityname, uploaded_img_url, username)
 class Backoffice_content():
     '''administrative and analytics'''
     def get_last_1day_period_activity(self):
