@@ -1,36 +1,6 @@
 {% extends "base.html" %}
 
-{% block includejs %}
-{% end %}
-{% block jscripts %}
-	$(function() {
-        var referrer =  get_url_value('next');
-        if (!referrer){referrer = '/'};
-        $.cookie('mypagebeforelogin', referrer, { path: '/'});
 
-
-        if (!($.cookie('MyLat'))){
-            $('#no-coord-warning').removeClass('hide');
-        };
-
-	});
-
-	$(document).on('click', "#btngoogle", function(event){
-		event.preventDefault();
-		window.location.replace("/login/google/");
-	});
-	$(document).on('click', "#btnfacebook", function(event){
-		event.preventDefault();
-		window.location.replace("/login/facebook/");
-	});
-	$(document).on('click', "#btntwitter", function(event){
-		event.preventDefault();
-		window.location.replace("/login/twitter/");
-	});
-
-
-
-{% end %}
 {% block feed %}
 <div id="no-coord-warning" class="hide alert alert-danger">Your location is unknown, please allow browser access to GPS.
 You cannot post a tipoff without a location.</div>
@@ -46,4 +16,10 @@ You cannot post a tipoff without a location.</div>
 <div class="spacer"></div>
 <div class="alert alert-info">We just want real people to post on tipoff, not bots or spammers.</div>
 
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/login.js"></script>
+{% end %}
+{% block afterjscripts %}
 {% end %}

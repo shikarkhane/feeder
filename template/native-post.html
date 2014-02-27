@@ -1,10 +1,25 @@
 {% extends "base.html" %}
 
-{% block includejs %}
-<script src="/static/js/image.js"></script>
-{% end %}
-{% block jscripts %}
 
+{% block feed %}
+
+<div class="row input-group">
+    <h3>Post a tipoff:</h3>
+	<input type="file" id="imageLoader" class="btn btn-info" accept="image/*;capture=camera"/>
+	<div id="divcanvas" class="well"></div>
+    <input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
+   <button id="btn-upload" class="btn btn-default btn-lg btn-block" type="button" disabled="true"><span class="glyphicon glyphicon-upload"></span></button>
+
+</div>
+
+
+
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/image.js"></script>
+{% end %}
+{% block afterjscripts %}
 var image_on_canvas = 0;
 
 $(function() {
@@ -35,7 +50,7 @@ $(function() {
                 };
                 imgEl.src = event.target.result;
 		    }
-		    reader.readAsDataURL(e.target.files[0]);     
+		    reader.readAsDataURL(e.target.files[0]);
 		}
 });
 
@@ -71,26 +86,8 @@ $(document).on('click', "#btn-upload", function() {
                     });
             alert('Your tipoff is being uploaded!\nIt will appear shortly in the listing.');
             window.location.replace("/");
-		}		
+		}
 	});
-{% end %}
-{% block nav %}
-{% end %}
-{% block feed %}
-
-
-<div class="row input-group">
-    <h3>Post a tipoff:</h3>
-	<input type="file" id="imageLoader" class="btn btn-info" accept="image/*;capture=camera"/>
-	<div id="divcanvas" class="well"></div>
-    <input id="tagline" type="text" class="form-control" placeholder="You gotta see this!"/>
-   <button id="btn-upload" class="btn btn-default btn-lg btn-block" type="button" disabled="true"><span class="glyphicon glyphicon-upload"></span></button>
-
-</div>
-
-
 
 {% end %}
-
-
 
