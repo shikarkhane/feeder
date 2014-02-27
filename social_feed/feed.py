@@ -185,6 +185,11 @@ class Feed(object):
                }
             }
          }
+        source_equals = {
+                "term" : {
+                    "type" : source
+                }
+            }
         coord_filter = {
                 "geo_distance" : {
                     "distance" : "{0}km".format(radius),
@@ -194,7 +199,7 @@ class Feed(object):
                     }
                 }
             }
-        data["query"] = {"filtered":{"filter" :{"bool":{"must":[coord_filter, from_date_filter]}}}}
+        data["query"] = {"filtered":{"filter" :{"bool":{"must":[coord_filter, from_date_filter, source_equals]}}}}
 
         if encoded_tags:
             data["query"]["filtered"]["query"]= {

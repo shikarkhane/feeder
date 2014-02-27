@@ -97,7 +97,7 @@ class PopularHandler(tornado.web.RequestHandler):
         f = Feed_Content()
         coord = [q_latitude,q_longitude]
         posts = f.get_popular_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, None,
-                                                 int(q_radius), 1, q_source)
+                                                 int(q_radius), 0, q_source)
         self.write(json.dumps(posts))
 class BackofficeHandler(BaseHandler):
     '''
