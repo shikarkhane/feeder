@@ -171,3 +171,136 @@ function getAndRenderData(path, popular_path){
 
 };
 
+var url = window.location.pathname;
+	var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
+	if (!($('<a>').prop('href', url).prop('port') == null)){
+		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
+        $.cookie('myservername', servername, { path: '/'});
+	}
+	var default_pagesize = new Number(10);
+	var pageload_utctime = moment.utc().valueOf();
+
+    $(function() {
+        setLocalityName();
+    });
+
+
+	function setCoordinateCookie(position){
+            //alert('set coord');
+		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
+			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+			$("#main-feed").empty();
+			$.cookie('FromPosition', 0, { path: '/'});
+			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+            reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
+		 };
+	function couldntFetchPosition(msg){
+			//alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
+            setLocationBasedOnIpaddress();
+            $('#in-progress-wheel').addClass('hide');
+	};
+
+	$(function() {
+			if (!($.cookie('FirstTimeUser'))){
+				window.location.replace("/we/firsttimeuser/");
+			};
+
+			$.cookie('FromPosition', 0, { path: '/'});
+			$.cookie('myFilterTags', '', { path: '/'});
+			if (!($.cookie('mysearchradius'))){
+				$.cookie('mysearchradius', 9, { path: '/'});
+			}
+			if (!($.cookie('mysortbyvotes'))){
+				$.cookie('mysortbyvotes', 0, { path: '/'});
+			}
+
+			window.pageload_utctime = moment.utc().valueOf();
+
+			if (!($.cookie('MyLat')) && navigator.geolocation){
+                $('#in-progress-wheel').removeClass('hide');
+                navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPosition, {timeout:5000});
+			}
+			else{
+				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
+					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+
+			};
+	});
+
+	$.fn.isOnScreen = function(){
+
+	    var win = $(window);
+
+	    var viewport = {
+	        top : win.scrollTop(),
+	        left : win.scrollLeft()
+	    };
+	    viewport.right = viewport.left + win.width();
+	    viewport.bottom = viewport.top + win.height();
+
+	    var bounds = this.offset();
+	    bounds.right = bounds.left + this.outerWidth();
+	    bounds.bottom = bounds.top + this.outerHeight();
+
+	    return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+
+	};
+
+	$(window).scroll(function(){
+		if(($('#footer').isOnScreen())){
+							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'),
+							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+						}
+	});
+
+
+	$(document).on('click', "a.post-link", function() {
+		var content_url = $(this).closest("div.post-bottom").siblings("div.content_link").text();
+		window.open(content_url);
+  		return false;
+	});
+
+
+
+    $(document).on('click', "a.placename", function() {
+        $('#in-progress-wheel').removeClass('hide');
+		var mainpost_id = $(this).closest("div.main-post");
+        var coordinates = $(mainpost_id).find("div.coord").text();
+
+        if ($(this).hasClass('btn-success')){
+                mainpost_id.find("div.mapCanvas").remove();
+                $(this).addClass('btn-default').removeClass('btn-success');
+                $('#in-progress-wheel').addClass('hide');
+                return;
+            };
+        $(this).addClass('btn-success').removeClass('btn-default');
+
+        insert_map(mainpost_id, coordinates);
+        google.maps.event.addDomListener(window, 'resize', insert_map);
+        google.maps.event.addDomListener(window, 'load', insert_map);
+        peekFromBottomOfScreen(mainpost_id.find("div.mapCanvas"));
+        $('#in-progress-wheel').addClass('hide');
+	});
+
+	$(document).on('click', "#btnfiltertags", function(event){
+		event.preventDefault();
+        $('#in-progress-wheel').removeClass('hide');
+		var filterstring = $('#txtfiltertags').val().replace(/\s+/g, '');
+		var myencodedfiltertags = encodeURIComponent(filterstring);
+		$.cookie('myFilterTags',  myencodedfiltertags, { expires: getDate30MinFromNow(), path: '/'});
+		$("#main-feed").empty();
+		$.cookie('FromPosition', 0, { path: '/'});
+		window.pageload_utctime = moment.utc().valueOf();
+		getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
+		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+
+        $('button.navbar-toggle').trigger('click');
+        $('#in-progress-wheel').addClass('hide');
+
+	});
+
+$(function() {
+    $('#home-brand > span').attr('class', 'glyphicon glyphicon-home');
+    $('#home-brand').attr('href', '/');
+});
