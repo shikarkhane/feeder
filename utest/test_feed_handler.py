@@ -4,7 +4,7 @@ Created on Oct 3, 2013
 @author: nikhil
 '''
 import unittest
-from web_handler.models import Feed_Content, Post
+from feed_handler.models import Feed_Content, Post
 
 class Test_Models(unittest.TestCase):
     def setUp(self):

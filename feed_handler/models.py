@@ -1,4 +1,4 @@
-from social_feed.feed import Feed
+from backend.feed import Feed
 import json
 from common.utility import Url, Img, Location, Date, User
 

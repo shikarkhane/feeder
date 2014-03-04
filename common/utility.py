@@ -8,6 +8,8 @@ from datetime import datetime
 import settings
 import urllib2
 import json
+import string
+import random
 
 class User():
     def get_profile_url(self, userid, username, source):
@@ -58,3 +60,8 @@ class Date():
         return obj.strftime(self.format)
     def get_obj(self, date_str):
         return datetime.strptime(date_str, self.format) 
+
+class Random_Data():
+    '''methods in this class generate random data for testing'''
+    def id_generator(self, size=6, chars=string.ascii_uppercase + string.digits):
+        return ''.join(random.choice(chars) for _ in range(size))

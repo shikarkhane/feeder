@@ -4,12 +4,9 @@ Created on Oct 1, 2013
 @author: nikhil
 '''
 import urllib2
-import ConfigParser
 import json
 import settings
 
-config = ConfigParser.RawConfigParser()
-config.read('config.cfg') 
 class Feed(object):
     '''
     everything related to user feeds 
@@ -51,11 +48,11 @@ class Feed(object):
         self.field_list = ["user_id", "username", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url",
                            "content_img_url", "coord", "up_votes"]
     def get_indexes(self):
-        url = '{0}_aliases'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_aliases'.format(settings.ELASTICSEARCH_SERVER_URL)
         response = urllib2.urlopen(url).read()
         return response
     def get_last_1day_period_activity(self):
-        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
         data = {"size":0,"query":{"filtered":{"filter":{"numeric_range":{"@timestamp":{"gte":"now-1d"}}}}},
                 "facets":{"histo1":{"date_histogram":{"field":"@timestamp","interval":"hour"}}}}
         data = json.dumps(data)
@@ -63,7 +60,7 @@ class Feed(object):
         out = urllib2.urlopen(req)
         return out.read()
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
-        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
@@ -100,7 +97,7 @@ class Feed(object):
         return out.read()
     def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         # { "up_votes" : {"order" : "desc"}},
-        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
@@ -157,7 +154,7 @@ class Feed(object):
         return out.read()
     def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source='instagram'):
         # { "up_votes" : {"order" : "desc"}},
-        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}})
@@ -219,7 +216,7 @@ class Feed(object):
         return out.read()
     def get_by_document_id(self, document_id):
         # fetch the document by the id
-        url = '{0}/_search'.format(config.get('elasticsearch', 'server-url'))
+        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
         data = {
                 "fields" : self.field_list
                 }
@@ -233,7 +230,7 @@ class Feed(object):
         return out.read()
     def delete_by_document_id(self, index_name, doc_type, document_id):
         # fetch the document by the id
-        url = '{0}/{1}/{2}/{3}'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type, document_id)
+        url = '{0}/{1}/{2}/{3}'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type, document_id)
         req = urllib2.Request(url)
         req.get_method = lambda: 'DELETE'
         out = urllib2.urlopen(req)
@@ -241,9 +238,9 @@ class Feed(object):
     def create_document(self, index_name, doc_type, json_body, document_id=None):
         # fetch the document by the id
         if document_id:
-            url = '{0}/{1}/{2}/{3}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type, document_id)
+            url = '{0}/{1}/{2}/{3}/'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type, document_id)
         else:
-            url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
+            url = '{0}/{1}/{2}/'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type)
         req = urllib2.Request(url, json_body)
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)
@@ -251,7 +248,7 @@ class Feed(object):
     def create_native_document(self, user_id, user_img_url, text, lat, lon, post_time, location_name, content_url,
                                username, index_name = settings.NATIVE_INDEX, doc_type = settings.NATIVE_TYPE):
         # fetch the document by the id
-        url = '{0}/{1}/{2}/'.format(config.get('elasticsearch', 'server-url'), index_name, doc_type)
+        url = '{0}/{1}/{2}/'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type)
         json_body = {"text": text, "lang" : "na", "@timestamp" : post_time, "type" : doc_type,
             "post_id" : 0, "up_votes" : 0, "user_mention" : None, "place_name" : location_name,
             "user_id" : user_id, "user_img_url" : user_img_url, "content_img_url" : content_url,

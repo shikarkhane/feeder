@@ -4,14 +4,56 @@ Created on Oct 1, 2013
 @author: nikhil
 '''
 import unittest
-from social_feed import feed
+from backend import feed, subscriber
 import json
-import config
 from time import sleep
+from common.utility import Random_Data
 
-class Test_feed(unittest.TestCase):
+class Test_subscriber(unittest.TestCase):
     def setUp(self):
-        config.create_config_file("mainkey","mainvalue")
+        self.email = 'test'
+        self.document_id = ''
+        self.s = subscriber.Subscribe()
+        self.sleep_in_sec = 2 # cause default indexing delay is 1 sec in elasticsearch
+    def test_subscriber_add(self):
+        rd = Random_Data()
+        self.email = '{0}@{1}.com'.format(rd.id_generator(), rd.id_generator())
+        r = json.loads(self.s.add(self.email))
+        self.assertEqual(r['ok'], True)
+        self.document_id = r['_id']
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists(self.email), True)
+    def test_subscriber_remove(self):
+        self.test_subscriber_add()
+        sleep(self.sleep_in_sec)
+        self.s.remove(self.document_id)
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists(self.email), False)
+    def test_subscriber_remove_by_email(self):
+        self.test_subscriber_add()
+        sleep(self.sleep_in_sec)
+        self.s.remove_by_email(self.email)
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists(self.email), False)
+    def test_subscriber_get(self):
+        self.test_subscriber_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get(self.document_id))
+        e = ''
+        if r["hits"]["total"] > 0:
+            for p in r["hits"]["hits"]:
+                e = p['_source']['email']
+        self.assertEqual(self.email, e)
+    def test_subscriber_get_by_email(self):
+        self.test_subscriber_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get_by_email(self.email))
+        e = ''
+        if r["hits"]["total"] > 0:
+            for p in r["hits"]["hits"]:
+                e = p['_source']['email']
+        self.assertEqual(self.email, e)
+class Test_feed(unittest.TestCase):
     def tearDown(self):
         pass
     def test_feed_index_exists(self):
