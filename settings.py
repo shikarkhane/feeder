@@ -1,6 +1,9 @@
 import os
 DEBUG = True
 DIRNAME = os.path.dirname(__file__)
+SERVER_NAME='http://localhost:8888'
+ELASTICSEARCH_SERVER_URL = 'http://localhost:9200'
+ELASTICSEARCH_INDEX_ALIAS = 'logstash-2013.10.01'
 STATIC_PATH = os.path.join(DIRNAME, 'static')
 TEMPLATE_PATH = os.path.join(DIRNAME, 'template')
 NATIVE_INDEX = 'logstash-native'
@@ -13,3 +16,4 @@ TWITTER_CONSUMER_KEY=''
 TWITTER_CONSUMER_SECRET=''
 FACEBOOK_API_KEY=''
 FACEBOOK_SECRET=''
+GOOGLE_API_KEY=''
