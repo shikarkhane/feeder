@@ -44,6 +44,9 @@ function addNoFeedAvailable(){
                                         'class' : 'label label-warning',
                                         html : ' No data available right now. Check again in a bit.'
                                     }));
+        if ( ! ($.cookie('subscribed'))){
+            $('#div-subscribe').removeClass('hide');
+        }
 };
 
 function checkIfMainFeedEmpty(){

@@ -22,3 +22,8 @@ function getDate30MinFromNow(){
     if(param=(new RegExp('[?&]'+encodeURIComponent(param)+'=([^&]*)')).exec(location.search))
         return decodeURIComponent(param[1]);
 };
+
+function isValidEmail( email ){
+  var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  return regex.test(email);
+};
