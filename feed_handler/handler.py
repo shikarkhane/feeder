@@ -11,7 +11,8 @@ import urllib2
 import urllib
 from models import Feed_Content, Backoffice_content, Post
 import settings
- 
+from backend.fetcher import Fetcher
+
 class BaseHandler(tornado.web.RequestHandler):
     def get_current_user(self):
         user_json = self.get_secure_cookie("user")
@@ -90,6 +91,9 @@ class GeoHandler(tornado.web.RequestHandler):
         f = Feed_Content()
         coord = [q_latitude,q_longitude]
         posts = f.get_feed_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, q_encoded_tags, int(q_radius), int(q_sort))
+        if len(posts) == 0:
+            # register coord with fetcher to fetch data
+            Fetcher(q_latitude, q_longitude).add()
         self.write(json.dumps(posts))
 class PopularHandler(tornado.web.RequestHandler):
     '''
