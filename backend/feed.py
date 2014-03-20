@@ -105,8 +105,8 @@ class Feed(object):
         sortby.append({
                                 "_geo_distance" : {
                                               "coord" : {
-                                                             "lat" : coord[0],
-                                                            "lon" : coord[1]
+                                                             "lat" : int(coord[0]),
+                                                            "lon" : int(coord[1])
                                                     },
                                             "order" : "asc",
                                             "unit" : "km"
@@ -129,8 +129,8 @@ class Feed(object):
                 "geo_distance" : {
                     "distance" : "{0}km".format(radius),
                     "coord" : {
-                        "lat" : coord[0],
-                        "lon" : coord[1]
+                        "lat" : int(coord[0]),
+                        "lon" : int(coord[1])
                     }
                 }
             } 
@@ -162,8 +162,8 @@ class Feed(object):
         sortby.append({
                                 "_geo_distance" : {
                                               "coord" : {
-                                                             "lat" : coord[0],
-                                                            "lon" : coord[1]
+                                                             "lat" : int(coord[0]),
+                                                            "lon" : int(coord[1])
                                                     },
                                             "order" : "asc",
                                             "unit" : "km"
@@ -191,8 +191,8 @@ class Feed(object):
                 "geo_distance" : {
                     "distance" : "{0}km".format(radius),
                     "coord" : {
-                        "lat" : coord[0],
-                        "lon" : coord[1]
+                        "lat" : int(coord[0]),
+                        "lon" : int(coord[1])
                     }
                 }
             }

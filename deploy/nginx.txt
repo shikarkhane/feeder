@@ -1,0 +1,58 @@
+ apt-get install nginx
+ sudo service nginx start
+ cp /etc/nginx/sites-available/default /etc/nginx/sites-available/tipoff
+ # edit with below config - nano /etc/nginx/sites-available/tipoff
+ ln -s /etc/nginx/sites-available/tipoff /etc/nginx/sites-enabled/tipoff
+ rm /etc/nginx/sites-enabled/default
+ sudo service nginx restart
+
+
+# copy paste the following config
+charset utf-8;
+
+# Enumerate all the Tornado servers here
+upstream frontends {
+server 127.0.0.1:8888;
+}
+
+
+access_log /var/log/nginx/access.log;
+
+proxy_read_timeout 200;
+gzip_min_length 1000;
+gzip_proxied any;
+gzip_types text/plain text/css text/xml
+application/x-javascript application/xml
+application/atom+xml text/javascript;
+
+# Only retry if there was a communication error, not a timeout
+# on the Tornado server (to avoid propagating "queries of death"
+# to all frontends)
+proxy_next_upstream error;
+
+server {
+listen 80;
+
+location ^~ /static/ {
+root /home/ubuntu/tipoff/feeder;
+if ($query_string) {
+expires max;
+}
+}
+
+location / {
+proxy_pass_header Server;
+proxy_set_header Host $http_host;
+proxy_redirect off;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_set_header X-Scheme $scheme;
+proxy_pass http://frontends;
+
+if ($http_user_agent !~* "iphone") {
+expires max;
+}
+if ($http_user_agent ~* "agent1|agent2|Foo|Wget|Catall Spider|AcoiRobot" ) {
+    return 403;
+}
+}
+}
