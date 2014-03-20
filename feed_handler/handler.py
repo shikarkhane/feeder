@@ -64,11 +64,9 @@ class ShowPostHandler(tornado.web.RequestHandler):
         except Exception, e:
             #print str(e), p
             can_delete = False
-        data = fc.get_post_by_id(doc_id)
-        if data:
-            d = data["fields"]
-            d["doc_id"] = doc_id
-            self.render('post.html', post=Post(d), can_delete= can_delete)
+        d = fc.get_post(doc_id)
+        if d:
+            self.render('post.html', post=d, can_delete= can_delete)
         else:
             self.render('page-not-found.html')
 class MainHandler(tornado.web.RequestHandler):

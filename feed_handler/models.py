@@ -45,38 +45,39 @@ class Post():
         self.coord = coord
     def set_using_json(self, post_json):
         self.doc_id = post_json["doc_id"]
-        self.post_id = post_json["post_id"]
-        self.text = post_json["text"]
+        post_json = post_json["fields"]
+        self.post_id = post_json["post_id"][0]
+        self.text = post_json["text"][0]
 
         if post_json.get('created'):
-            self.created = post_json["created"]
+            self.created = post_json["created"][0]
         else:
-            self.created = post_json["@timestamp"]
+            self.created = post_json["@timestamp"][0]
 
         url_util = Url()
-        media_url = url_util.get_url_from_string(post_json["content_img_url"])
+        media_url = url_util.get_url_from_string(post_json["content_img_url"][0])
         if not media_url:
             # see if text field has a url in it
-            media_url = url_util.get_url_from_string(post_json["text"].encode("utf-8"))
+            media_url = url_util.get_url_from_string(post_json["text"][0].encode("utf-8"))
         self.content_img_url = media_url
-        self.user_img_url = post_json["user_img_url"]
+        self.user_img_url = post_json["user_img_url"][0]
 
         if post_json.get('source'):
-            self.source = post_json["source"]
+            self.source = post_json["source"][0]
         else:
-            self.source = post_json["type"]
+            self.source = post_json["type"][0]
 
-        self.up_votes = post_json["up_votes"]
-        self.user_id = post_json["user_id"]
-        self.username = post_json["username"]
-        self.place_name = post_json["place_name"]
+        self.up_votes = post_json["up_votes"][0]
+        self.user_id = post_json["user_id"][0]
+        self.username = post_json["username"][0]
+        self.place_name = post_json["place_name"][0]
 
         if post_json.get("user_profile_url"):
-            self.user_profile_url = post_json["user_profile_url"]
+            self.user_profile_url = post_json["user_profile_url"][0]
         else:
             self.user_profile_url = User().get_profile_url(userid = self.user_id, source=self.source, username=self.username)
 
-        self.coord = post_json["coord"]
+        self.coord = post_json["coord"][0]
     def get_as_dict(self):
         d = {"doc_id": self.doc_id, "post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source,
@@ -154,12 +155,16 @@ class Feed_Content():
     def get_popular_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
         data = self.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source)
         return [(d.get_as_dict()) for d in data]
+    def get_post(self, doc_id):
+        d = self.get_post_by_id(doc_id)
+        d["doc_id"] = doc_id
+        return Post(d)
     def increment_upvote(self,data, increment):
         '''this method should be removed in future when post object is being passed everywhere'''
         if data.get("up_votes"):
-            data["up_votes"] = int(data["up_votes"]) + increment
+            data["up_votes"][0] = int(data["up_votes"][0]) + increment
         else:
-            data["up_votes"] = increment
+            data["up_votes"][0] = increment
         return data
     def get_post_by_id(self, doc_id):
         d = Feed().get_by_document_id(doc_id)
