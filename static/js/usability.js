@@ -12,3 +12,8 @@ function peekFromBottomOfScreen(object){
             .scrollTop(elOffset.top - (viewportHeight/2));
 
 };
+
+// remove the image on error
+$("img").error(function(){
+        $(this).parent().remove();
+});

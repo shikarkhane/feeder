@@ -57,7 +57,3 @@ $(document).on('click', "#delete-post", function() {
 		window.location.replace("/");
 	});
 
-// Hide the image on error
-$("img").error(function(){
-        $(this).parent().remove();
-});
