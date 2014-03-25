@@ -59,5 +59,5 @@ $(document).on('click', "#delete-post", function() {
 
 // Hide the image on error
 $("img").error(function(){
-        $(this).hide();
+        $(this).parent().remove();
 });
