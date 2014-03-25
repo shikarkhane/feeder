@@ -254,6 +254,15 @@ var url = window.location.pathname;
 		if(($('#footer').isOnScreen())){
 							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'),
 							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+							if (!$.cookie('subscribed')){
+							    if ($('div-subscribe').hasClass('hide')){
+							        $('div-subscribe').removeClass('hide').addClass('ajax-loader');
+							    }
+							    else{
+							        $('div-subscribe').addClass('hide');
+							    }
+
+							}
 						}
 	});
 
