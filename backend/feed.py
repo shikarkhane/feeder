@@ -52,7 +52,7 @@ class Feed(object):
         response = urllib2.urlopen(url).read()
         return response
     def get_last_1day_period_activity(self):
-        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
+        url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         data = {"size":0,"query":{"filtered":{"filter":{"numeric_range":{"@timestamp":{"gte":"now-1d"}}}}},
                 "facets":{"histo1":{"date_histogram":{"field":"@timestamp","interval":"hour"}}}}
         data = json.dumps(data)
@@ -60,7 +60,7 @@ class Feed(object):
         out = urllib2.urlopen(req)
         return out.read()
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
-        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
+        url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
@@ -97,7 +97,7 @@ class Feed(object):
         return out.read()
     def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         # { "up_votes" : {"order" : "desc"}},
-        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
+        url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
@@ -154,7 +154,7 @@ class Feed(object):
         return out.read()
     def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source='instagram'):
         # { "up_votes" : {"order" : "desc"}},
-        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
+        url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         sortby = []
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}})
@@ -216,7 +216,7 @@ class Feed(object):
         return out.read()
     def get_by_document_id(self, document_id):
         # fetch the document by the id
-        url = '{0}/_search'.format(settings.ELASTICSEARCH_SERVER_URL)
+        url = '{0}/{1}_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         data = {
                 "fields" : self.field_list
                 }

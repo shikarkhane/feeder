@@ -199,7 +199,7 @@ var url = window.location.pathname;
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
 	function couldntFetchPosition(msg){
-			//alert('Location not found!\n Allow browser to access location services and try again.\nShowing random data!');
+			alert('Location not found!\n Allow browser access to location services!\n Setting location based on IP.');
             setLocationBasedOnIpaddress();
             $('#in-progress-wheel').addClass('hide');
 	};
