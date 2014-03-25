@@ -95,13 +95,13 @@ class Feed_Content():
                 field = p["fields"]
                 try:
                     url_util = Url()
-                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    media_url = url_util.get_url_from_string(field.get("content_img_url")[0])
                     if not media_url:
                         # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field["text"].encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("post_id"), field["text"].encode("utf-8"),  Date().get_obj(field.get("@timestamp")), media_url,
-                                      field.get("user_img_url"), field.get("type"), field.get("user_id"), field.get("place_name"),
-                                      field.get("coord"), field.get("username"), field.get("up_votes")))
+                        media_url = url_util.get_url_from_string(field["text"][0].encode("utf-8"))
+                    data.append(Post( p["_id"], field.get("post_id")[0], field["text"][0].encode("utf-8"),  Date().get_obj(field.get("@timestamp")[0]), media_url,
+                                      field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0], field.get("place_name")[0],
+                                      field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
                 except Exception, e:
                     print str(e), p
                     pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
@@ -118,10 +118,10 @@ class Feed_Content():
                 field = p["fields"]
                 try:
                     url_util = Url()
-                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    media_url = url_util.get_url_from_string(field.get("content_img_url")[0])
                     if not media_url:
                         # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
+                        media_url = url_util.get_url_from_string(field.get("text")[0].encode("utf-8"))
                     data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
                                       field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
@@ -138,10 +138,10 @@ class Feed_Content():
                 field = p["fields"]
                 try:
                     url_util = Url()
-                    media_url = url_util.get_url_from_string(field.get("content_img_url"))
+                    media_url = url_util.get_url_from_string(field.get("content_img_url")[0])
                     if not media_url:
                         # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field.get("text").encode("utf-8"))
+                        media_url = url_util.get_url_from_string(field.get("text")[0].encode("utf-8"))
                     data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
                                       field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
