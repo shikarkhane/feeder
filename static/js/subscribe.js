@@ -1,6 +1,7 @@
 
 
-$( "#form-subscribe" ).submit(function( event ) {
+
+$(document).on('submit', "#form-subscribe", function(event) {
     event.preventDefault();
     var email = $('#inSubscribeEmail').val().replace(/\s+/g, '');
     var lat = $.cookie('MyLat'), lon = $.cookie('MyLon');

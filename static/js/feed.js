@@ -3,7 +3,13 @@ function setFromPosition(){
 			$.cookie('FromPosition', 0, { path: '/'});
 		};
 	};
+function addSubscribePost(addAfterMe){
 
+    var snippet = '<div id="div-subscribe" class="alert alert-info">          <div class="row">            <div class="col-sm-12">                <h3>Subscribe:</h3>                <p>We will update you when fun stuff is happening on tipoff.</p>            </div>        </div>        <div class="row">          <form id="form-subscribe" role="form">            <div class="input-group">              <input id="inSubscribeEmail" type="email" class="form-control" placeholder="motley@gmail.com">              <span class="input-group-btn">                <button id="btnsubscribe" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-ok"></span></button>              </span>            </div>          </form>        </div>	</div>'
+
+	addAfterMe.append(snippet);
+
+}
 function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes){
 			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
 			var popular_path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/4/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
@@ -39,14 +45,11 @@ function handlePageNumber(code, q_pagesize){
 };
 
 function addNoFeedAvailable(){
-		$('#main-feed').html($('<div/>',{
+		$('#main-feed').append($('<div/>',{
 		                                'id' : 'warning-nofeed',
-                                        'class' : 'label label-warning',
-                                        html : ' No data available right now. Check again in a bit.'
+                                        html : '<h3> No data available right now. Check again in a bit.</h3>'
                                     }));
-        if ( ! ($.cookie('subscribed'))){
-            $('#div-subscribe').removeClass('hide');
-        }
+        $('#footer').html('');
 };
 
 function checkIfMainFeedEmpty(){
@@ -163,6 +166,11 @@ function getAndRenderData(path, popular_path){
 							;
 							}
 					});
+
+                    if (! ( $.cookie('subscribed')) ){
+
+					    addSubscribePost($('#main-feed'));
+					}
 							
 
 		    })
@@ -254,15 +262,7 @@ var url = window.location.pathname;
 		if(($('#footer').isOnScreen())){
 							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'),
 							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
-							if (!$.cookie('subscribed')){
-							    if ($('div-subscribe').hasClass('hide')){
-							        $('div-subscribe').removeClass('hide').addClass('ajax-loader');
-							    }
-							    else{
-							        $('div-subscribe').addClass('hide');
-							    }
 
-							}
 						}
 	});
 
