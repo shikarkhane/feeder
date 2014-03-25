@@ -17,6 +17,6 @@ $(document).on('submit', "#form-subscribe", function(event) {
         var jqxhr = $.post( $.cookie('myservername') + 'subscribe/'+ email +'/' + location_url_part );
         $.cookie('subscribed',  true, { expires: 700, path: '/'});
         $('#inSubscribeEmail').val('');
-        $('#div-subscribe').addClass('hide');
+        $('#div-subscribe').remove();
     }
 });
