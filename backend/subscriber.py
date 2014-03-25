@@ -18,9 +18,11 @@ class Subscribe(object):
         self.field_list = ["email"]
         self.index_name = 'subscriber'
         self.index_type = 'email'
-    def add(self, email):
+    def add(self, email, lat=0, lon=0):
         url = '{0}/{1}/{2}'.format(settings.ELASTICSEARCH_SERVER_URL, self.index_name, self.index_type)
         data = {'email' : email}
+        if lat:
+            data["coord"]= "{0},{1}".format(lat,lon)
         # have to send the data as JSON
         data = json.dumps(data)
         req = urllib2.Request(url, data)
@@ -44,7 +46,8 @@ class Subscribe(object):
         self.remove(document_id)
     def get(self, document_id):
         # fetch the document by the id
-        url = '{0}/{1}/{2}/_search?q=_id:{3}'.format(settings.ELASTICSEARCH_SERVER_URL, self.index_name, self.index_type, document_id)
+        url = '{0}/{1}/{2}/_search?q=_id:{3}'.format(settings.ELASTICSEARCH_SERVER_URL, self.index_name,
+                                                     self.index_type, document_id)
         req = urllib2.Request(url)
         out = urllib2.urlopen(req)
         return out.read()

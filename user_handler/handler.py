@@ -10,9 +10,9 @@ class SubscriberHandler(tornado.web.RequestHandler):
     '''
     add emails to subscription list, for sending updates and new features info
     '''
-    def post(self, email):
+    def post(self, email, q_lat=0, q_lon=0):
         s = Subscribe_Updates()
-        r = s.add_email(email)
+        r = s.add_email(email, q_lat, q_lon)
         self.write(str(r))
     def delete(self, email):
         s = Subscribe_Updates()
