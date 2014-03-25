@@ -1,7 +1,7 @@
 import tornado.ioloop
-from feed_handler.handler import GeoHandler, MainHandler, PreHandler, BackofficeHandler, HelperHandler, LikeHandler, \
+from feed_handler.handler import GeoHandler, MainHandler, PreHandler, BOHandler, HelperHandler, LikeHandler, \
     NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, ShowPostHandler, PopularHandler, \
-    DeleteHandler
+    DeleteHandler, BOCookiesHandler
 from user_handler.handler import SubscriberHandler
 import settings
 
@@ -12,7 +12,8 @@ application = tornado.web.Application([
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", GeoHandler),
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/source/(\S+)/", PopularHandler),
-    (r"/backoffice/", BackofficeHandler),
+    (r"/backoffice/home/", BOHandler),
+    (r"/backoffice/cookies/", BOCookiesHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
     (r"/delete/(\S+)/", DeleteHandler),

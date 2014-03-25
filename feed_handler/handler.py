@@ -106,7 +106,7 @@ class PopularHandler(tornado.web.RequestHandler):
         posts = f.get_popular_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, None,
                                                  int(q_radius), 0, q_source)
         self.write(json.dumps(posts))
-class BackofficeHandler(BaseHandler):
+class BOHandler(BaseHandler):
     '''
     tipoff admin page
     '''
@@ -118,6 +118,15 @@ class BackofficeHandler(BaseHandler):
         result = bo.get_last_1day_period_activity()
         #self.write(json.dumps(result))
         self.render("backoffice.html", activity=result)
+class BOCookiesHandler(BaseHandler):
+    '''
+    tipoff admin page
+    '''
+    def get(self):
+        email = tornado.escape.xhtml_escape(self.current_user["email"])
+        if email not in settings.ADMIN_EMAILS:
+            self.render('denied.html')
+        self.render("bo_cookies.html")
 class HelperHandler(tornado.web.RequestHandler):
     '''
     renders static html pages like help, about us, privacy etc

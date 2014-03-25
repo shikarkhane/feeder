@@ -3,6 +3,12 @@
 
 
 {% block feed %}
+
+<ul class="nav nav-tabs">
+  <li class="active"><a href="/backoffice/home/">Home</a></li>
+  <li><a href="/backoffice/cookies/">Cookies</a></li>
+</ul>
+
 	<div id="last-24-hours">
 		   <ul>
       {% for period in activity %}
@@ -10,5 +16,4 @@
       {% end %}
     </ul>
 	</div>
-	  	
 {% end %}

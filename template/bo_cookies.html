@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+
+{% block feed %}
+
+<ul class="nav nav-tabs">
+  <li ><a href="/backoffice/home/">Home</a></li>
+  <li class="active"><a href="/backoffice/cookies/">Cookies</a></li>
+</ul>
+
+<div class="input-group">
+  <span class="input-group-addon">Coordinates(lat,lon)</span>
+  <input id="txt-coordinates" type="text" class="form-control" placeholder="58.29482,17.0842">
+    <span class="input-group-btn">
+        <button id="upd-coordinates" class="btn btn-default" type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </span>
+</div>
+{% end %}
+
+
+
+{% block afterincludejs %}
+            <script src="/static/js/bo_cookies.js"></script>
+{% end %}
