@@ -19,7 +19,7 @@ class Test_subscriber(unittest.TestCase):
         rd = Random_Data()
         self.email = '{0}@{1}.com'.format(rd.id_generator(), rd.id_generator())
         r = json.loads(self.s.add(self.email))
-        self.assertEqual(r['ok'], True)
+        self.assertEqual(r['created'], True)
         self.document_id = r['_id']
         sleep(self.sleep_in_sec)
         self.assertEqual(self.s.exists(self.email), True)
@@ -97,7 +97,7 @@ class Test_feed(unittest.TestCase):
         # get document to be deleted
         res = f.create_document( index_name = d_index, doc_type = d_doctype, document_id = None, json_body = json.dumps(json_data))
         j_res = json.loads(res) 
-        self.assertTrue(j_res["ok"])
+        self.assertTrue(j_res["created"])
         return j_res
     def test_delete_document_by_id(self):
         ''' in elasticsearch with source disabled, we will select, delete existing and insert new'''
