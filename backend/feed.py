@@ -47,6 +47,7 @@ class Feed(object):
     def __init__(self):
         self.field_list = ["user_id", "username", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url",
                            "content_img_url", "coord", "up_votes"]
+        self.set_index_alias()
     def get_indexes(self):
         url = '{0}/_aliases'.format(settings.ELASTICSEARCH_SERVER_URL)
         response = urllib2.urlopen(url).read()
@@ -59,6 +60,11 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
+    def set_index_alias(self):
+        #todo when we will start using elasticsearch 1.1, we can remove this method
+        url = '{0}/logstash-*/_alias/{1}'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
+        req = urllib2.Request(url)
+        out = urllib2.urlopen(req)
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
         url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         sortby = []
