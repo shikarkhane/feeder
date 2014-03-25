@@ -216,7 +216,7 @@ class Feed(object):
         return out.read()
     def get_by_document_id(self, document_id):
         # fetch the document by the id
-        url = '{0}/{1}_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
+        url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         data = {
                 "fields" : self.field_list
                 }
