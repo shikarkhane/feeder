@@ -76,7 +76,10 @@ display: inline;
 }
 
 .show-above{
-    position: relative;
-    display: block;
-    z-index:1;
+    position:absolute;
+    bottom:0px;
+    height:200px;
+    left:0px;
+    right:0px;
+    overflow:hidden;
 }
