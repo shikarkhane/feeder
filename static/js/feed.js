@@ -4,7 +4,7 @@ function setFromPosition(){
 		};
 	};
 function addSubscribePost(addAfterMe){
-
+    if ( $('#div-subscribe').length > 0){return;}
     var snippet = '<div id="div-subscribe" class="alert alert-info">          <div class="row">            <div class="col-sm-12">                <h3>Subscribe:</h3>                <p>We will update you when fun stuff is happening on tipoff.</p>            </div>        </div>        <div class="row">          <form id="form-subscribe" role="form">            <div class="input-group">              <input id="inSubscribeEmail" type="email" class="form-control" placeholder="motley@gmail.com">              <span class="input-group-btn">                <button id="btnsubscribe" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-ok"></span></button>              </span>            </div>          </form>        </div>	</div>'
 
 	addAfterMe.append(snippet);
