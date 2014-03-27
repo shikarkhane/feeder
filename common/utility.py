@@ -10,6 +10,10 @@ import urllib2
 import json
 import string
 import random
+import logging
+
+# Log everything, and send it to stderr.
+logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 class User():
     def get_profile_url(self, userid, username, source):
@@ -34,7 +38,8 @@ class Img():
             with open(settings.DIRNAME + img_file_path ,'w') as f:
                 f.write(img_data)
                 return True
-        except Exception as e:
+        except Exception,e:
+            logging.exception(e)
             return False
 class Location():
     def lookup_city(self, lat, lon):

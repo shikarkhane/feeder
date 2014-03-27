@@ -1,6 +1,11 @@
 from backend.feed import Feed
 import json
+import settings
 from common.utility import Url, Img, Location, Date, User
+import logging
+
+# Log everything, and send it to stderr.
+logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 class Post():
     '''
@@ -103,8 +108,9 @@ class Feed_Content():
                                       field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0], field.get("place_name")[0],
                                       field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
                 except Exception, e:
-                    print str(e), p
-                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    logging.exception(e)
+                    logging.exception(p)
         return data
     def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags, radius, sort):
         data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort)
@@ -126,8 +132,9 @@ class Feed_Content():
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
                                       field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
                 except Exception, e:
-                    print str(e), p
-                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    logging.exception(e)
+                    logging.exception(p)
         return data
     def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
         f = Feed()
@@ -146,8 +153,9 @@ class Feed_Content():
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
                                       field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
                 except Exception, e:
-                    print str(e), p
-                    pass # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
+                    logging.exception(e)
+                    logging.exception(p)
         return data
     def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
         data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort)
