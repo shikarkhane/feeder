@@ -1,7 +1,7 @@
 import tornado.ioloop
 from feed_handler.handler import GeoHandler, MainHandler, PreHandler, BOHandler, HelperHandler, LikeHandler, \
     NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, ShowPostHandler, PopularHandler, \
-    DeleteHandler, BOCookiesHandler
+    DeleteHandler, BOCookiesHandler, PageNotFoundHandler
 from user_handler.handler import SubscriberHandler
 import settings
 
@@ -26,6 +26,8 @@ application = tornado.web.Application([
 
     (r"/subscribe/(\w+[@]\w+[\.]\w+)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", SubscriberHandler),
     (r"/subscribe/(\w+[@]\w+[\.]\w+)/", SubscriberHandler),
+    (r".*", PageNotFoundHandler),
+
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
         cookie_secret=settings.COOKIE_SECRET, login_url="/we/login/",
         twitter_consumer_key=settings.TWITTER_CONSUMER_KEY, twitter_consumer_secret=settings.TWITTER_CONSUMER_SECRET,

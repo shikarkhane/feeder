@@ -21,7 +21,13 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             l = '/we/login/?next={0}'.format(urllib.quote_plus(str(self.request.uri)))
             self.redirect(l)
- 
+
+class PageNotFoundHandler(tornado.web.RequestHandler):
+    '''
+    page not found
+    '''
+    def get(self):
+        self.render("page-not-found.html")
 class PreHandler(tornado.web.RequestHandler):
     '''
     first load to get the basic template, javascripts etc loaded
