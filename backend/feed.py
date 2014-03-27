@@ -64,6 +64,7 @@ class Feed(object):
         #todo when we will start using elasticsearch 1.1, we can remove this method
         url = '{0}/logstash-*/_alias/{1}'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
         req = urllib2.Request(url)
+        req.get_method = lambda: 'PUT'
         out = urllib2.urlopen(req)
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
         url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
