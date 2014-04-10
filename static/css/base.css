@@ -83,3 +83,6 @@ display: block;
     right:0px;
     overflow:hidden;
 }
+#share-buttons{
+    z-index:-1;
+}
