@@ -58,3 +58,45 @@ $(document).on('click', "#delete-post", function() {
 		window.location.replace("/");
 	});
 
+function base_get_servername_from_url(){
+    var url = window.location.pathname;
+    var servername = 'http://' + $('<a>').prop('href', url).prop('hostname');
+	if (!($('<a>').prop('href', url).prop('port') == null)){
+		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port');
+	}
+	return servername;
+};
+
+$(document).on('click', "a.share-buttons-class", function() {
+        event.preventDefault();
+        var pathname = base_get_servername_from_url() + window.location.pathname;
+        var href = "http://www.facebook.com/sharer.php?u=" + pathname;
+        //console.log(this.id);
+        if ( this.id == 'fbshare'){
+            href = "http://www.facebook.com/sharer.php?u=" + pathname;
+        }
+        else if ( this.id == 'twittershare'){
+            href = "http://twitter.com/share?url=" + pathname + "&text=Neighbourhood vibes";
+        }
+        else if ( this.id == 'gplusshare'){
+            href = "https://plus.google.com/share?url=" + pathname;
+        }
+        else if ( this.id == 'diggshare'){
+            href = "http://www.digg.com/submit?url=" + pathname;
+        }
+        else if ( this.id == 'redditshare'){
+            href = "http://reddit.com/submit?url=" + pathname;
+        }
+        else if ( this.id == 'linkedinshare'){
+            href = "http://www.linkedin.com/shareArticle?mini=true&url=" + pathname;
+        }
+        else if ( this.id == 'stumbleuponfbshare'){
+            href = "http://www.stumbleupon.com/submit?url=" + pathname + "&title=Neighbourhood vibes";
+        }
+        else {
+            href = "mailto:?Subject=Neighbourhood vibes&Body=I%20saw%20this%20and%20thought%20of%20you!%20 " + pathname;
+        }
+        console.log(href);
+        window.open(href);
+	});
+
