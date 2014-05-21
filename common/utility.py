@@ -16,6 +16,9 @@ import logging
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 class User():
+    def get_native_post_id(self, userid):
+        #todo change the native post id logic onces we open the feature to all users
+        return "{0}_{1}".format(userid, Date().get_utcnow_number())
     def get_profile_url(self, userid, username, source):
         if (source == 'twitter'):
             return '''https://twitter.com/intent/user?user_id={0}'''.format(userid)

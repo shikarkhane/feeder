@@ -127,8 +127,8 @@ class GeoHandler(tornado.web.RequestHandler):
             coord = [q_latitude,q_longitude]
             posts = f.get_feed_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, q_encoded_tags,
                                                      int(q_radius), int(q_sort))
-            if len(posts) == 0:
-                # register coord with fetcher to fetch data
+            if (len(posts) == 0) and (q_from == 0):
+                # register coord with fetcher to fetch data, if for the first page no data was returned
                 Fetcher(q_latitude, q_longitude).add()
             self.write(json.dumps(posts))
         except Exception,e:

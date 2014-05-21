@@ -6,6 +6,7 @@ Created on Oct 1, 2013
 import urllib2
 import json
 import settings
+from common.utility import User
 
 class Feed(object):
     '''
@@ -257,7 +258,7 @@ class Feed(object):
         # fetch the document by the id
         url = '{0}/{1}/{2}/'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type)
         json_body = {"text": text, "lang" : "na", "@timestamp" : post_time, "type" : doc_type,
-            "post_id" : 0, "up_votes" : 0, "user_mention" : None, "place_name" : location_name,
+            "post_id" : User().get_native_post_id(user_id), "up_votes" : 0, "user_mention" : None, "place_name" : location_name,
             "user_id" : user_id, "user_img_url" : user_img_url, "content_img_url" : content_url,
             "coord" : "{0},{1}".format(lat,lon), "username": username}
         req = urllib2.Request(url, json.dumps(json_body))
