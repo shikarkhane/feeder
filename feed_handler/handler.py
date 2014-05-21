@@ -9,7 +9,7 @@ import tornado.escape
 import json
 import urllib2
 import urllib
-from models import Feed_Content, Backoffice_content, Post
+from models import Feed_Content, Backoffice_content, Post, Category
 import settings
 from backend.fetcher import Fetcher
 import logging
@@ -93,7 +93,7 @@ class ShowPostHandler(tornado.web.RequestHandler):
                 can_delete = False
             d = fc.get_post(doc_id)
             if d:
-                self.render('post.html', post=d, can_delete= can_delete)
+                self.render('post.html', post=d, can_delete= can_delete, categories = Category().get())
             else:
                 self.render('page-not-found.html')
         except Exception,e:
@@ -219,7 +219,20 @@ class DeleteHandler(BaseHandler):
         except Exception,e:
             logging.exception(e)
             self.render("oops.html")
-
+class CategoryHandler(BaseHandler):
+    '''
+    set a category for a post
+    '''
+    def post(self, document_id, category_id):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email in settings.ADMIN_EMAILS:
+                m = Feed_Content()
+                m.categorize_post(document_id, category_id)
+            self.write('Categorized!')
+        except Exception,e:
+            logging.exception(e)
+            self.render("oops.html")
 class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
     def get(self):

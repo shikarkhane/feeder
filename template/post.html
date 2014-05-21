@@ -51,6 +51,18 @@
             <a id="delete-post" type="button" class="btn btn-default">
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
+        <!-- Single button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Category <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                {% for key, value in categories.iteritems() %}
+                    <li><a class="choose-category" href="/post/{{ post.doc_id }}/category/{{value}}/">{{key}}</a></li>
+                {% end %}
+              </ul>
+            </div>
+
         {% end if %}
     </div>
 

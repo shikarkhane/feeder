@@ -27,3 +27,11 @@ $(document).on('click', "#home-brand", function(event){
 $( "#popular-frame" ).error(function() {
         $('#pop-div').remove();
 });
+
+$(document).on('click', "a.choose-category", function(event){
+    event.preventDefault();
+    console.log(this.href);
+    $.post( this.href, function( data ) {
+            console.log(data);
+    });
+});

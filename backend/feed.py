@@ -243,6 +243,15 @@ class Feed(object):
         req.get_method = lambda: 'DELETE'
         out = urllib2.urlopen(req)
         return out.read()
+    def categorize_by_document_id(self, index_name, doc_type, document_id, category_id):
+        # categorize the document by category provided
+        url = '{0}/{1}/{2}/{3}/_update'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type, document_id)
+        data =  { "script" : "ctx._source.category_id = {0}".format(category_id)}
+        data = json.dumps(data)
+        req = urllib2.Request(url, data)
+        req.get_method = lambda: 'POST'
+        out = urllib2.urlopen(req)
+        return out.read()
     def create_document(self, index_name, doc_type, json_body, document_id=None):
         # fetch the document by the id
         if document_id:

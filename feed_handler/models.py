@@ -89,6 +89,10 @@ class Post():
              "up_votes": self.up_votes, "user_id": self.user_id, "place_name": self.place_name,
              "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username}
         return d
+class Category():
+    LIST = {"Alert" : 1, "Gossip" : 2, "Discount" : 3}
+    def get(self):
+        return self.LIST
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
@@ -203,6 +207,17 @@ class Feed_Content():
             d_doctype = data["_type"]
             d_id = document_id
         f.delete_by_document_id(d_index, d_doctype, d_id)
+        return True
+    def categorize_post(self, document_id, category_id):
+        f = Feed()
+        data = self.get_post_by_id(document_id)
+        if not data:
+            return False
+        else:
+            d_index = data["_index"]
+            d_doctype = data["_type"]
+            d_id = document_id
+        f.categorize_by_document_id(d_index, d_doctype, d_id, category_id)
         return True
     def put_native_post(self, lat, lon, text, image_data_url, file_extn, cityname):
         f = Feed()
