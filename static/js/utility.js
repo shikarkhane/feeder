@@ -27,3 +27,12 @@ function isValidEmail( email ){
   var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   return regex.test(email);
 };
+
+function get_servername_from_url(){
+    var url = window.location.pathname;
+    var servername = 'http://' + $('<a>').prop('href', url).prop('hostname')  + '/';
+	if (!($('<a>').prop('href', url).prop('port') == null)){
+		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port') + '/';
+	}
+	return servername;
+};

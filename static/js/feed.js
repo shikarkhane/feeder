@@ -289,8 +289,8 @@ var url = window.location.pathname;
         $(this).addClass('btn-success').removeClass('btn-default');
 
         insert_map(mainpost_id, coordinates);
-        google.maps.event.addDomListener(window, 'resize', insert_map);
-        google.maps.event.addDomListener(window, 'load', insert_map);
+        //google.maps.event.addDomListener(window, 'resize', insert_map);
+        //google.maps.event.addDomListener(window, 'load', insert_map);
         peekFromBottomOfScreen(mainpost_id.find("div.mapCanvas"));
         $('#in-progress-wheel').addClass('hide');
 	});

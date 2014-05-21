@@ -14,6 +14,7 @@ function dataURLtoBlob(dataURL) {
 };
 
 function insert_map(append_to_object, coordinates) {
+   //console.log(coordinates);
     var coord = coordinates.split(',');
    var mapOptions = {
            zoom: 14,
