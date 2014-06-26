@@ -1,30 +1,36 @@
+function change_vote_label( flag ){
+    if (flag == 1){
+        $( "#sort-by" ).text( "Show popular first." );
+    }
+    else{
+        $( "#sort-by" ).text( "Show latest first." );
+    }
+}
+
 $(function() {
+        $( "#search-radius-slider" ).slider({
+          range: "max",
+          min: 1,
+          max: 9,
+          value: $.cookie('mysearchradius'),
+          slide: function( event, ui ) {
+            $( "#search-radius-label" ).text( ui.value );
+            $.cookie('mysearchradius',  ui.value, { path: '/'});
+          }
+        });
+        $( "#search-radius-label" ).text( $.cookie('mysearchradius'));
 
-			if ($.cookie('mysearchradius')){
-				$('#searchradius').val($.cookie('mysearchradius'));
-			}
-			if ($.cookie('mysortbyvotes')==1){
-				$('#sortbyvotes').prop('checked', true);
-			}
-			else{
-				$('#sortbyvotes').prop('checked', false);
-			}
-	});
+        $( "#sort-by-votes-slider" ).slider({
+          range: "max",
+          min: 0,
+          max: 1,
+          step: 1,
+          value: $.cookie('mysortbyvotes'),
+          slide: function( event, ui ) {
+            change_vote_label(ui.value);
+            $.cookie('mysortbyvotes',  ui.value, { path: '/'});
+          }
+        });
+        change_vote_label( $.cookie('mysortbyvotes'));
 
-	$(document).on('click', "#btnsavesettings", function(event){
-		event.preventDefault();
-		var radius = $('#searchradius').val();
-		if($('#sortbyvotes').is(':checked')){
-			$.cookie('mysortbyvotes',  1, { path: '/'});
-		}
-		else{
-			$.cookie('mysortbyvotes',  0, { path: '/'});
-		}
-		if (radius){
-			$.cookie('mysearchradius',  radius, { path: '/'});
-			}
-		else{
-			$.cookie('mysearchradius',  10, { path: '/'});
-		}
-		window.location.replace("/");
-	});
+  });
