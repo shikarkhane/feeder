@@ -30,7 +30,7 @@ $( "#popular-frame" ).error(function() {
 
 $(document).on('click', "a.choose-category", function(event){
     event.preventDefault();
-    console.log(this.href);
+    $('#selected-category').html(this.text);
     $.post( this.href, function( data ) {
             console.log(data);
     });

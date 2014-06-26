@@ -47,7 +47,7 @@ class Feed(object):
     '''
     def __init__(self):
         self.field_list = ["user_id", "username", "place_name", "text", "@timestamp", "type", "post_id", "user_img_url",
-                           "content_img_url", "coord", "up_votes"]
+                           "content_img_url", "coord", "up_votes", "category_id"]
         self.set_index_alias()
     def get_indexes(self):
         url = '{0}/_aliases'.format(settings.ELASTICSEARCH_SERVER_URL)
@@ -235,7 +235,8 @@ class Feed(object):
         data = json.dumps(data) 
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
-        return out.read()
+        t = out.read()
+        return t
     def delete_by_document_id(self, index_name, doc_type, document_id):
         # fetch the document by the id
         url = '{0}/{1}/{2}/{3}'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type, document_id)
@@ -246,7 +247,7 @@ class Feed(object):
     def categorize_by_document_id(self, index_name, doc_type, document_id, category_id):
         # categorize the document by category provided
         url = '{0}/{1}/{2}/{3}/_update'.format(settings.ELASTICSEARCH_SERVER_URL, index_name, doc_type, document_id)
-        data =  { "script" : "ctx._source.category_id = {0}".format(category_id)}
+        data =  { "script" : "ctx._source.category_id = [{0}]".format(category_id)}
         data = json.dumps(data)
         req = urllib2.Request(url, data)
         req.get_method = lambda: 'POST'
@@ -261,7 +262,8 @@ class Feed(object):
         req = urllib2.Request(url, json_body)
         req.get_method = lambda: 'POST'
         out = urllib2.urlopen(req)
-        return out.read()
+        t = out.read()
+        return t
     def create_native_document(self, user_id, user_img_url, text, lat, lon, post_time, location_name, content_url,
                                username, index_name = settings.NATIVE_INDEX, doc_type = settings.NATIVE_TYPE):
         # fetch the document by the id

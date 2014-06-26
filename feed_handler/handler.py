@@ -93,7 +93,8 @@ class ShowPostHandler(tornado.web.RequestHandler):
                 can_delete = False
             d = fc.get_post(doc_id)
             if d:
-                self.render('post.html', post=d, can_delete= can_delete, categories = Category().get())
+                self.render('post.html', post=d, can_delete= can_delete, categories = Category().get(),
+                            selected_category_label= Category().get_key(d.category_id))
             else:
                 self.render('page-not-found.html')
         except Exception,e:

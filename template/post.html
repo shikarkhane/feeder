@@ -53,8 +53,13 @@
             </a>
         <!-- Single button -->
             <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                Category <span class="caret"></span>
+              <button id="selected-category" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  {% if selected_category_label == 0 %}
+                        Category
+                  {% else %}
+                        {{ selected_category_label }}
+                {% end if %}
+                  <span class="caret"></span>
               </button>
               <ul class="dropdown-menu" role="menu">
                 {% for key, value in categories.iteritems() %}

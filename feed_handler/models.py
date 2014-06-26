@@ -33,7 +33,7 @@ class Post():
         else:
             self.set(*args)
     def set(self, doc_id, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
-                 username, up_votes =0 ):
+                 username, up_votes =0, category_id = 0 ):
         # post_id is the internal _id of elasticsearch store
         self.doc_id = doc_id
         self.post_id = post_id
@@ -48,6 +48,7 @@ class Post():
         self.place_name = place_name
         self.user_profile_url = User().get_profile_url(userid = user_id, source=source, username=username)
         self.coord = coord
+        self.category_id = category_id
     def set_using_json(self, post_json):
         self.doc_id = post_json["doc_id"]
         post_json = post_json["fields"]
@@ -77,6 +78,11 @@ class Post():
         self.username = post_json["username"][0]
         self.place_name = post_json["place_name"][0]
 
+        if post_json.get("category_id"):
+            self.category_id = post_json["category_id"][0]
+        else:
+            self.category_id = 0
+
         if post_json.get("user_profile_url"):
             self.user_profile_url = post_json["user_profile_url"][0]
         else:
@@ -87,12 +93,18 @@ class Post():
         d = {"doc_id": self.doc_id, "post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source,
              "up_votes": self.up_votes, "user_id": self.user_id, "place_name": self.place_name,
-             "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username}
+             "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username,
+             "category_id" : self.category_id}
         return d
 class Category():
     LIST = {"Alert" : 1, "Gossip" : 2, "Discount" : 3}
     def get(self):
         return self.LIST
+    def get_key(self, value):
+        for k, v in self.LIST.items():
+            if v == value:
+                return k
+        return 0
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
@@ -195,6 +207,7 @@ class Feed_Content():
             d_id = document_id
             fields = data["fields"]
             fields = self.increment_upvote(fields, increment)
+        # TODO convert the following into a UPDATE like the categorize_post()
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
     def delete_post(self, document_id):
