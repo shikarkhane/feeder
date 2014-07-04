@@ -1,9 +1,8 @@
 
-
 $(document).on('click', "#home-brand", function(event){
     event.preventDefault();
-    console.log(document.referrer);
-    if (document.referrer.length > 0) {
+    //alert(document.referrer);
+    if ((document.referrer.length > 0) && (!am_i_at_homepage())) {
             parent.history.back();
         }
     else{
@@ -115,11 +114,7 @@ $(document).on('click', "a.share-buttons-class", function() {
 
 function am_i_at_homepage(){
     var url = window.location.pathname;
-    var servername = 'http://' + $('<a>').prop('href', url).prop('hostname');
-	if (!($('<a>').prop('href', url).prop('port') == null)){
-		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port');
-	}
-    if (servername === url){
+    if ('/'=== url){
      	return true;
     }
     else{
