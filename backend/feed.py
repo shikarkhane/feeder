@@ -6,7 +6,7 @@ Created on Oct 1, 2013
 import urllib2
 import json
 import settings
-from common.utility import User
+from common.utility import User, Date
 
 class Feed(object):
     '''
@@ -67,9 +67,12 @@ class Feed(object):
         req = urllib2.Request(url)
         req.get_method = lambda: 'PUT'
         out = urllib2.urlopen(req)
-    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
+    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
+
         url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
+        filterdate_in_epoch = Date().get_epoch(abs(filterdays) * (-1))
         sortby = []
+
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
         sortby.append({ "@timestamp" : {"order" : "desc"}})
@@ -81,7 +84,8 @@ class Feed(object):
         from_date_filter = {
             "range" : {
                "@timestamp" : {
-                  "lte" : from_datetime
+                  "lte" : from_datetime,
+                  "gte" : filterdate_in_epoch
                }
             }
          }
@@ -103,10 +107,13 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
+    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays):
         # { "up_votes" : {"order" : "desc"}},
+
         url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
+        filterdate_in_epoch = Date().get_epoch(abs(filterdays) * (-1))
         sortby = []
+
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}}) 
         sortby.append({ "@timestamp" : {"order" : "desc"}})
@@ -129,7 +136,8 @@ class Feed(object):
         from_date_filter = {
             "range" : {
                "@timestamp" : {
-                  "lte" : from_datetime
+                  "lte" : from_datetime,
+                  "gte" : filterdate_in_epoch
                }
             }
          }
@@ -160,10 +168,15 @@ class Feed(object):
         req = urllib2.Request(url, data)
         out = urllib2.urlopen(req)
         return out.read()
-    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source='instagram'):
+    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort,
+                                 source='instagram', filterdays = 100):
         # { "up_votes" : {"order" : "desc"}},
+        # from_datetime is used to keep paging from resetting to a different starting point ( in case of new data)
+
         url = '{0}/{1}/_search'.format(settings.ELASTICSEARCH_SERVER_URL, settings.ELASTICSEARCH_INDEX_ALIAS)
+        filterdate_in_epoch = Date().get_epoch(abs(filterdays) * (-1))
         sortby = []
+
         if sort:
             sortby.append({ "up_votes" : {"order" : "desc"}})
         sortby.append({ "@timestamp" : {"order" : "desc"}})
@@ -186,7 +199,8 @@ class Feed(object):
         from_date_filter = {
             "range" : {
                "@timestamp" : {
-                  "lte" : from_datetime
+                  "lte" : from_datetime,
+                  "gte" : filterdate_in_epoch
                }
             }
          }

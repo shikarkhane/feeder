@@ -107,10 +107,10 @@ class Category():
         return 0
 class Feed_Content():
     '''Provides feed content'''
-    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort):
+    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
         f = Feed()
         data = []
-        result = json.loads(f.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort))
+        result = json.loads(f.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -128,13 +128,14 @@ class Feed_Content():
                     logging.exception(e)
                     logging.exception(p)
         return data
-    def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags, radius, sort):
-        data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort)
+    def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
+        data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays)
         return [(d.get_as_dict()) for d in data]
-    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
+    def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays):
         f = Feed()
         data = []
-        result = json.loads(f.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort))
+        result = json.loads(f.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort,
+                                                    filterdays))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -152,10 +153,12 @@ class Feed_Content():
                     logging.exception(e)
                     logging.exception(p)
         return data
-    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
+    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
+                                 filterdays):
         f = Feed()
         data = []
-        result = json.loads(f.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source))
+        result = json.loads(f.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort,
+                                                       source, filterdays))
         if result["hits"]["total"] > 0:
             for p in result["hits"]["hits"]:
                 field = p["fields"]
@@ -173,11 +176,13 @@ class Feed_Content():
                     logging.exception(e)
                     logging.exception(p)
         return data
-    def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort):
-        data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort)
+    def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays):
+        data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays)
         return [(d.get_as_dict()) for d in data]
-    def get_popular_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source):
-        data = self.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source)
+    def get_popular_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
+                                         filterdays):
+        data = self.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
+                                             filterdays)
         return [(d.get_as_dict()) for d in data]
     def get_post(self, doc_id):
         d = self.get_post_by_id(doc_id)

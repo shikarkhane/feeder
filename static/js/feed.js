@@ -10,9 +10,15 @@ function addSubscribePost(addAfterMe){
 	addAfterMe.append(snippet);
 
 }
-function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes){
-			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
-			var popular_path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/4/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/';
+function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfiltertags, mysearchradius, mysortbyvotes,
+                       myfilterdays){
+            if (!myfilterdays){ myfilterdays = 100; }
+
+			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize
+			            + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/filterdays/' + myfilterdays + '/';
+			var popular_path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/4/radius/"
+			            + mysearchradius + '/sort/' + mysortbyvotes + '/' + myfilterdays + '/';
+
 	  		if (!($.cookie('MyLat') == null)){			  				
 	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
 	    			popular_path = popular_path +  "location/" + mylat + "/" +  mylon + "/";
@@ -203,7 +209,8 @@ var url = window.location.pathname;
 			$("#main-feed").empty();
 			$.cookie('FromPosition', 0, { path: '/'});
 			getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
-			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+			$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'),
+			$.cookie('myfilterdays'));
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
 		 };
 	function couldntFetchPosition(msg){
@@ -222,8 +229,13 @@ var url = window.location.pathname;
 			if (!($.cookie('mysearchradius'))){
 				$.cookie('mysearchradius', 9, { path: '/'});
 			}
+
 			if (!($.cookie('mysortbyvotes'))){
 				$.cookie('mysortbyvotes', 0, { path: '/'});
+			}
+
+			if (!($.cookie('myfilterdays'))){
+				$.cookie('myfilterdays', 29, { path: '/'});
 			}
 
 			window.pageload_utctime = moment.utc().valueOf();
@@ -234,7 +246,8 @@ var url = window.location.pathname;
 			}
 			else{
 				getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
-					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+					$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'),
+					$.cookie('mysortbyvotes'), $.cookie('myfilterdays'));
 
 			};
 	});
@@ -260,8 +273,9 @@ var url = window.location.pathname;
 
 	$(window).scroll(function(){
 		if(($('#footer').isOnScreen())){
-							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'), $.cookie('MyLon'),
-							$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+							getFeedData(window.pageload_utctime, window.default_pagesize, $.cookie('MyLat'),
+							$.cookie('MyLon'), $.cookie('FromPosition'), $.cookie('myFilterTags'),
+							$.cookie('mysearchradius'), $.cookie('mysortbyvotes'), $.cookie('myfilterdays'));
 
 						}
 	});
@@ -305,7 +319,8 @@ var url = window.location.pathname;
 		$.cookie('FromPosition', 0, { path: '/'});
 		window.pageload_utctime = moment.utc().valueOf();
 		getFeedData(window.pageload_utctime, window.default_pagesize*3, $.cookie('MyLat'), $.cookie('MyLon'),
-		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'));
+		$.cookie('FromPosition'), $.cookie('myFilterTags'), $.cookie('mysearchradius'), $.cookie('mysortbyvotes'),
+		$.cookie('myfilterdays'));
 
         $('button.navbar-toggle').trigger('click');
         $('#in-progress-wheel').addClass('hide');

@@ -7,11 +7,11 @@ import settings
 
 
 application = tornado.web.Application([
-    (r"/", PreHandler), (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1})/sort/([0-1]?)/", MainHandler), 
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/tags/(\S+)/", MainHandler), 
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", GeoHandler),
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/source/(\S+)/", PopularHandler),
+    (r"/", PreHandler), (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1})/sort/([0-1]?)/filterdays/([0-9]{1,3})/", MainHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/tags/(\S+)/", MainHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", GeoHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
+    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/source/(\S+)/", PopularHandler),
     (r"/backoffice/home/", BOHandler),
     (r"/backoffice/cookies/", BOCookiesHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),

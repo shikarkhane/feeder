@@ -4,13 +4,14 @@ Created on Oct 22, 2013
 @author: nikhil
 '''
 import re
-from datetime import datetime 
+from datetime import datetime, timedelta
 import settings
 import urllib2
 import json
 import string
 import random
 import logging
+import calendar
 
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
@@ -67,7 +68,10 @@ class Date():
     def get_str(self, obj):
         return obj.strftime(self.format)
     def get_obj(self, date_str):
-        return datetime.strptime(date_str, self.format) 
+        return datetime.strptime(date_str, self.format)
+    def get_epoch(self, add_days):
+        x = datetime.utcnow() + timedelta(days=add_days)
+        return calendar.timegm(x.utctimetuple()) * 1000
 
 class Random_Data():
     '''methods in this class generate random data for testing'''
