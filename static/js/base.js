@@ -1,4 +1,17 @@
 
+
+$(document).on('click', "#home-brand", function(event){
+    event.preventDefault();
+    console.log(document.referrer);
+    if (document.referrer.length > 0) {
+            parent.history.back();
+        }
+    else{
+            window.location.replace(get_servername_from_url());
+    }
+    return false;
+});
+
  // Convert dataURL to Blob object
 function dataURLtoBlob(dataURL) {
     // Decode the dataURL
@@ -100,3 +113,25 @@ $(document).on('click', "a.share-buttons-class", function() {
         window.open(href);
 	});
 
+function am_i_at_homepage(){
+    var url = window.location.pathname;
+    var servername = 'http://' + $('<a>').prop('href', url).prop('hostname');
+	if (!($('<a>').prop('href', url).prop('port') == null)){
+		servername = 'http://' + $('<a>').prop('href', url).prop('hostname') + ':' + $('<a>').prop('href', url).prop('port');
+	}
+    if (servername === url){
+     	return true;
+    }
+    else{
+        return false;
+    }
+}
+
+$(function() {
+    if (am_i_at_homepage()){
+        $('#home-brand > span').attr('class', 'glyphicon glyphicon-home');
+    }
+    else{
+        $('#home-brand > span').attr('class', 'glyphicon glyphicon-chevron-left');
+    }
+});

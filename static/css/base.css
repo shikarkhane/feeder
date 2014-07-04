@@ -84,3 +84,8 @@ display: block;
     right:0px;
     overflow:hidden;
 }
+
+.more-images{
+    max-width: 128px;
+    max-height: 128px;
+}

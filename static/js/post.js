@@ -1,5 +1,5 @@
 $(function() {
-        $('#home-brand > span').attr('class', 'glyphicon glyphicon-chevron-left');
+
 
         var timelabel = moment(formatDate(new Date($('#time_since').text())), "YYYY-MM-DDTHH:mm:ssZ").fromNow();
         $('#time_since').html(timelabel);
@@ -12,17 +12,7 @@ $(function() {
         //google.maps.event.addDomListener(window, 'load', insert_map);
 });
 
-$(document).on('click', "#home-brand", function(event){
-    event.preventDefault();
-    //console.log(document.referrer);
-    if (document.referrer.length > 0) {
-            parent.history.back();
-        }
-    else{
-            window.location.replace(get_servername_from_url());
-    }
-    return false;
-});
+
 
 $( "#popular-frame" ).error(function() {
         $('#pop-div').remove();
