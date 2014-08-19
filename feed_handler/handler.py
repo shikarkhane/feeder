@@ -42,7 +42,7 @@ class PreHandler(tornado.web.RequestHandler):
     '''
     def get(self):
         try:
-            self.render("feed.html")
+            self.render("firsttimeuser.html")
         except Exception,e:
             logging.exception(e)
             self.render("oops.html")
