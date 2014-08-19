@@ -17,7 +17,7 @@ function getFeedData(from_datetime, q_pagesize, mylat, mylon, fromposition, myfi
 			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize
 			            + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/filterdays/' + myfilterdays + '/';
 			var popular_path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/4/radius/"
-			            + mysearchradius + '/sort/' + mysortbyvotes + '/' + myfilterdays + '/';
+			            + mysearchradius + '/sort/' + mysortbyvotes + '/filterdays/' + myfilterdays + '/';
 
 	  		if (!($.cookie('MyLat') == null)){			  				
 	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
