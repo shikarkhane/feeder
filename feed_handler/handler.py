@@ -13,7 +13,7 @@ from models import Feed_Content, Backoffice_content, Post, Category
 import settings
 from backend.fetcher import Fetcher
 import logging
-
+from category.models import Category
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 

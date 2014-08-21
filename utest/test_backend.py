@@ -4,7 +4,7 @@ Created on Oct 1, 2013
 @author: nikhil
 '''
 import unittest
-from backend import feed, subscriber
+from backend import feed, subscriber, category
 import json
 from time import sleep
 from common.utility import Random_Data
@@ -53,6 +53,63 @@ class Test_subscriber(unittest.TestCase):
             for p in r["hits"]["hits"]:
                 e = p['_source']['email']
         self.assertEqual(self.email, e)
+class Test_category(unittest.TestCase):
+    def setUp(self):
+        self.category_id = '1221'
+        self.category_name = 'test-category-1'
+        self.document_id = ''
+        self.s = category.Category()
+        self.sleep_in_sec = 2 # cause default indexing delay is 1 sec in elasticsearch
+    def tearDown(self):
+        if self.s.exists_by_category_id(self.category_id):
+            self.s.remove_by_category_id(self.category_id)
+    def test_category_add(self):
+        rd = Random_Data()
+        self.category_name = '{0}'.format(rd.id_generator())
+        r = json.loads(self.s.add(self.category_id, self.category_name))
+        self.assertEqual(r['created'], True)
+        self.document_id = r['_id']
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists_by_category_name(self.category_name), True)
+    def test_category_remove(self):
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        self.s.remove(self.document_id)
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists_by_category_name(self.category_name), False)
+    def test_category_remove_by_category_name(self):
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        self.s.remove_by_category_name(self.category_name)
+        sleep(self.sleep_in_sec)
+        self.assertEqual(self.s.exists_by_category_name(self.category_name), False)
+    def test_category_get(self):
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get(self.document_id))
+        e = ''
+        if r["hits"]["total"] > 0:
+            for p in r["hits"]["hits"]:
+                e = p['_source']['category_name']
+        self.assertEqual(self.category_name, e)
+    def test_category_get_by_category_name(self):
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get_by_category_name(self.category_name))
+        e = ''
+        if r["hits"]["total"] > 0:
+            for p in r["hits"]["hits"]:
+                e = p['_source']['category_name']
+        self.assertEqual(self.category_name, e)
+    def test_category_get_by_category_id(self):
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get_by_category_id(self.category_id))
+        e = ''
+        if r["hits"]["total"] > 0:
+            for p in r["hits"]["hits"]:
+                e = p['_source']['category_id']
+        self.assertEqual(self.category_id, e)
 class Test_feed(unittest.TestCase):
     def tearDown(self):
         pass
@@ -63,12 +120,12 @@ class Test_feed(unittest.TestCase):
         self.assertGreater(len(data_json),0)
     def test_check_random_feed_data_existence(self):
         f = feed.Feed() 
-        data = f.get_random_feed(1389088775204, 0, 10,'min', 10, 0) 
+        data = f.get_random_feed(1389088775204, 0, 10,'min', 10, 0,1)
         data_json = json.loads(data)
         self.assertGreater(data_json["hits"]["total"],0)
     def test_feed_data_around_a_coord(self):
         f = feed.Feed() 
-        data = f.get_feed_around_coord(1389088775204, [58.58972357,16.19912264], 0, 10, 'min', 10, 1) 
+        data = f.get_feed_around_coord(1389088775204, [58.58972357,16.19912264], 0, 10, 'min', 10, 1,1)
         data_json = json.loads(data)
         #print data_json['hits']
         self.assertGreater(int(data_json['hits']['total']),0)

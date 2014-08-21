@@ -96,15 +96,7 @@ class Post():
              "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username,
              "category_id" : self.category_id}
         return d
-class Category():
-    LIST = {"Alert" : 1, "Gossip" : 2, "Discount" : 3}
-    def get(self):
-        return self.LIST
-    def get_key(self, value):
-        for k, v in self.LIST.items():
-            if v == value:
-                return k
-        return 0
+
 class Feed_Content():
     '''Provides feed content'''
     def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
