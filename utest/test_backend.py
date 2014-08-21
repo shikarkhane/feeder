@@ -110,6 +110,13 @@ class Test_category(unittest.TestCase):
             for p in r["hits"]["hits"]:
                 e = p['_source']['category_id']
         self.assertEqual(self.category_id, e)
+    def test_category_get_all(self):
+        self.test_category_add()
+        self.test_category_add()
+        sleep(self.sleep_in_sec)
+        r = json.loads(self.s.get_all())
+        print r["hits"]["hits"]
+        self.assertGreater(r["hits"]["total"], 0)
 class Test_feed(unittest.TestCase):
     def tearDown(self):
         pass

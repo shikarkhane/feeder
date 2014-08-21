@@ -52,6 +52,12 @@ class Category(object):
         if not document_id:
             return False
         self.remove(document_id)
+    def get_all(self):
+        url = '{0}/{1}/{2}/_search?q=*:*'.format(settings.ELASTICSEARCH_SERVER_URL, self.index_name,
+                                                     self.index_type)
+        req = urllib2.Request(url)
+        out = urllib2.urlopen(req)
+        return out.read()
     def get(self, document_id):
         # fetch the document by the id
         url = '{0}/{1}/{2}/_search?q=_id:{3}'.format(settings.ELASTICSEARCH_SERVER_URL, self.index_name,

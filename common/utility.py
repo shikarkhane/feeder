@@ -69,7 +69,7 @@ class Date():
         return obj.strftime(self.format)
     def get_obj(self, date_str):
         return datetime.strptime(date_str, self.format)
-    def get_epoch(self, add_days):
+    def get_epoch(self, add_days=0):
         x = datetime.utcnow() + timedelta(days=add_days)
         return calendar.timegm(x.utctimetuple()) * 1000
 

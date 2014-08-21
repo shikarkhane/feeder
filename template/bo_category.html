@@ -1,0 +1,33 @@
+{% extends "feed_wrapper.html" %}
+
+
+
+{% block feed %}
+
+<ul class="nav nav-tabs">
+  <li ><a href="/backoffice/home/">Home</a></li>
+  <li ><a href="/backoffice/cookies/">Cookies</a></li>
+  <li class="active"><a href="/backoffice/category/">Category</a></li>
+</ul>
+
+<div class="input-group">
+  <span class="input-group-addon">New category</span>
+  <input id="txt-category" type="text" class="form-control" placeholder="music">
+    <span class="input-group-btn">
+        <button id="add-category" class="btn btn-default" type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </span>
+</div>
+
+<ul class="list-group">
+
+        {% for category in categories %}
+            <li class="list-group-item">{{ category }}</li>
+      {% end %}
+</ul>
+{% end %}
+
+
+
+{% block afterincludejs %}
+            <script src="/static/js/bo_category.js"></script>
+{% end %}

@@ -184,7 +184,42 @@ class BOCookiesHandler(BaseHandler):
         except Exception,e:
             logging.exception(e)
             self.render("oops.html")
-
+class BOCategoryHandler(BaseHandler):
+    '''
+    add or remove master list of categories
+    '''
+    def get(self):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email not in settings.ADMIN_EMAILS:
+                self.render('denied.html')
+            c = Category()
+            result = c.get()
+            #self.write(json.dumps(result))
+            self.render("bo_category.html", categories=result)
+        except Exception,e:
+            logging.exception(e)
+            self.render("oops.html")
+    def post(self):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email in settings.ADMIN_EMAILS:
+                m = Category
+                m.add(self.request.files['category_name'])
+            self.write('New Category added!')
+        except Exception,e:
+            logging.exception(e)
+            self.render("oops.html")
+    def delete(self):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email in settings.ADMIN_EMAILS:
+                m = Category
+                m.delete(self.request.files['category_name'])
+            self.write('Category deleted!')
+        except Exception,e:
+            logging.exception(e)
+            self.render("oops.html")
 class HelperHandler(tornado.web.RequestHandler):
     '''
     renders static html pages like help, about us, privacy etc
