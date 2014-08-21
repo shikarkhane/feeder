@@ -9,7 +9,7 @@ import tornado.escape
 import json
 import urllib2
 import urllib
-from models import Feed_Content, Backoffice_content, Post, Category
+from models import Feed_Content, Backoffice_content, Post
 import settings
 from backend.fetcher import Fetcher
 import logging
