@@ -15,6 +15,7 @@ application = tornado.web.Application([
     (r"/backoffice/home/", BOHandler),
     (r"/backoffice/cookies/", BOCookiesHandler),
     (r"/backoffice/category/", BOCategoryHandler),
+    (r"/backoffice/category/(\S+)/", BOCategoryHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
     (r"/delete/(\S+)/", DeleteHandler),

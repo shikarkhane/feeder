@@ -1,7 +1,7 @@
 import json
 import settings
 import logging
-from backend.category import Category
+from backend.category import _Category
 from common.utility import Date
 
 # Log everything, and send it to stderr.
@@ -12,8 +12,8 @@ class Category():
     def make_list(self, source):
         # convert multiple {u'category_id': u'1221', u'category_name': u'TRHEME'} to { "TRHEME" : 1221, ...}
         self.LIST[source['category_name']] = int(source['category_id'])
-    def get(self):
-        c = Category()
+    def get_all(self):
+        c = _Category()
         r = json.loads(c.get_all())
         e = ''
         if r["hits"]["total"] > 0:
@@ -27,10 +27,10 @@ class Category():
                 return k
         return 0
     def add(self, category_name):
-        c = Category()
+        c = _Category()
         if not c.exists_by_category_name(category_name):
             c.add(Date().get_epoch(), category_name)
     def delete(self, category_name):
-        c = Category()
+        c = _Category()
         if c.exists_by_category_name(category_name):
             c.remove_by_category_name(category_name)

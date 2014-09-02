@@ -194,28 +194,28 @@ class BOCategoryHandler(BaseHandler):
             if email not in settings.ADMIN_EMAILS:
                 self.render('denied.html')
             c = Category()
-            result = c.get()
+            result = c.get_all()
             #self.write(json.dumps(result))
             self.render("bo_category.html", categories=result)
         except Exception,e:
             logging.exception(e)
             self.render("oops.html")
-    def post(self):
+    def post(self, category_name):
         try:
             email = tornado.escape.xhtml_escape(self.current_user["email"])
             if email in settings.ADMIN_EMAILS:
-                m = Category
-                m.add(self.request.files['category_name'])
+                m = Category()
+                m.add(category_name)
             self.write('New Category added!')
         except Exception,e:
             logging.exception(e)
             self.render("oops.html")
-    def delete(self):
+    def delete(self, category_name):
         try:
             email = tornado.escape.xhtml_escape(self.current_user["email"])
             if email in settings.ADMIN_EMAILS:
-                m = Category
-                m.delete(self.request.files['category_name'])
+                m = Category()
+                m.delete(category_name)
             self.write('Category deleted!')
         except Exception,e:
             logging.exception(e)

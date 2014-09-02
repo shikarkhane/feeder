@@ -18,10 +18,10 @@
       </span>
 </div>
 
-<ul class="list-group">
+<ul class="category-list-group">
 
         {% for category in categories %}
-            <li class="list-group-item">{{ category }}</li>
+            <li class="category-list-group-item"><span class="cls_category_name">{{ category }}</span><span class="glyphicon glyphicon-remove delete-category"></span></li>
       {% end %}
 </ul>
 {% end %}

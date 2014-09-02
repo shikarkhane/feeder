@@ -7,7 +7,7 @@ import urllib2
 import json
 import settings
 
-class Category(object):
+class _Category(object):
     '''
     category of a post will help us filter the data based on user preference
     If the user is only interested in gossip and discounts, then we will filter using this category
