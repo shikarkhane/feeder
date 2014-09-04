@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block css %}
+
+<link href="/static/css/plugins.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+
+{% end %}
+
+{% block content %}
+
+<header>
+	<nav class="verticalmenu transition4">
+		<div class="logo"></div>
+		<div class="slider">
+			<div class="social">
+				<div class="fb-icon"></div>
+				<div class="gplus-icon"></div>
+				<div class="tw-icon"></div>
+				<div class="email-icon"></div>
+			</div>
+			<div class="submenu">
+				
+				<div class="iconbox trending">
+					<div class="icon"></div>
+					<h4 class="primary">trending</h4>
+					<div class="trendinglist">
+						<p>#hashtag</p>
+						<p>#hashtag</p>
+						<p>#hashtag</p>
+						<p>#hashtag</p>
+						<p>#hashtag</p>
+					</div>
+				</div>
+
+				<div class="iconbox everything">
+					<div class="icon"></div>
+					<h4>everything</h4>
+				</div>
+				<div class="iconbox popular">
+					<div class="icon"></div>
+					<h4>popular</h4>
+				</div>
+				<div class="iconbox humor">
+					<div class="icon"></div>
+					<h4>humor</h4>
+				</div>
+				<div class="iconbox subscribe">
+					<div class="icon"></div>
+					<h4>subscribe</h4>
+					<div class="emailsubsc">
+						<input type="email" placeholder="Your email" />
+						<button>Subscribe</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<nav class="horizontalmenu">
+		<div class="hmenuBox container">
+				<div class="gps">
+					<h6>ENABLE GPS</h6>
+				</div>
+				<div class="aroundInfo">
+					<div class="row">
+						<div class="col-sm-6">
+							<h3 class="city primary">Sao Jose do Rio Preto</h3>
+						</div>
+						<div class="col-sm-6 text-right mobile-hidden people-around">
+							<h4>Around you: <span class="people"></span> 46</h4>
+							<h6 class="primary">(using your IP Address)</h6>
+						</div>
+					</div>
+				</div>
+				<div class="settings">
+					<div class="settingsicon"></div>
+				</div>
+			</div>
+		</div>
+	</nav>
+	<div class="iphoneBtn transition4"><span class="glyphicon glyphicon-th"></span></div>
+	<div class="settingsMenu transition4">
+		<div class="settingsHeader">
+			<div class="label"><span class="glyphicon glyphicon-chevron-left"></span><h2>SETTINGS</h2></div>
+			<div class="setIcon"></div>
+		</div>
+		<div class="variable">
+			<div class="variable1">
+				<div class="lastestfirst">Lastest First</div>
+				<div class="popularfirst">Popular First</div>
+			</div>
+		</div>
+		<div class="variable">
+			<div class="varLabel">Show last</div>
+			<div class="variable2"></div>
+			<div class="selectedOpt"></div>
+		</div>
+		<div class="variable">
+			<div class="varLabel">Search radius</div>
+			<div class="variable3"></div>
+			<div class="selectedOpt"></div>
+		</div>
+		<div class="links">
+			<h3>Terms</h3>
+			<h3>Privacy</h3>
+			<h3>Advertise</h3>
+			<h3>Help</h3>
+		</div>
+	</div>
+</header>
+
+
+{% end %}
+
+        {% block feed %}
+
+        {% end %}
+

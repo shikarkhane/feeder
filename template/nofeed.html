@@ -1,142 +1,21 @@
-<!DOCTYPE html>
-<html lang="pt">
+{% extends "feed_wrapper.html" %}
 
-<head>
 
-<meta charset="utf-8" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-<meta name="Description" content="">
-<meta name="Keywords" content="">
-<title>Tipoff</title>
 
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link href="css/reset.css" rel="stylesheet" type="text/css" />
-<link href="css/plugins.css" rel="stylesheet" type="text/css" />
-<link href="css/style.css" rel="stylesheet" type="text/css" />
-    
+{% block content %}
 
-<!-- Mobile Devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
-<!--[if IE]>
-<script src="../../html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-    
-</head>
-<body>
+    <section id="nofeed">
+        <div class="container">
+            <div class="row">
+                <div class="nofeed">
+                    <div class="sadnofeed"></div>
+                    <h1>Ops, nothing around you</h1>
+                    <h3>We'll let you know when something comes up, or try to change the setttings</h3>
+                    <div class="line"></div>
 
-<header>
-	<nav class="verticalmenu transition4">
-		<div class="logo"></div>
-		<div class="slider default-skin">
-			<div class="social">
-				<div class="fb-icon"></div>
-				<div class="gplus-icon"></div>
-				<div class="tw-icon"></div>
-				<div class="email-icon"></div>
-			</div>
-			<div class="submenu">
-				
-				<div class="iconbox trending">
-					<div class="icon"></div>
-					<h4 class="primary">trending</h4>
-					<div class="trendinglist">
-						<p>#hashtag</p>
-						<p>#hashtag</p>
-						<p>#hashtag</p>
-						<p>#hashtag</p>
-						<p>#hashtag</p>
-					</div>
-				</div>
+                </div>
+        </div>
 
-				<div class="iconbox everything">
-					<div class="icon"></div>
-					<h4>everything</h4>
-				</div>
-				<div class="iconbox popular">
-					<div class="icon"></div>
-					<h4>popular</h4>
-				</div>
-				<div class="iconbox humor">
-					<div class="icon"></div>
-					<h4>humor</h4>
-				</div>
-				<div class="iconbox subscribe">
-					<div class="icon"></div>
-					<h4>subscribe</h4>
-					<div class="emailsubsc">
-						<input type="email" placeholder="Your email" />
-						<button>Subscribe</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</nav>
-	<nav class="horizontalmenu">
-		<div class="hmenuBox container">
-				<div class="gps">
-					<h6>ENABLE GPS</h6>
-				</div>
-				<div class="aroundInfo">
-					<div class="row">
-						<div class="col-sm-6">
-							<h3 class="city primary">Sao Jose do Rio Preto</h3>
-						</div>
-						<div class="col-sm-6 text-right mobile-hidden people-around">
-							<h4>Around you: <span class="people"></span> 46</h4>
-							<h6 class="primary">(using your IP Address)</h6>
-						</div>
-					</div>
-				</div>
-				<div class="settings">
-					<div class="settingsicon"></div>
-				</div>
-			</div>
-		</div>
-	</nav>
-	<div class="iphoneBtn transition4"><span class="glyphicon glyphicon-th"></span></div>
-	<div class="settingsMenu transition4">
-		<div class="settingsHeader">
-			<div class="label"><span class="glyphicon glyphicon-chevron-left"></span><h2>SETTINGS</h2></div>
-			<div class="setIcon"></div>
-		</div>
-		<div class="variable">
-			<div class="variable1"></div>
-		</div>
-		<div class="variable">
-			<div class="varLabel">Show last</div>
-			<div class="variable2"></div>
-			<div class="selectedOpt"></div>
-		</div>
-		<div class="variable">
-			<div class="varLabel">Search radius</div>
-			<div class="variable3"></div>
-			<div class="selectedOpt"></div>
-		</div>
-		<div class="links">
-			<h3>Terms</h3>
-			<h3>Privacy</h3>
-			<h3>Advertise</h3>
-			<h3>Help</h3>
-		</div>
-	</div>
-</header>
+    </section>
 
-<section id="nofeed">
-	<div class="container">
-		<div class="row">
-			<div class="nofeed">
-				<div class="sadnofeed"></div>
-				<h1>Ops, nothing around you</h1>
-				<h3>We'll let you know when something comes up, or try to change the setttings</h3>
-				<div class="line"></div>
-		
-			</div>
-	</div>
-
-</section>
-    
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src='js/plugins.js'></script>
-<script src='js/main.js'></script>
-</body>
+{% end %}
