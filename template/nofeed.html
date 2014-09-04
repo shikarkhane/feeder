@@ -16,7 +16,7 @@
     
 
 <!-- Mobile Devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"> 
 <!--[if IE]>
 <script src="../../html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
@@ -27,7 +27,7 @@
 <header>
 	<nav class="verticalmenu transition4">
 		<div class="logo"></div>
-		<div class="slider">
+		<div class="slider default-skin">
 			<div class="social">
 				<div class="fb-icon"></div>
 				<div class="gplus-icon"></div>
@@ -100,10 +100,7 @@
 			<div class="setIcon"></div>
 		</div>
 		<div class="variable">
-			<div class="variable1">
-				<div class="lastestfirst">Lastest First</div>
-				<div class="popularfirst">Popular First</div>
-			</div>
+			<div class="variable1"></div>
 		</div>
 		<div class="variable">
 			<div class="varLabel">Show last</div>
@@ -124,23 +121,22 @@
 	</div>
 </header>
 
-<section id="feed">
+<section id="nofeed">
 	<div class="container">
-		<div class="newstories">2 new stories on feed</div>
 		<div class="row">
-			<div class="feed">
+			<div class="nofeed">
+				<div class="sadnofeed"></div>
+				<h1>Ops, nothing around you</h1>
+				<h3>We'll let you know when something comes up, or try to change the setttings</h3>
+				<div class="line"></div>
+		
 			</div>
-			<div class="loadingmorebox">
-				<div class="loadingmore">Loading more...</div>
-			</div>
-		</div>
 	</div>
 
 </section>
     
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 <script src='js/plugins.js'></script>
 <script src='js/main.js'></script>
 </body>

@@ -35,17 +35,17 @@ class PageNotFoundHandler(tornado.web.RequestHandler):
             self.render("page-not-found.html")
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class PreHandler(tornado.web.RequestHandler):
     '''
     first load to get the basic template, javascripts etc loaded
     '''
     def get(self):
         try:
-            self.render("firsttimeuser.html")
+            self.render("first.html")
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class NewHandler(BaseHandler):
     '''
     native tipoff post
@@ -61,7 +61,7 @@ class NewHandler(BaseHandler):
                 self.render("native-post.html")
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
     def post(self, q_latitude, q_longitude, q_encoded_text, q_city_name):
         try:
             email = tornado.escape.xhtml_escape(self.current_user["email"])
@@ -75,7 +75,7 @@ class NewHandler(BaseHandler):
                 self.write('Tipoff uploaded!')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class ShowPostHandler(tornado.web.RequestHandler):
     '''returns json with details of given doc id'''
     def get(self, doc_id):
@@ -99,7 +99,7 @@ class ShowPostHandler(tornado.web.RequestHandler):
                 self.render('page-not-found.html')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class MainHandler(tornado.web.RequestHandler):
     '''
     non geo handler
@@ -114,7 +114,7 @@ class MainHandler(tornado.web.RequestHandler):
             self.write(json.dumps(posts))
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class GeoHandler(tornado.web.RequestHandler):
     '''
     handler to find data around coordinates
@@ -134,7 +134,7 @@ class GeoHandler(tornado.web.RequestHandler):
             self.write(json.dumps(posts))
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
 class PopularHandler(tornado.web.RequestHandler):
     '''
@@ -152,7 +152,7 @@ class PopularHandler(tornado.web.RequestHandler):
             self.write(json.dumps(posts))
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
 class BOHandler(BaseHandler):
     '''
@@ -169,7 +169,7 @@ class BOHandler(BaseHandler):
             self.render("backoffice.html", activity=result)
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
 class BOCookiesHandler(BaseHandler):
     '''
@@ -183,7 +183,7 @@ class BOCookiesHandler(BaseHandler):
             self.render("bo_cookies.html")
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class BOCategoryHandler(BaseHandler):
     '''
     add or remove master list of categories
@@ -199,7 +199,7 @@ class BOCategoryHandler(BaseHandler):
             self.render("bo_category.html", categories=result)
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
     def post(self, category_name):
         try:
             email = tornado.escape.xhtml_escape(self.current_user["email"])
@@ -209,7 +209,7 @@ class BOCategoryHandler(BaseHandler):
             self.write('New Category added!')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
     def delete(self, category_name):
         try:
             email = tornado.escape.xhtml_escape(self.current_user["email"])
@@ -219,7 +219,7 @@ class BOCategoryHandler(BaseHandler):
             self.write('Category deleted!')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class HelperHandler(tornado.web.RequestHandler):
     '''
     renders static html pages like help, about us, privacy etc
@@ -229,7 +229,7 @@ class HelperHandler(tornado.web.RequestHandler):
             self.render("{0}.html".format(pagename))
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class LikeHandler(tornado.web.RequestHandler):
     '''
     like a tipoff
@@ -241,7 +241,7 @@ class LikeHandler(tornado.web.RequestHandler):
             m.like_post(document_id, increment)
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class DeleteHandler(BaseHandler):
     '''
     delete a tipoff
@@ -254,7 +254,7 @@ class DeleteHandler(BaseHandler):
                 m.delete_post(document_id)
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class CategoryHandler(BaseHandler):
     '''
     set a category for a post
@@ -268,7 +268,7 @@ class CategoryHandler(BaseHandler):
             self.write('Categorized!')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
     @tornado.web.asynchronous
     def get(self):
@@ -279,7 +279,7 @@ class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
             self.authenticate_redirect()
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
     def _on_auth(self, user):
         try:
@@ -293,7 +293,7 @@ class GoogleHandler(tornado.web.RequestHandler, tornado.auth.GoogleMixin):
                 self.redirect('/')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
 class TwitterHandler(tornado.web.RequestHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
@@ -305,7 +305,7 @@ class TwitterHandler(tornado.web.RequestHandler, tornado.auth.TwitterMixin):
             self.authenticate_redirect()
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
     def _on_auth(self, user):
         try:
@@ -320,7 +320,7 @@ class TwitterHandler(tornado.web.RequestHandler, tornado.auth.TwitterMixin):
                 self.redirect('/')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
 class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixin):
     @tornado.web.asynchronous
@@ -339,7 +339,7 @@ class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixi
                                   extra_params={"scope": "email"})
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
     def _on_login(self, user):
         # user object looks like this
@@ -353,7 +353,7 @@ class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixi
             self.facebook_request("/me", access_token=user["access_token"], callback=self._save_user_profile)
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")
 
     def _save_user_profile(self, user):
         try:
@@ -366,4 +366,4 @@ class FacebookHandler(tornado.web.RequestHandler, tornado.auth.FacebookGraphMixi
                 self.redirect('/')
         except Exception,e:
             logging.exception(e)
-            self.render("oops.html")
+            self.render("404.html")

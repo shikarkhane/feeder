@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head prefix="og: http://ogp.me/ns#">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+ <!-- facebook, on share image preview -->
+<meta property="fb:app_id" content="123456789012345">
+<meta property="og:image" content="http://tipoff.io/static/images/logo.png" />
+<meta property="og:image:width" content="75">
+<meta property="og:image:height" content="75">
+<meta property="og:image:type" content="image/png">
+<meta property="og:description" content="Neighbourhood vibes,we show all geo-tagged content being posted around you.">
+<!--meta name="apple-mobile-web-app-capable" content="yes" /-->
+
+<link rel="apple-touch-icon" href="/static/images/logo.png">
+<link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon" /> 
+
+ <!-- Bootstrap -->
+<link href="/static/bootstrap/css/bootstrap.css" rel="stylesheet">
+<!--link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet"-->
+
+<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/themes/smoothness/jquery-ui.css" />
+
+<!-- tipoff -->
+<link rel="stylesheet" type="text/css" href="/static/css/base.css">
+
+<!--script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDrCi3SP48DSMYNSlXbNHSiiM_FSfdaJhQ&sensor=true"></script-->
+
+<!-- google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-46399338-1', 'tipoff.io');
+  ga('send', 'pageview');
+
+</script>
+
+	</head>
+<body>
+
+<div id="page-container" class="container">
+		{% block feedwrapper %}
+		  	
+		{% end %}
+<!-- I got these buttons from simplesharebuttons.com -->
+<div id="share-buttons" class="show-above visible-md visible-lg">
+
+<!-- Facebook -->
+<a id="fbshare" class="share-buttons-class" href="http://www.facebook.com/sharer.php?u=http://tipoff.io/we/firsttimeuser/" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" /></a>
+
+<!-- Twitter -->
+<a id="twittershare" class="share-buttons-class" href="http://twitter.com/share?url=http://tipoff.io/we/firsttimeuser/&text=Neighbourhood vibes" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" /></a>
+
+<!-- Google+ -->
+<a id="gplusshare" class="share-buttons-class" href="https://plus.google.com/share?url=http://tipoff.io/we/firsttimeuser/" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/google.png" alt="Google" /></a>
+
+<!-- Digg -->
+<a id="diggshare" class="share-buttons-class" href="http://www.digg.com/submit?url=http://tipoff.io/we/firsttimeuser/" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/diggit.png" alt="Digg" /></a>
+
+<!-- Reddit -->
+<a id="redditshare" class="share-buttons-class" href="http://reddit.com/submit?url=http://tipoff.io/we/firsttimeuser/&title=Neighbourhood vibes" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" /></a>
+
+<!-- LinkedIn -->
+<a id="linkedinshare" class="share-buttons-class" href="http://www.linkedin.com/shareArticle?mini=true&url=http://tipoff.io/we/firsttimeuser/" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" /></a>
+
+<!-- StumbleUpon-->
+<a id="stumbleuponfbshare" class="share-buttons-class" href="http://www.stumbleupon.com/submit?url=http://tipoff.io/we/firsttimeuser/&title=Neighbourhood vibes" target="_blank"><img src="http://www.simplesharebuttons.com/images/somacro/stumbleupon.png" alt="StumbleUpon" /></a>
+
+<!-- Email -->
+<a id="emailshare" class="share-buttons-class" href="mailto:?Subject=Neighbourhood vibes&Body=I%20saw%20this%20and%20thought%20of%20you!%20 http://tipoff.io/we/firsttimeuser/"><img src="http://www.simplesharebuttons.com/images/somacro/email.png" alt="Email" /></a>
+
+</div>
+</div>
+<img id="in-progress-wheel" src="/static/images/loading.gif" class="ajax-loader hide"/>
+<script src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/moment.js"></script>
+<script src="/static/js/base.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+{% block afterincludejs %}
+{% end %}
+<script>{% block afterjscripts %}
+{% end %}
+</script>
+
+</body>
+
+</html>
+

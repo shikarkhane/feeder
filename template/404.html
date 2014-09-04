@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<section id="content">
+		<div class="bg-circle">
+			<div class="circle1">
+			</div>
+			<div class="circle2">
+			</div>
+		</div>
+		<div class="headline page404">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="logo page404"></div>
+						<h1 class="notfound"><span class="highlight">404</span> Not Found</h1>
+						<h3>You tried to find something that isn't here</h3>
+						<h3><strong>Go back and try again</strong></h3>
+						<a href="/"><div class="back"></div></a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+{% end %}
+
+
+{% block afterincludejs %}
+    <script src="/static/js/404.js"></script>
+{% end %}
+{% block afterjscripts %}
+{% end %}

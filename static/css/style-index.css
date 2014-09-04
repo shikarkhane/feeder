@@ -1,0 +1,331 @@
+/*
+# darker primary color
+#356b7b primary color
+#6fa39d lighter primary color
+
+*/
+
+
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,600,700);
+
+/* HTML5 ✰ Boilerplate */
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+blockquote, q { quotes: none; }
+blockquote:before, blockquote:after,
+q:before, q:after { content: ""; content: none; }
+ins { background-color: #ff9; color: #000; text-decoration: none; }
+mark { background-color: #ff9; color: #000; font-style: italic; font-weight: bold; }
+del { text-decoration: line-through; }
+abbr[title], dfn[title] { border-bottom: 1px dotted; cursor: help; }
+table { border-collapse: collapse; border-spacing: 0; }
+hr { display: block; height: 1px; border: 0; border-top: 1px solid #ccc; margin: 1em 0; padding: 0; }
+input, select { vertical-align: middle; }
+
+
+*{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.transition4{
+    -webkit-transition:.4s ease all;
+    -moz-transition:.4s ease all;
+    -o-transition:.4s ease all;
+    -ms-transition:.4s ease all;
+    transition:.4s ease all;
+}
+
+h1{
+    font-size: 3em;
+    line-height: 1.3em;
+    padding: 15px 0 25px;
+
+}
+h2{
+    font-size:2.5em;
+    font-weight: 600;
+    line-height:1.2em;
+}
+h3{
+    font-size:1.2em;
+    font-weight: 300;
+}
+h4{
+    font-size:0.7em;
+}
+h5{
+    font-size: 0.7em;
+    font-weight: 600;
+}
+h6{
+    font-size: 0.55em;
+    font-weight: 600;
+}
+p{
+    font-size:1em;
+    font-weight: 300;
+    line-height: 1.8em;
+}
+strong {
+font-weight: 700;
+}
+.primary{
+    color:#356b7b;
+}
+a,a:visited,a:active,a:hover{
+    color:inherit;
+    text-decoration: none;
+}
+html, body,header{
+    height: 100%;
+    
+}
+body{
+    background:#f5f5f5 url(../img/bg-index.jpg) no-repeat center;
+    font-family:"Ubuntu",sans-serif;
+    font-size:1.05em;
+    color:#f5f5f5;
+    overflow-x:hidden;
+    position:relative;
+    padding-top:80px;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    background-size: cover;
+    font-weight: 300
+}
+body.page404{
+    background-image:url(../img/404.jpg);
+}
+.logo{
+    background: url(../img/logo-bg.png) no-repeat center bottom;
+    background-size: 104%;
+    width: 140px;
+    height: 61px;
+    float: left;
+    margin-right: 20px;
+}
+.logo.page404{
+    width: 370px;
+    background-size: auto;
+    margin-right: 91%;
+    margin-bottom:30px;
+}
+.headline {
+    position: absolute;
+    width: 100%;
+    bottom: 65px;
+}
+
+.circle1,.circle2{
+  
+    width:550px;
+    height:550px;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    -o-border-radius:50%;
+    -ms-border-radius:50%;
+    border-radius:50%;
+    position:absolute;
+    bottom:0;
+    left:0
+}
+.circle1{
+    background:rgba(52,107,123,0.5);
+}
+.circle2{
+    background:rgba(1,37,59,0.5);
+    margin-left:42px;
+}
+.calltoaction
+button {
+    background: rgba(221,70,42,0.8);
+    border: 0;
+    border-radius: 6px;
+    padding: 19px 30px;
+    color: #f2f2f2;
+    font-weight: 800;
+    font-size: 1.2em;
+    font-family: "Ubuntu";
+    margin-left: 65px;
+    margin-top:40px;
+    outline: none;
+}
+
+.notfound{
+    font-size:6.5em;
+    padding: 0;
+}
+.highlight{
+    font-weight: bold;
+    background-color: rgba(255,255,255,0);    
+    -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 4px;
+    -webkit-text-stroke-color: #6fa39d;
+    color:#6fa39d;
+}
+.back{
+    background:url(../img/back.png) no-repeat center;
+    width:370px;
+    height:150px;
+}
+.headline.page404{
+    bottom:45px;
+}
+
+@media (max-width:870px) and (min-width: 768px)
+{
+    .headline{
+        padding-left: 95px;
+    }
+}
+@media (max-width:1365px) and (min-width: 1200px)
+{
+    .headline{
+        padding-left: 95px;
+    }
+}
+@media (max-width:1200px) and (min-width: 1122px)
+{
+    .headline{
+        padding-left: 65px;
+    }
+}
+@media (max-width: 767px)
+{
+    .headline{
+        bottom: auto;
+        top: 40px;
+        text-align: center;
+    }
+    .bg-circle{
+        position: absolute;
+        text-align: center;
+        top: -10%;
+        left: 50%;
+        margin-left: -212px;
+    }
+    .circle1, .circle2 {
+        width: 380px;
+        height: 380px;
+        left:auto;
+        bottom:auto;
+    }
+    .calltoaction button{
+        margin-left:0;
+        margin-top:10%;
+    }
+    body{
+        font-size: 0.8em;
+    }
+    .logo{
+        margin-right: 0;
+        background-size:100%;
+        width: 104px;
+        height: 45px;
+    }
+    .logo.page404,.back{
+        width: 90%;
+        margin: 0 5%;
+
+    }
+    .notfound{
+        line-height: 1em;
+        font-size: 6em;
+        margin-bottom: 21px;
+    }
+    .back{
+        margin-top:20%;
+    }
+}
+@media (max-width: 991px) and (min-width: 768px)
+{
+    .notfound{
+        font-size: 6.3em;
+    }
+}
+@media (max-width: 767px) and (min-width: 480px){
+    .container{
+        margin:0 30px;
+    }
+    body{
+        font-size:0.9em;
+    }
+    .logo{
+        width: 123px;
+        height: 53px;
+    
+    }
+    .calltoaction button{
+        margin-top:38%;
+    }
+}
+@media (min-width:1369px)
+{
+    .container{
+        width:auto!important;
+        margin:0 6%;
+    }
+    section,.bg-circle{
+        height:100%;
+    }
+    .circle1,.circle2{
+        width: 40%;
+        padding-bottom:40%;
+    }
+    body{
+        font-size: 1.1em;
+    }
+    
+    .headline{
+        bottom: 92px;
+    }
+    
+    .calltoaction button{
+        margin-left: 100px;
+    }
+}
+@media (min-width: 1600px){
+    body{
+        font-size: 1.4em;
+    }
+    .logo{
+        width: 198px;
+        height: 85px;
+        margin-right: 30px;
+    }
+}
+
+@media (max-width: 380px)
+{
+    h1{font-size: 2.7em;}
+    .logo{
+        width: 95px;
+        height: 41px;
+    }
+}

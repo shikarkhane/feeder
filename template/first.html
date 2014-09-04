@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<section id="content">
+		<div class="bg-circle">
+			<div class="circle1">
+			</div>
+			<div class="circle2">
+			</div>
+		</div>
+		<div class="headline">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12 col-sm-9 col-md-8">
+						<h3>We spend <strong>80%</strong> of our lives living in a 5km radius.</h3>
+						<h1><div class="logo"></div>is an effort to help you know your neighbourhood better</h1>
+						<h3>We show all <strong>geo-tagged</strong> content being posted around you</h3>
+					</div>
+				</div>
+				<div class="calltoaction">
+					<a id="a-first-time-user" href="feed.html"><button>START RIGHT NOW</button></a>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+{% end %}
+
+
+{% block afterincludejs %}
+            <script src="/static/js/firsttimeuser.js"></script>
+{% end %}
+{% block afterjscripts %}
+{% end %}
