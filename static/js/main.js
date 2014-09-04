@@ -202,7 +202,8 @@ $(window).scroll(function(e){
 
 // LOAD FEED
 function loadFeed(){
-    $.get("content.php",function(res)
+    var url = getFeedUrl();
+    $.get(url,function(res)
     {
         data = JSON.parse(res);
         for(var i = 0; i < data.length; i++)
@@ -210,21 +211,20 @@ function loadFeed(){
             //social: insta, fb =facebook, tw = twitter, gplus = google plus
             $container.append('<div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3">
                                     <div class="itemcontent">
-                                        <div class="photo lazyload" data-original="'+data[i].photo+'"></div>
-                                        <div class="profilePhoto lazyload" data-original="'+data[i].profilePhoto+'"></div>
+                                        <div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div>
+                                        <div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div>
                                         <div class="boxpadding">
                                             <div class="'+data[i].social+'-icon"></div>
                                             <a href="#"><div class="more">...</div></a>
-                                            <p class="postcontent">'+data[i].postcontent+'</p>
+                                            <p class="postcontent">'+data[i].text+'</p>
                                             <div class="bottom">
-                                                <h5 class="timeago primary"  title="'+data[i].timeago+'"></h5>
-                                                <div class="like">'+data[i].like+'</div>
-                                                <div class="distance">'+data[i].distance+'km</div>
+                                                <h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5>
+                                                <div class="like">'+data[i].up_votes+'</div>
+                                                <div class="distance">1km</div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                </div>').masonry('reloadItems').masonry('layout');
+                                    </div></div>').masonry('reloadItems').masonry('layout');
         }
         $(".feed .lazyload:not(.loaded)").lazyload({
             effect : "fadeIn"
