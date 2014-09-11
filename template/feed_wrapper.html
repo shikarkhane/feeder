@@ -86,8 +86,8 @@
 					<div class="icon"></div>
 					<h4>subscribe</h4>
 					<div class="emailsubsc">
-						<input type="email" placeholder="Your email" />
-						<button>Subscribe</button>
+						<input id="txtsubscribe" type="email" placeholder="Your email" />
+						<button id="btnsubscribe">Subscribe</button>
 					</div>
 				</div>
 			</div>
@@ -101,7 +101,7 @@
 				<div class="aroundInfo">
 					<div class="row-fluid">
 						<div class="col-sm-6">
-							<h3 class="city primary">Sao Jose do Rio Preto</h3>
+							<h3 id="localityName" class="city primary"></h3>
 						</div>
 						<div class="col-sm-6 text-right mobile-hidden people-around">
 							<h4>Around you: <span class="people"></span> 46</h4>
@@ -153,7 +153,8 @@
 {% end %}
 
 {% block afterincludejs %}
-        <script src='/static/js/plugins.js'></script>
+        <script src='/static/js/subscribe.js'></script>
+        <script src='/static/js/location.js'></script>
         <script src='/static/js/feed_wrapper.js'></script>
         {% block more_afterincludejs %}{% end %}
 {% end %}

@@ -47,15 +47,24 @@ function clickSettings(e)
 
 $(document).ready(function()
 {
-
+    setLocation();
 
     checkIphone();
 	//GPS TOGGLE 
 
-	$(".gps").click(function()
+	$(document).on('click', "div.gps", function(event)
 	{
-		$(this).addClass("active");
-		$(".gps h6").html("GPS ON");
+	    if ($.cookie('gpsAllowedByUser')==1){
+            $(this).removeClass("active");
+            $(".gps h6").html("ENABLE GPS");
+            $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+	    }
+	    else{
+            $(this).addClass("active");
+            $(".gps h6").html("GPS ON");
+            $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+	    }
+        setLocation();
 	});	
 
     //SUBSCRIBE TOGGLE
