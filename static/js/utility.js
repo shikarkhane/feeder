@@ -36,3 +36,10 @@ function get_servername_from_url(){
 	}
 	return servername;
 };
+
+function checkIfMainFeedEmpty(){
+console.log($('div.feed').children().length);
+    if ( $('div.feed').children().length == 0 ) {
+        //window.location.replace("/we/nofeed/");
+    }
+};

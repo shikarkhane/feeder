@@ -121,6 +121,7 @@ body{
     width:26px;
     height:26px;
     margin-top:5px;
+    cursor: pointer
 }
  .settingsHeader .label,  .settingsHeader .label span,  .settingsHeader .label h2{
     float:left;
@@ -241,7 +242,7 @@ header{
     background:rgba(255,255,255,0.6);
     width:106px;
     border-right: 1px dotted #6fa39d;
-    position:fixed;
+    position:fixed!important;
     z-index:4;
     float:left;
     left:0;
@@ -278,9 +279,9 @@ header{
 }
 
 .horizontalmenu{
-    padding-left:82px;
+    padding-left:106px;
     height:55px;
-    position:absolute;
+    position:fixed;
     width:100%;
     z-index:2;
     background:rgba(255,255,255,0.8);
@@ -315,10 +316,8 @@ header{
     background:url(../img/email.png) no-repeat center;
 }
 .submenu{
-    position: absolute;
-    bottom: 0;
     height: 100%;
-    padding: 185px 15px 0;
+    padding: 0 15px;
     width: 100%;
 }
 .submenu h4{
@@ -367,6 +366,33 @@ header{
 .humor .icon{
     background-image: url(../img/humor.png);
 }
+.concert .icon{
+    background-image: url(../img/concert.png);
+}
+.gossip .icon{
+    background-image: url(../img/gossip.png);
+}
+.tourism .icon{
+    background-image: url(../img/tourism.png);
+}
+.nightlife .icon{
+    background-image: url(../img/nightlife.png);
+}
+.politics .icon{
+    background-image: url(../img/politics.png);
+}
+.sales .icon{
+    background-image: url(../img/sales.png);
+}
+.sports .icon{
+    background-image: url(../img/sports.png);
+}
+.news .icon{
+    background-image: url(../img/news.png);
+}
+.meetup .icon{
+    background-image: url(../img/meetup.png);
+}
 .subscribe{
     cursor: pointer;
 }
@@ -395,9 +421,7 @@ header{
     position:absolute;
     top:8px;
 }
-.gps{
-    left:0;
-}
+
 .city {
     padding-top: 5px;
     font-size: 1.1em;
@@ -413,20 +437,17 @@ header{
     height:15px;
     display: inline-block;
 }
-.settings{
-    right:5px;
 
-}
 
 .aroundInfo{
     width: 100%;
-    padding: 10px 50px;
+    padding: 10px 70px;
 }
 .gps{
     width:68px;
     height:24px;
     background:url(../img/gps.png) no-repeat center top;
-    margin:4px 0 -10px -5px;
+    margin:4px 0 -10px;
     padding-top:24px;
     text-align: center;
 }
@@ -440,7 +461,6 @@ header{
 section {
     padding-left: 106px;
     min-height: 100%;
-    padding-top:60px;
 }
 .feed{
     position:relative;
@@ -611,16 +631,22 @@ button {
 }
 
 @media (min-width: 768px){
-    .feed{
-        margin-left:-30px;
-    }
+
     .loadingmorebox{
-        margin:40px -15px 40px;
+        margin:40px 0;
+        padding:0 15px;
+    }
+    .settings{
+        right:30px;
+    }
+    .gps{
+        left:15px;
     }
 }
 @media (max-width: 767px){
     body{
         font-size:0.82em;
+        cursor:pointer;
     }
     .loadingmorebox{
         padding:0 15px;
@@ -631,7 +657,16 @@ button {
     .horizontalmenu,section{
         padding-left:82px;
     }
-
+    .settings{
+        right:15px;
+    }
+    .gps{
+        width:55px;
+    }
+    .aroundInfo{
+        padding-left:43px;
+        padding-right:43px;
+    }
     .logo{
         background-size:76px auto;
     }
@@ -646,6 +681,9 @@ button {
     }
     .itemcontent .boxpadding{
         font-size: 1.15em;
+    }
+    .feed{
+        margin: 0 -15px;
     }
     .nofeed{
         font-size:0.9em;
@@ -683,8 +721,14 @@ button {
         padding-left:82px;
     }
     .settingsMenu.active{
-        width: 80%;
+        width: 85%;
         right:0;
+    }
+    .lastestfirst, .popularfirst {
+    margin: 5px;
+    }
+    .variable1{
+        height:33px;
     }
     .settingsMenu h3{
         font-size: 1.1em;

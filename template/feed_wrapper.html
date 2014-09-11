@@ -9,9 +9,10 @@
 
 {% block content %}
 
+
 <header>
 	<nav class="verticalmenu transition4">
-		<div class="logo"></div>
+		<a href="/"><div class="logo"></div></a>
 		<div class="slider">
 			<div class="social">
 				<div class="fb-icon"></div>
@@ -20,7 +21,7 @@
 				<div class="email-icon"></div>
 			</div>
 			<div class="submenu">
-				
+
 				<div class="iconbox trending">
 					<div class="icon"></div>
 					<h4 class="primary">trending</h4>
@@ -45,6 +46,42 @@
 					<div class="icon"></div>
 					<h4>humor</h4>
 				</div>
+				<div class="iconbox concert">
+					<div class="icon"></div>
+					<h4>concert</h4>
+				</div>
+				<div class="iconbox gossip">
+					<div class="icon"></div>
+					<h4>gossip</h4>
+				</div>
+				<div class="iconbox tourism">
+					<div class="icon"></div>
+					<h4>tourism</h4>
+				</div>
+				<div class="iconbox nightlife">
+					<div class="icon"></div>
+					<h4>nightlife</h4>
+				</div>
+				<div class="iconbox politics">
+					<div class="icon"></div>
+					<h4>politics</h4>
+				</div>
+				<div class="iconbox sales">
+					<div class="icon"></div>
+					<h4>sales</h4>
+				</div>
+				<div class="iconbox sports">
+					<div class="icon"></div>
+					<h4>sports</h4>
+				</div>
+				<div class="iconbox news">
+					<div class="icon"></div>
+					<h4>news</h4>
+				</div>
+				<div class="iconbox meetup">
+					<div class="icon"></div>
+					<h4>meetup</h4>
+				</div>
 				<div class="iconbox subscribe">
 					<div class="icon"></div>
 					<h4>subscribe</h4>
@@ -57,12 +94,12 @@
 		</div>
 	</nav>
 	<nav class="horizontalmenu">
-		<div class="hmenuBox container">
+		<div class="hmenuBox container-fluid">
 				<div class="gps">
 					<h6>ENABLE GPS</h6>
 				</div>
 				<div class="aroundInfo">
-					<div class="row">
+					<div class="row-fluid">
 						<div class="col-sm-6">
 							<h3 class="city primary">Sao Jose do Rio Preto</h3>
 						</div>
@@ -109,10 +146,14 @@
 	</div>
 </header>
 
+{% block feed %}
 
 {% end %}
 
-        {% block feed %}
+{% end %}
 
-        {% end %}
-
+{% block afterincludejs %}
+        <script src='/static/js/plugins.js'></script>
+        <script src='/static/js/feed_wrapper.js'></script>
+        {% block more_afterincludejs %}{% end %}
+{% end %}

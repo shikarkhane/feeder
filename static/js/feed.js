@@ -1,6 +1,6 @@
 function getFeedUrl(){
-            var from_datetime = window.pageload_utctime;
-            var q_page_size = 10;
+            var from_datetime = new Date().getTime();
+            var q_pagesize = 10;
             var mylat = $.cookie('MyLat');
             var mylon = $.cookie('MyLon');
             var fromposition = $.cookie('FromPosition');
@@ -13,7 +13,10 @@ function getFeedUrl(){
             if (!mysearchradius){ mysearchradius = 9; }
             if (!mysortbyvotes){ mysortbyvotes = 0; }
 
-			var path = window.servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize
+            var servername = get_servername_from_url();
+            //servername = 'http://tipoff.io/';
+
+			var path = servername + "time/" + from_datetime + "/from/" + fromposition + "/pagesize/" + q_pagesize
 			            + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/filterdays/' + myfilterdays + '/';
 			var popular_path = path;
 
@@ -48,123 +51,112 @@ function setFromPosition(){
 			$.cookie('FromPosition', 0, { path: '/'});
 		};
 	};
-function getAndRenderData(path, popular_path){
-            moment.lang('en', {
-                relativeTime : {
-                    future: "in %s",
-                    past:   "%s",
-                    s:  "s",
-                    m:  "a min",
-                    mm: "%d min",
-                    h:  "an hr",
-                    hh: "%d hr",
-                    d:  "a day",
-                    dd: "%d d",
-                    M:  "a mon",
-                    MM: "%d months",
-                    y:  "a year",
-                    yy: "%d years"
-                }
-            });
 
-            $('#in-progress-wheel').removeClass('hide');
-            var pop_result = $.get( popular_path, function( data ) {
-					var posts = $.parseJSON(data);
-					if (posts[0]){
-					    var id_to_use = 'popular' + posts[0].doc_id;
-                        $('#main-feed').append($('<div/>',{
-                                            'id'    : id_to_use,
-                                            'class' : 'main-post panel-body breadcrumb'
-                                        }));
-                        $('#' + id_to_use).append($('<div/>',{
-                                            'class' : 'row popular'
-                                        }));
-                        $.each(posts, function(){
-                               $('#' + id_to_use + " > div.popular").append($('<div/>',{
-                                        'class' : 'col-xs-6 col-md-3',
-                                        'html' : '<a href="/post/' + this.doc_id + '/" class="thumbnail"><img src="'
-                                        + this.content_img_url + '" class="img-responsive"/></a>'
-                                                }));
-                        });
-					}
-            });
-		  	var result = $.get( path, function( data ) {
-					var posts = $.parseJSON(data);
-					var id_to_use;
-					var id_to_check_duplicates;
-					$.each(posts, function(){
-					        id_to_use = String(this.doc_id);
-					        id_to_check_duplicates = this.source + String(this.post_id);
-							if ((id_to_use) && ($("#" + id_to_check_duplicates).length == 0)){
-							$('#main-feed').append($('<div/>',{
-											    'id'    : id_to_use,
-											    'class' : 'main-post panel-body breadcrumb'
-											}));
-							$('#' + id_to_use).append($('<div/>',{
-							                    'id'    : id_to_check_duplicates,
-											    'class' : 'content_link',
-											    html : this.content_img_url
-											}));
-							$('#' + id_to_use).append($('<div/>',{
-							                    'class' : 'btn btn-default coord',
-											    html : this.coord
-											}));
+//LOAD FEED FIRST
+loadFeed();
+// MASORY FEED
 
-							$('<div/>',{
-								'class' : 'row post-top'
-							}).appendTo('#' + id_to_use)
-								.append($('<div/>',{
-								    'class' : 'col-md-1 pull-right',
-								    'html' : '<img src="static/images/' + this.source + '_post.png" class="img-responsive content-provider-logo pull-right"/>'
-											}))
-								.append($('<div/>',{
-											    'class' : 'col-md-1 pull-right elapsed_time',
-											    html : '<span class="x_minutes_ago badge">' + moment(formatDate(new Date(this.created)), "YYYY-MM-DDTHH:mm:ssZ").fromNow() + '</span>'
-											}))
-								.append($('<div/>',{
-											    'class' : 'col-md-3',
-											    html : '<a class="btn btn-primary" target="_blank" href="' + this.user_profile_url + '"><img src="' + this.user_img_url + '" class="profile-img img-responsive"/></a>'
-											}))
-								.append($('<div/>',{
-											    'class' : 'col-md-7',
-											    html : '<p class="text-left text">' + this.text + '</p>'
-											}));
-							;
+$container = $(".feed ");
 
-							$('<div/>',{
-								'class' : 'post-bottom btn-group btn-group-justified'
-							}).appendTo('#' + id_to_use)
-								.append($('<a/>',{
-												'type' : 'button',
-											    'class' : 'btn btn-default post-like',
-											    html : '<span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;' + this.up_votes
-											}))
-								.append($('<a/>',{
-													'type' : 'button',
-												    'class' : 'btn btn-default',
-												    'href' : '/post/' + id_to_use + '/',
-												    html : '<span class="glyphicon glyphicon-folder-open"></span>'
-												}))
-								.append($('<a/>',{
-								                'type' : 'button',
-							                    'class' : 'btn btn-default placename truncate',
-											    html : this.place_name
-											}))
-							;
-							}
-					});
+$container.masonry({
+  itemSelector        : '.item',
+  columnWidth         : '.item',
+  transitionDuration  : 0
+});
 
-                    if (! ( $.cookie('subscribed')) ){
 
-					    addSubscribePost($('#main-feed'));
-					}
-							
 
-		    })
-		     .always(function() {
-                checkIfMainFeedEmpty();
-                $('#in-progress-wheel').addClass('hide');
+
+// INFINITE SCROLLING
+
+function element_in_scroll(elem)
+{
+    var docViewTop = $(window).scrollTop();
+    var docViewBottom = docViewTop + $(window).height();
+
+    var elemTop = $(elem).offset().top;
+    var elemBottom = elemTop + $(elem).height();
+
+    return ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+}
+
+
+$(window).scroll(function(e){
+    if (element_in_scroll(".loadingmore")) {
+        $(document).unbind('scroll');
+        loadFeed();
+    }
+
+});
+
+
+// LOAD FEED
+function loadFeed(){
+    var url = getFeedUrl();
+    $.get(url,function(res)
+    {
+        data = JSON.parse(res);
+        for(var i = 0; i < data.length; i++)
+        {
+            //social: insta, fb =facebook, tw = twitter, gplus = google plus
+            $container.append('<div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="itemcontent"><div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div><div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div><div class="boxpadding"><div class="'+data[i].social+'-icon"></div><a href="#"><div class="more">...</div></a><p class="postcontent">'+data[i].text+'</p><div class="bottom"><h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5><div class="like">'+data[i].up_votes+'</div><div class="distance">1km</div></div></div></div></div></div>').masonry('reloadItems').masonry('layout');
+        }
+        $(".feed .lazyload:not(.loaded)").lazyload({
+            effect : "fadeIn"
+        }).addClass("loaded");
+        $(".timeago:not(.timeloaded)").timeago().addClass("timeloaded");
+
+        //LIKE TOGGLE
+
+        $(".like:not(.activated)").click(function()
+        {
+            var count = parseInt($(this).html());
+            if($(this).hasClass("liked"))
+            {
+                $(this).html(count-1);
+            }
+            else
+            {
+                $(this).html(count+1);
+            }
+            $(this).toggleClass("liked");
+        }).addClass("activated");
+
+        //LOAD MAP
+
+        $(".distance").colorbox({
+            maxWidth: "80%",
+            maxHeight: "80%",
+            html:'<div id="gmap_canvas" style="width:750px; height:500px;"></div>',
+            scrolling:false,
+            onComplete:function()
+            {
+                init_map();
+            }
+        });
+        function init_map()
+        {
+            var myOptions =
+            {
+                zoom:14,
+                center:new google.maps.LatLng(40.805478,-73.96522499999998),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+
+            };
+            map = new google.maps.Map(document.getElementById("gmap_canvas"), myOptions);
+            marker = new google.maps.Marker(
+            {
+                map: map,
+                position: new google.maps.LatLng(40.805478, -73.96522499999998)
+
             });
 
 
-};
+        }
+
+
+    });
+
+    // redirect to nofeed
+    checkIfMainFeedEmpty();
+}

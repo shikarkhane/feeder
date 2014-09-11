@@ -1,11 +1,11 @@
 {% extends "feed_wrapper.html" %}
 
-{% block content %}
+{% block feed %}
 
 <section id="feed">
-	<div class="container">
-		<div class="newstories">2 new stories on feed</div>
-		<div class="row">
+	<div class="container-fluid">
+		<!-- div class="newstories">2 new stories on feed</div -->
+		<div class="row-fluid">
 			<div class="feed">
 			</div>
 			<div class="loadingmorebox">
@@ -18,13 +18,13 @@
 
 {% end %}
 
-{% block afterincludejs %}
+{% block more_afterincludejs %}
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-        <script src='/static/js/plugins.js'></script>
-        <script src='/static/js/main.js'></script>
         <script src='/static/js/utility.js'></script>
         <script src='/static/js/feed.js'></script>
+
 {% end %}
+
 {% block afterjscripts %}
 {% end %}
 
