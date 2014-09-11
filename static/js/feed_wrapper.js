@@ -221,3 +221,25 @@ $(".variable3").ionRangeSlider({
     input: $(this).closest(".selectedOpt"),
     hideMinMax:true
 });
+
+$("div.logo").click(function()
+{
+    window.location.replace("/");
+});
+
+$("h3.terms").click(function()
+{
+    window.location.replace("/we/terms/");
+});
+$("h3.advertise").click(function()
+{
+    window.location.replace("/we/advertise/");
+});
+$("h3.help").click(function()
+{
+    window.location.replace("/we/help/");
+});
+$("h3.privacy").click(function()
+{
+    window.location.replace("/we/privacy/");
+});

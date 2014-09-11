@@ -465,7 +465,7 @@ section {
 .feed{
     position:relative;
 }
-#feed{
+#feed, #terms, #advertise, #privacy, #about, #help{
 
     padding-top:70px;
 
