@@ -11,12 +11,12 @@ $(document).on('click', "#btnsubscribe", function(event) {
     }
 
     if ((email.length == 0) || !(isValidEmail(email))){
-        $('#inSubscribeEmail').val('email not valid');
+        $('#inSubscribeEmail').val('Not valid!');
         console.log('Subscribe email not valid');
     }
     else{
-        var jqxhr = $.post( $.cookie('myservername') + 'subscribe/'+ email +'/' + location_url_part );
+        var jqxhr = $.post( get_servername_from_url() + 'subscribe/'+ email +'/' + location_url_part );
         $.cookie('subscribed',  true, { expires: 700, path: '/'});
-        $('#inSubscribeEmail').val('');
+        $('#inSubscribeEmail').val('Subscribed!');
     }
 });

@@ -27,8 +27,8 @@ application = tornado.web.Application([
     (r"/login/twitter/", TwitterHandler),
     (r"/new/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/text/(\S+)/place/(\S+)/", NewHandler),
 
-    (r"/subscribe/(\w+[@]\w+[\.]\w+)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", SubscriberHandler),
-    (r"/subscribe/(\w+[@]\w+[\.]\w+)/", SubscriberHandler),
+    (r"/subscribe/(\w+[\.]?\w+[@]\w+[\.]\w+)/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", SubscriberHandler),
+    (r"/subscribe/(\w+[\.]?\w+[@]\w+[\.]\w+)/", SubscriberHandler),
     (r".*", PageNotFoundHandler),
 
 ], debug=settings.DEBUG, static_path = settings.STATIC_PATH, template_path =  settings.TEMPLATE_PATH,
