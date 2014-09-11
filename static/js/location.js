@@ -86,6 +86,7 @@ function setCoordinateCookie(position){
 		 };
 
 function setLocationUsingGPS(){
+console.log('before navigate');
         if (navigator.geolocation){
             $('#in-progress-wheel').removeClass('hide');
             navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPositionByGps, {timeout:5000});
@@ -93,7 +94,7 @@ function setLocationUsingGPS(){
 }
 
 function setLocation(){
-    if(($.cookie('gpsAllowedByUser')==1) && (!$.cookie('LocationByGps'))){
+    if(($.cookie('gpsAllowedByUser')==1) && ($.cookie('LocationByGps')==0)){
         // get location by ip
         setLocationUsingGPS();
         }
