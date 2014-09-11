@@ -11,7 +11,7 @@ $(document).on('click', "#btnsubscribe", function(event) {
     }
 
     if ((email.length == 0) || !(isValidEmail(email))){
-        $('#inSubscribeEmail').val('Not valid!');
+        $('#txtsubscribe').val('Not valid!');
         console.log('Subscribe email not valid');
     }
     else{
