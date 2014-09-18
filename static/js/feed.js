@@ -99,7 +99,7 @@ function loadFeed(){
         for(var i = 0; i < data.length; i++)
         {
             //social: insta, fb =facebook, tw = twitter, gplus = google plus
-            $container.append('<div id="'+data[i].doc_id+'" class="item col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="itemcontent"><div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div><div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div><div class="boxpadding"><div class="'+data[i].social+'-icon"></div><a href="'+data[i].user_profile_url+'"><div class="more">...</div></a><p class="postcontent">'+data[i].text+'</p><div class="bottom"><h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5><div class="like">'+data[i].up_votes+'</div><div class="distance" data-coord="'+data[i].coord+'">1km</div></div></div></div></div></div>').masonry('reloadItems').masonry('layout');
+            $container.append('<div id="'+data[i].doc_id+'" class="item col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="itemcontent"><div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div><div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div><div class="boxpadding"><div class="'+data[i].source+'-icon"></div><a href="'+data[i].user_profile_url+'"><div class="more">...</div></a><p class="postcontent">'+data[i].text+'</p><div class="bottom"><h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5><div class="like">'+data[i].up_votes+'</div><div class="distance" data-coord="'+data[i].coord+'">1km</div></div></div></div></div></div>').masonry('reloadItems').masonry('layout');
         }
         $(".feed .lazyload:not(.loaded)").lazyload({
             effect : "fadeIn"
