@@ -101,7 +101,6 @@ function setLocation(){
         //get location by ip
         setLocationBasedOnIpaddress();
         $.cookie('LocationByGps', 0, { expires:getDate30MinFromNow(), path: '/'}); // flag that location is by ip addr
-
     }
 };
 

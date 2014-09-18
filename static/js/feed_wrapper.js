@@ -68,6 +68,7 @@ $(document).ready(function()
             $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 	    }
         setLocation();
+        refreshFeed();
 	});	
 
     //SUBSCRIBE TOGGLE
@@ -252,7 +253,7 @@ $(".variable3").ionRangeSlider({
 
 $("div.logo").click(function()
 {
-    window.location.replace("/");
+    refreshFeed();
 });
 
 $("h3.terms").click(function()

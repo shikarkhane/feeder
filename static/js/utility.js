@@ -1,4 +1,7 @@
-
+function refreshFeed(){
+    $.cookie('FromPosition', 0, { path: '/'});
+    window.location.replace("/");
+}
 function pad(num) {
     return ("0" + num).slice(-2);
 };
