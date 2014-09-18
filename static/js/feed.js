@@ -99,7 +99,7 @@ function loadFeed(){
         for(var i = 0; i < data.length; i++)
         {
             //social: insta, fb =facebook, tw = twitter, gplus = google plus
-            $container.append('<div class="item col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="itemcontent"><div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div><div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div><div class="boxpadding"><div class="'+data[i].social+'-icon"></div><a href="#"><div class="more">...</div></a><p class="postcontent">'+data[i].text+'</p><div class="bottom"><h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5><div class="like">'+data[i].up_votes+'</div><div class="distance">1km</div></div></div></div></div></div>').masonry('reloadItems').masonry('layout');
+            $container.append('<div id="'+data[i].doc_id+'" class="item col-xs-12 col-sm-6 col-md-4 col-lg-3"><div class="itemcontent"><div class="photo lazyload" data-original="'+data[i].content_img_url+'"></div><div class="profilePhoto lazyload" data-original="'+data[i].user_img_url+'"></div><div class="boxpadding"><div class="'+data[i].social+'-icon"></div><a href="#"><div class="more">...</div></a><p class="postcontent">'+data[i].text+'</p><div class="bottom"><h5 class="timeago primary"  title="'+formatDate(new Date(data[i].created))+'"></h5><div class="like">'+data[i].up_votes+'</div><div class="distance" data-coord="'+data[i].coord+'">1km</div></div></div></div></div></div>').masonry('reloadItems').masonry('layout');
         }
         $(".feed .lazyload:not(.loaded)").lazyload({
             effect : "fadeIn"
@@ -111,15 +111,20 @@ function loadFeed(){
         $(".like:not(.activated)").click(function()
         {
             var count = parseInt($(this).html());
+            var increment = 1;
+            var doc_id = $(this).closest("div.item").attr("id");
             if($(this).hasClass("liked"))
             {
                 $(this).html(count-1);
+                increment = -1;
             }
             else
             {
                 $(this).html(count+1);
             }
             $(this).toggleClass("liked");
+            var jqxhr = $.get( get_servername_from_url() + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
+
         }).addClass("activated");
 
         //LOAD MAP
@@ -131,15 +136,16 @@ function loadFeed(){
             scrolling:false,
             onComplete:function()
             {
-                init_map();
+                init_map($(this).attr('data-coord'));
             }
         });
-        function init_map()
+        function init_map(coordinates)
         {
+            var coord = coordinates.split(',');
             var myOptions =
             {
                 zoom:14,
-                center:new google.maps.LatLng(40.805478,-73.96522499999998),
+                center:new google.maps.LatLng(coord[0],coord[1]),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
 
             };
@@ -147,7 +153,7 @@ function loadFeed(){
             marker = new google.maps.Marker(
             {
                 map: map,
-                position: new google.maps.LatLng(40.805478, -73.96522499999998)
+                position: new google.maps.LatLng(coord[0], coord[1])
 
             });
 
@@ -159,4 +165,5 @@ function loadFeed(){
 
     // redirect to nofeed
     checkIfMainFeedEmpty();
-}
+};
+
