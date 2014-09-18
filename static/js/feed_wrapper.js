@@ -39,15 +39,17 @@ function clickSettings(e)
                 $(".verticalmenu,.horizontalmenu,section,.iphoneBtn").toggleClass("opened");
             }
         }
-        
     }
     $(".settingsMenu").toggleClass("active");
+
+    if(!$(".settingsMenu").hasClass("active")){
+        refreshFeed();
+    }
 }
 
 
 $(document).ready(function()
 {
-    setLocation();
     $.cookie('FromPosition', 0, { path: '/'});
 
     checkIphone();
@@ -55,20 +57,26 @@ $(document).ready(function()
     //set gps if cookie set
      if ($.cookie('gpsAllowedByUser')==1){
                 setGpsOnText();
-            };
+                setLocationUsingGPS();
+            }
+     else{
+                setLocationBasedOnIpaddress();
+     }
 
 	//GPS TOGGLE
 	$(document).on('click', "div.gps", function(event)
 	{
-	    if ($.cookie('gpsAllowedByUser')==1){
+	    if ($("div.gps").hasClass("active")){
 	        setGpsOffText();
 	        $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+	        setLocationBasedOnIpaddress();
 	    }
 	    else{
             setGpsOnText();
             $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+            setLocationUsingGPS();
 	    }
-        setLocation();
+
         refreshFeed();
 	});	
 

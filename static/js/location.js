@@ -92,17 +92,6 @@ console.log('before navigate');
         };
 }
 
-function setLocation(){
-    if(($.cookie('gpsAllowedByUser')==1) && ($.cookie('LocationByGps')==0)){
-        // get location by ip
-        setLocationUsingGPS();
-        }
-    else{
-        //get location by ip
-        setLocationBasedOnIpaddress();
-        $.cookie('LocationByGps', 0, { expires:getDate30MinFromNow(), path: '/'}); // flag that location is by ip addr
-    }
-};
 
 function setGpsOnText(){
             $("div.gps").addClass("active");
