@@ -48,6 +48,7 @@ function clickSettings(e)
 $(document).ready(function()
 {
     setLocation();
+    $.cookie('FromPosition', 0, { path: '/'});
 
     checkIphone();
 
