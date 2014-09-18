@@ -71,9 +71,7 @@ function setLocationBasedOnIpaddress(){
 };
 
 function couldntFetchPositionByGps(msg){
-		$(this).removeClass("active");
-		$(".gps h6").html("GPS FAILED");
-		$("h6.location-by-text").html("(using your IP Address)");
+        setGpsOffText();
 		$.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 };
 
@@ -106,3 +104,17 @@ function setLocation(){
 
     }
 };
+
+function setGpsOnText(){
+            $("div.gps").addClass("active");
+            $(".gps h6").html("GPS ON");
+            $("h6.location-by-text").html("(using your gps)");
+};
+
+function setGpsOffText(){
+            $("div.gps").removeClass("active");
+            $(".gps h6").html("ENABLE GPS");
+            $("h6.location-by-text").html("(using your IP Address)");
+};
+
+

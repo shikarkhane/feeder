@@ -50,20 +50,21 @@ $(document).ready(function()
     setLocation();
 
     checkIphone();
-	//GPS TOGGLE 
 
+    //set gps if cookie set
+     if ($.cookie('gpsAllowedByUser')==1){
+                setGpsOnText();
+            };
+
+	//GPS TOGGLE
 	$(document).on('click', "div.gps", function(event)
 	{
 	    if ($.cookie('gpsAllowedByUser')==1){
-            $(this).removeClass("active");
-            $(".gps h6").html("ENABLE GPS");
-            $("h6.location-by-text").html("(using your IP Address)");
-            $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+	        setGpsOffText();
+	        $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 	    }
 	    else{
-            $(this).addClass("active");
-            $(".gps h6").html("GPS ON");
-            $("h6.location-by-text").html("(using your gps)");
+            setGpsOnText();
             $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 	    }
         setLocation();
