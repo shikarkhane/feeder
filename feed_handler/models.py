@@ -33,7 +33,7 @@ class Post():
         else:
             self.set(*args)
     def set(self, doc_id, post_id, text, created, content_img_url, user_img_url, source, user_id, place_name, coord,
-                 username, up_votes =0, category_id = 0 ):
+                 username, up_votes =0, category_id = 0, distance=1 ):
         # post_id is the internal _id of elasticsearch store
         self.doc_id = doc_id
         self.post_id = post_id
@@ -49,6 +49,7 @@ class Post():
         self.user_profile_url = User().get_profile_url(userid = user_id, source=source, username=username)
         self.coord = coord
         self.category_id = category_id
+        self.distance = distance
     def set_using_json(self, post_json):
         self.doc_id = post_json["doc_id"]
         post_json = post_json["fields"]
@@ -94,7 +95,7 @@ class Post():
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.source,
              "up_votes": self.up_votes, "user_id": self.user_id, "place_name": self.place_name,
              "user_profile_url": self.user_profile_url, "coord": self.coord, "username": self.username,
-             "category_id" : self.category_id}
+             "category_id" : self.category_id, "distance": self.distance}
         return d
 
 class Feed_Content():
@@ -114,7 +115,7 @@ class Feed_Content():
                         media_url = url_util.get_url_from_string(field["text"][0].encode("utf-8"))
                     data.append(Post( p["_id"], field.get("post_id")[0], field["text"][0].encode("utf-8"),  Date().get_obj(field.get("@timestamp")[0]), media_url,
                                       field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0], field.get("place_name")[0],
-                                      field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
+                                      field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0], field.get("distance")[0]))
                 except Exception, e:
                     # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
                     logging.exception(e)
@@ -139,7 +140,8 @@ class Feed_Content():
                         media_url = url_util.get_url_from_string(field.get("text")[0].encode("utf-8"))
                     data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
-                                      field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
+                                      field.get("place_name")[0], field.get("coord")[0], field.get("username")[0],
+                                      field.get("up_votes")[0], field.get("distance")[0]))
                 except Exception, e:
                     # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
                     logging.exception(e)
@@ -162,7 +164,8 @@ class Feed_Content():
                         media_url = url_util.get_url_from_string(field.get("text")[0].encode("utf-8"))
                     data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
-                                      field.get("place_name")[0], field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0]))
+                                      field.get("place_name")[0], field.get("coord")[0], field.get("username")[0],
+                                      field.get("up_votes")[0], field.get("distance")[0]))
                 except Exception, e:
                     # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
                     logging.exception(e)

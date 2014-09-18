@@ -127,10 +127,20 @@ class Feed(object):
                                             "unit" : "km"
                                 }
                             })
+        distince_field = {
+              "distance" : {
+                 "params" : {
+                    "lat" : float(coord[0]),
+                    "lon" : float(coord[1])
+                 },
+                 "script" : "doc['coord'].distanceInKm(lat,lon)"
+              }
+           }
                         
         data = {
                 "from" : q_from, "size" : q_size,
                 "fields" : self.field_list,
+                "script_fields" : distince_field,
                 "sort" : sortby
                 }
         from_date_filter = {
