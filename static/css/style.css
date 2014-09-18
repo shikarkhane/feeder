@@ -561,11 +561,11 @@ section {
     height:20px;
 
 }
-.itemcontent .insta-icon{
-    background:url(../img/insta-icon.png) no-repeat;
+.itemcontent .instagram-icon{
+    background:url(../img/instagram-icon.png) no-repeat;
 }
 
-.itemcontent .tw-icon{
+.itemcontent .twitter-icon{
     background:url(../img/tw-icon.png) no-repeat;
 }
 
