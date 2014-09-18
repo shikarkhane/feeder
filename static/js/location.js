@@ -73,6 +73,7 @@ function setLocationBasedOnIpaddress(){
 function couldntFetchPositionByGps(msg){
 		$(this).removeClass("active");
 		$(".gps h6").html("GPS FAILED");
+		$("h6.location-by-text").html("(using your IP Address)");
 		$.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 };
 

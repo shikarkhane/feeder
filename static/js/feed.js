@@ -1,6 +1,6 @@
 function getFeedUrl(){
             var from_datetime = new Date().getTime();
-            var q_pagesize = 10;
+            var q_pagesize = 20;
             var mylat = $.cookie('MyLat');
             var mylon = $.cookie('MyLon');
             var fromposition = $.cookie('FromPosition');
