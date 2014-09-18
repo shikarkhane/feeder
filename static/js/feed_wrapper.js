@@ -201,37 +201,53 @@ $(".iphoneBtn").click(function()
 
 // SETTINGS - pre-define a selection between Lastest first (irs-min) or Popular first (irs-max)
 $(".lastestfirst").addClass("active");
+if ($.cookie('mysortbyvotes') == 1){
+        $(".popularfirst").addClass("active");
+        $(".lastestfirst").removeClass("active");
+    }
 
 //change when clicked
 $(".lastestfirst").click(function()
 {
     $(this).addClass("active");
     $(".popularfirst").removeClass("active");
+    $.cookie('mysortbyvotes', 0, { path: '/'});
 });
 $(".popularfirst").click(function()
 {
     $(this).addClass("active");
     $(".lastestfirst").removeClass("active");
+    $.cookie('mysortbyvotes', 1, { path: '/'});
 });
 
 //SETTINGS SLIDERS
 $(".variable2").ionRangeSlider({
     min: 1,
     max: 30,
+    from: $.cookie('myfilterdays'),
     type: 'single',
     hasGrid: false,
     postfix: " days",
     input: $(this).closest(".selectedOpt"),
-    hideMinMax:true
+    hideMinMax:true,
+    onFinish: function (obj) {      // callback is called on slider action is finished
+        console.log(obj['fromNumber']);
+        $.cookie('myfilterdays', obj['fromNumber'], { path: '/'});
+    }
 });
 $(".variable3").ionRangeSlider({
     min: 1,
     max: 9,
+    from: $.cookie('mysearchradius'),
     type: 'single',
     hasGrid: false,
     postfix: "km",
     input: $(this).closest(".selectedOpt"),
-    hideMinMax:true
+    hideMinMax:true,
+    onFinish: function (obj) {      // callback is called on slider action is finished
+        console.log(obj['fromNumber']);
+        $.cookie('mysearchradius', obj['fromNumber'], { path: '/'});
+    }
 });
 
 $("div.logo").click(function()
