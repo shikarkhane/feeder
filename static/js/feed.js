@@ -12,7 +12,10 @@ function getFeedUrl(){
                 myfilterdays = 30;
                 $.cookie('myfilterdays', myfilterdays, { path: '/'});
                 }
-            if (!fromposition){ fromposition = 0; }
+            if (!fromposition){
+                fromposition = 0;
+                $.cookie('FromPosition', fromposition, { path: '/'});
+                }
             if (!mysearchradius){
                 mysearchradius = 9;
                 $.cookie('mysearchradius', mysearchradius, { path: '/'});
@@ -29,13 +32,16 @@ function getFeedUrl(){
 			            + "/radius/" + mysearchradius + '/sort/' + mysortbyvotes + '/filterdays/' + myfilterdays + '/';
 			var popular_path = path;
 
-	  		if (!($.cookie('MyLat') == null)){			  				
-	    			path = path +  "location/" + mylat + "/" +  mylon + "/";
-	    			popular_path = popular_path +  "location/" + mylat + "/" +  mylon + "/";
-	    		}
-	    	popular_path = popular_path + "source/instagram/";
-			// getAndRenderData(path, popular_path);
-			handlePageNumber(1, q_pagesize);
+            if ($.cookie('MyLat')){
+                    path = path +  "location/" + mylat + "/" +  mylon + "/";
+            }
+            else{
+            //hard code stockholm for time being ( 59.324801, 18.072453 )
+            // TODO: implement require and add dependency so that location loads first
+                    path = path +  "location/59.324801/18.072453/";
+            }
+
+	    	handlePageNumber(1, q_pagesize);
 			return path;
 };
 
