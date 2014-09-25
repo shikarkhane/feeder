@@ -8,10 +8,19 @@ function getFeedUrl(){
             var mysortbyvotes = $.cookie('mysortbyvotes');
 			var myfilterdays = $.cookie('myfilterdays');
 
-            if (!myfilterdays){ myfilterdays = 100; }
+            if (!myfilterdays){
+                myfilterdays = 30;
+                $.cookie('myfilterdays', myfilterdays, { path: '/'});
+                }
             if (!fromposition){ fromposition = 0; }
-            if (!mysearchradius){ mysearchradius = 9; }
-            if (!mysortbyvotes){ mysortbyvotes = 0; }
+            if (!mysearchradius){
+                mysearchradius = 9;
+                $.cookie('mysearchradius', mysearchradius, { path: '/'});
+                }
+            if (!mysortbyvotes){
+                mysortbyvotes = 0;
+                $.cookie('mysortbyvotes', mysortbyvotes, { path: '/'});
+                }
 
             var servername = get_servername_from_url();
             //servername = 'http://tipoff.io/';
