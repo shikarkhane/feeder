@@ -50,7 +50,6 @@ function clickSettings(e)
 
 $(document).ready(function()
 {
-    $.cookie('FromPosition', 0, { path: '/'});
 
     checkIphone();
 

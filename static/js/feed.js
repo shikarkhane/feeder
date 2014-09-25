@@ -14,7 +14,7 @@ function getFeedUrl(){
                 }
             if (!fromposition){
                 fromposition = 0;
-                $.cookie('FromPosition', q_pagesize, { path: '/'});
+                $.cookie('FromPosition', fromposition, { path: '/'});
                 }
             if (!mysearchradius){
                 mysearchradius = 9;
