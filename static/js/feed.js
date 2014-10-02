@@ -11,6 +11,7 @@ function getFeedUrl(){
             if (!myfilterdays){
                 myfilterdays = 30;
                 $.cookie('myfilterdays', myfilterdays, { path: '/'});
+                $(".variable2").ionRangeSlider("update", { from: myfilterdays });
                 }
             if (!fromposition){
                 fromposition = 0;
@@ -19,6 +20,7 @@ function getFeedUrl(){
             if (!mysearchradius){
                 mysearchradius = 9;
                 $.cookie('mysearchradius', mysearchradius, { path: '/'});
+                $(".variable3").ionRangeSlider("update", { from: mysearchradius });
                 }
             if (!mysortbyvotes){
                 mysortbyvotes = 0;
@@ -104,6 +106,25 @@ $(window).scroll(function(e){
 
 });
 
+//LIKE TOGGLE
+$(document).on('click', ".like:not(.activated)", function()
+{
+    var count = parseInt($(this).html());
+    var increment = 1;
+    var doc_id = $(this).closest("div.item").attr("id");
+    if($(this).hasClass("liked"))
+    {
+        $(this).html(count-1);
+        increment = -1;
+    }
+    else
+    {
+        $(this).html(count+1);
+    }
+    $(this).toggleClass("liked");
+    var jqxhr = $.get( get_servername_from_url() + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
+
+}).addClass("activated");
 
 // LOAD FEED
 function loadFeed(){
@@ -121,33 +142,14 @@ function loadFeed(){
         }).addClass("loaded");
         $(".timeago:not(.timeloaded)").timeago().addClass("timeloaded");
 
-        //LIKE TOGGLE
 
-        $(".like:not(.activated)").click(function()
-        {
-            var count = parseInt($(this).html());
-            var increment = 1;
-            var doc_id = $(this).closest("div.item").attr("id");
-            if($(this).hasClass("liked"))
-            {
-                $(this).html(count-1);
-                increment = -1;
-            }
-            else
-            {
-                $(this).html(count+1);
-            }
-            $(this).toggleClass("liked");
-            var jqxhr = $.get( get_servername_from_url() + 'like/'+ encodeURIComponent(doc_id) +'/' + increment + '/');
-
-        }).addClass("activated");
 
         //LOAD MAP
 
         $(".distance").colorbox({
             maxWidth: "80%",
             maxHeight: "80%",
-            html:'<div id="gmap_canvas" style="width:750px; height:500px;"></div>',
+            html:'<div id="gmap_canvas" style="width:'+ ($(window).width() * 0.80) + 'px; height:'+ ($(window).height() * 0.80) + 'px;"></div>',
             scrolling:false,
             onComplete:function()
             {
