@@ -78,6 +78,7 @@ class Post():
         self.user_id = post_json["user_id"][0]
         self.username = post_json["username"][0]
         self.place_name = post_json["place_name"][0]
+        self.distance = post_json["distance"][0]
 
         if post_json.get("category_id"):
             self.category_id = post_json["category_id"][0]
@@ -100,30 +101,7 @@ class Post():
 
 class Feed_Content():
     '''Provides feed content'''
-    def get_random_feed(self, from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
-        f = Feed()
-        data = []
-        result = json.loads(f.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays))
-        if result["hits"]["total"] > 0:
-            for p in result["hits"]["hits"]:
-                field = p["fields"]
-                try:
-                    url_util = Url()
-                    media_url = url_util.get_url_from_string(field.get("content_img_url")[0])
-                    if not media_url:
-                        # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field["text"][0].encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("post_id")[0], field["text"][0].encode("utf-8"),  Date().get_obj(field.get("@timestamp")[0]), media_url,
-                                      field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0], field.get("place_name")[0],
-                                      field.get("coord")[0], field.get("username")[0], field.get("up_votes")[0], field.get("distance")[0]))
-                except Exception, e:
-                    # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
-                    logging.exception(e)
-                    logging.exception(p)
-        return data
-    def get_random_feed_as_json(self,from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays):
-        data = self.get_random_feed(from_datetime, q_from, q_size, encoded_tags, radius, sort, filterdays)
-        return [(d.get_as_dict()) for d in data]
+
     def get_feed_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays):
         f = Feed()
         data = []
@@ -141,48 +119,22 @@ class Feed_Content():
                     data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
                                       media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
                                       field.get("place_name")[0], field.get("coord")[0], field.get("username")[0],
-                                      field.get("up_votes")[0], field.get("distance")[0]))
+                                      field.get("up_votes")[0], 0, field.get("distance")[0]))
                 except Exception, e:
                     # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
                     logging.exception(e)
                     logging.exception(p)
         return data
-    def get_popular_around_coord(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
-                                 filterdays):
-        f = Feed()
-        data = []
-        result = json.loads(f.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort,
-                                                       source, filterdays))
-        if result["hits"]["total"] > 0:
-            for p in result["hits"]["hits"]:
-                field = p["fields"]
-                try:
-                    url_util = Url()
-                    media_url = url_util.get_url_from_string(field.get("content_img_url")[0])
-                    if not media_url:
-                        # see if text field has a url in it
-                        media_url = url_util.get_url_from_string(field.get("text")[0].encode("utf-8"))
-                    data.append(Post( p["_id"], field.get("post_id")[0], field.get("text")[0].encode("utf-8"), Date().get_obj(field.get("@timestamp")[0]),
-                                      media_url, field.get("user_img_url")[0], field.get("type")[0], field.get("user_id")[0],
-                                      field.get("place_name")[0], field.get("coord")[0], field.get("username")[0],
-                                      field.get("up_votes")[0], field.get("distance")[0]))
-                except Exception, e:
-                    # fetcher engine and logstash must ensure clean data gets into elasticsearch which confirms to the Post object
-                    logging.exception(e)
-                    logging.exception(p)
-        return data
+
     def get_feed_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays):
         data = self.get_feed_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, filterdays)
         return [(d.get_as_dict()) for d in data]
-    def get_popular_around_coord_as_json(self, from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
-                                         filterdays):
-        data = self.get_popular_around_coord(from_datetime, coord, q_from, q_size, encoded_tags, radius, sort, source,
-                                             filterdays)
-        return [(d.get_as_dict()) for d in data]
+
     def get_post(self, doc_id):
         d = self.get_post_by_id(doc_id)
         d["doc_id"] = doc_id
         return Post(d)
+
     def increment_upvote(self,data, increment):
         '''this method should be removed in future when post object is being passed everywhere'''
         if data.get("up_votes"):
@@ -190,12 +142,14 @@ class Feed_Content():
         else:
             data["up_votes"][0] = increment
         return data
+
     def get_post_by_id(self, doc_id):
         d = Feed().get_by_document_id(doc_id)
         if (json.loads(d)["hits"]["total"] == 0):
             return None
         else:
             return json.loads(d)["hits"]["hits"][0]
+
     def like_post(self, document_id, increment):
         f = Feed()
         data = self.get_post_by_id(document_id)
@@ -210,6 +164,7 @@ class Feed_Content():
         # TODO convert the following into a UPDATE like the categorize_post()
         f.delete_by_document_id(d_index, d_doctype, d_id)
         f.create_document(index_name = d_index, doc_type = d_doctype, document_id = d_id, json_body = json.dumps(fields))
+
     def delete_post(self, document_id):
         f = Feed()
         data = self.get_post_by_id(document_id)
@@ -221,6 +176,7 @@ class Feed_Content():
             d_id = document_id
         f.delete_by_document_id(d_index, d_doctype, d_id)
         return True
+
     def categorize_post(self, document_id, category_id):
         f = Feed()
         data = self.get_post_by_id(document_id)
@@ -232,6 +188,7 @@ class Feed_Content():
             d_id = document_id
         f.categorize_by_document_id(d_index, d_doctype, d_id, category_id)
         return True
+
     def put_native_post(self, lat, lon, text, image_data_url, file_extn, cityname):
         f = Feed()
         user_id = 0
@@ -244,6 +201,7 @@ class Feed_Content():
                                      cityname, uploaded_img_url, username)
 class Backoffice_content():
     '''administrative and analytics'''
+
     def get_last_1day_period_activity(self):
         f = Feed()
         data = []

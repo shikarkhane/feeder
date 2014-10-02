@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<ul id="bo_tabs" class="nav nav-tabs">
+  <li id="home"><a href="/backoffice/home/">Home</a></li>
+  <li id="cookies"><a href="/backoffice/cookies/">Cookies</a></li>
+  <li id="category"><a href="/backoffice/category/">Category</a></li>
+</ul>
+
+{% block bo %}
+{% end %}
+
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/bo.js"></script>
+{% end %}

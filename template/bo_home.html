@@ -1,0 +1,17 @@
+{% extends "backoffice.html" %}
+
+{% block bo %}
+
+	<div id="last-24-hours">
+		   <ul>
+      {% for period in activity %}
+          <li>{{ period }}</li>
+      {% end %}
+    </ul>
+	</div>
+
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/bo_home.js"></script>
+{% end %}

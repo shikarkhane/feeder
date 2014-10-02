@@ -100,21 +100,7 @@ class ShowPostHandler(tornado.web.RequestHandler):
         except Exception,e:
             logging.exception(e)
             self.render("404.html")
-class MainHandler(tornado.web.RequestHandler):
-    '''
-    non geo handler
-    '''
-    def get(self, q_from_datetime, q_from=0, q_page_size = 10, q_radius = 10, q_sort=0, q_filterdays=30, q_encoded_tags=None):
-        try:
-            if int(q_page_size) > 50:
-                q_page_size = 50
-            f = Feed_Content()
-            posts = f.get_random_feed_as_json(q_from_datetime, q_from, q_page_size, q_encoded_tags, int(q_radius),
-                                              int(q_sort), int(q_filterdays))
-            self.write(json.dumps(posts))
-        except Exception,e:
-            logging.exception(e)
-            self.render("404.html")
+
 class GeoHandler(tornado.web.RequestHandler):
     '''
     handler to find data around coordinates
@@ -136,23 +122,6 @@ class GeoHandler(tornado.web.RequestHandler):
             logging.exception(e)
             self.render("404.html")
 
-class PopularHandler(tornado.web.RequestHandler):
-    '''
-    handler to find popular data around coordinates
-    '''
-    def get(self, q_from_datetime, q_from=0, q_page_size = 10, q_radius = 10, q_sort=0, q_filterdays=30,
-            q_latitude = 58, q_longitude = 16, q_source='instagram'):
-        try:
-            if int(q_page_size) > 50:
-                q_page_size = 50
-            f = Feed_Content()
-            coord = [q_latitude,q_longitude]
-            posts = f.get_popular_around_coord_as_json( q_from_datetime, coord , q_from, q_page_size, None,
-                                                     int(q_radius), 0, q_source, int(q_filterdays))
-            self.write(json.dumps(posts))
-        except Exception,e:
-            logging.exception(e)
-            self.render("404.html")
 
 class BOHandler(BaseHandler):
     '''
@@ -166,7 +135,7 @@ class BOHandler(BaseHandler):
             bo = Backoffice_content()
             result = bo.get_last_1day_period_activity()
             #self.write(json.dumps(result))
-            self.render("backoffice.html", activity=result)
+            self.render("bo_home.html", activity=result)
         except Exception,e:
             logging.exception(e)
             self.render("404.html")

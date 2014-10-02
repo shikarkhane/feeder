@@ -1,0 +1,25 @@
+{% extends "backoffice.html" %}
+
+{% block bo %}
+
+<div class="input-group">
+  <span class="input-group-addon">New category</span>
+  <input id="txt-category" type="text" class="form-control" placeholder="music">
+    <span class="input-group-btn">
+        <button id="add-category" class="btn btn-default" type="button"><span class="glyphicon glyphicon-floppy-disk"></span></button>
+      </span>
+</div>
+
+<ul class="category-list-group">
+
+        {% for category in categories %}
+            <li class="category-list-group-item"><span class="cls_category_name">{{ category }}</span><span class="glyphicon glyphicon-remove delete-category"></span></li>
+      {% end %}
+</ul>
+{% end %}
+
+
+
+{% block afterincludejs %}
+            <script src="/static/js/bo_category.js"></script>
+{% end %}

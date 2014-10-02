@@ -1,17 +1,15 @@
 import tornado.ioloop
-from feed_handler.handler import GeoHandler, MainHandler, PreHandler, BOHandler, HelperHandler, LikeHandler, \
-    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, ShowPostHandler, PopularHandler, \
+from feed_handler.handler import GeoHandler, PreHandler, BOHandler, HelperHandler, LikeHandler, \
+    NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, ShowPostHandler,  \
     DeleteHandler, BOCookiesHandler, PageNotFoundHandler, CategoryHandler, BOCategoryHandler
 from user_handler.handler import SubscriberHandler
 import settings
 
 
 application = tornado.web.Application([
-    (r"/", PreHandler), (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1})/sort/([0-1]?)/filterdays/([0-9]{1,3})/", MainHandler),
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/tags/(\S+)/", MainHandler),
+    (r"/", PreHandler),
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", GeoHandler),
     (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/tags/(\S+)/", GeoHandler),
-    (r"/time/([0-9]+)/from/([0-9]+)/pagesize/([0-9]+)/radius/([0-9]{1,3})/sort/([0-1]?)/filterdays/([0-9]{1,3})/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/source/(\S+)/", PopularHandler),
     (r"/backoffice/home/", BOHandler),
     (r"/backoffice/cookies/", BOCookiesHandler),
     (r"/backoffice/category/", BOCategoryHandler),

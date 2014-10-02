@@ -1,0 +1,26 @@
+{% extends "feed_wrapper.html" %}
+
+
+{% block feed %}
+<div id="no-coord-warning" class="hide alert alert-danger">Your location is unknown, please allow browser access to GPS.
+You cannot post a tipoff without a location.</div>
+       <h3>Login via:</h3>
+
+<div >
+
+      <button type="button" class="btn btn-default btn-lg btn-block" id="btngoogle">Google</button>
+      <button type="button" class="btn btn-default btn-lg btn-block" id="btnfacebook" >Facebook</button>
+      <!--button type="button" class="btn btn-default btn-lg btn-block" id="btntwitter" >Twitter</button-->
+
+</div>
+<div class="spacer"></div>
+<div class="alert alert-info">We just want real people to post on tipoff, not bots or spammers.</div>
+
+{% end %}
+
+{% block afterincludejs %}
+            <script src="/static/js/utility.js"></script>
+            <script src="/static/js/login.js"></script>
+{% end %}
+{% block afterjscripts %}
+{% end %}
