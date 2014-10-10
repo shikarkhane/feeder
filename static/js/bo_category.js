@@ -1,8 +1,8 @@
 $(document).on('click', "#add-category", function() {
         var newcategory = $('#txt-category').val();
         url = 'backoffice/category/' + newcategory + '/';
-        var jqxhr = $.post( $.cookie('myservername') + url );
-        location.reload();
+        var jqxhr = $.post(get_servername_from_url() + url );
+
 	});
 
 $(document).on('click', "li > span.delete-category", function() {
@@ -10,11 +10,11 @@ $(document).on('click', "li > span.delete-category", function() {
         console.log(delcategory);
         url = 'backoffice/category/' + delcategory + '/';
         $.ajax({
-                url: $.cookie('myservername') + url,
+                url: get_servername_from_url() + url,
                 type: 'DELETE',
                 success: function(result) {
                     console.log('Category ' + delcategory + ' was deleted');
-                    location.reload();
+
                 }
             });
 	});

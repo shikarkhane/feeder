@@ -8,7 +8,8 @@ from common.utility import Date
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
 class Category():
-    LIST = {}
+    def __init__(self):
+        self.LIST = {}
     def make_list(self, source):
         # convert multiple {u'category_id': u'1221', u'category_name': u'TRHEME'} to { "TRHEME" : 1221, ...}
         self.LIST[source['category_name']] = int(source['category_id'])
