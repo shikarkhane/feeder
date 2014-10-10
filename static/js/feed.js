@@ -69,18 +69,23 @@ function setFromPosition(){
 		};
 	};
 
-//LOAD FEED FIRST
-loadFeed();
-// MASORY FEED
 
-$container = $(".feed ");
+$(document).ready(function()
+{
+    console.log('feed loaded');
 
-$container.masonry({
-  itemSelector        : '.item',
-  columnWidth         : '.item',
-  transitionDuration  : 0
+    //LOAD FEED FIRST
+    loadFeed();
+    // MASORY FEED
+
+    $container = $(".feed ");
+
+    $container.masonry({
+      itemSelector        : '.item',
+      columnWidth         : '.item',
+      transitionDuration  : 0
+    });
 });
-
 
 function changeLoadingMoreMessage(msg){
     $('.loadingmore').html(msg);
@@ -190,3 +195,4 @@ function loadFeed(){
     });
 
 };
+

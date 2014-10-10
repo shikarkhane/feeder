@@ -65,6 +65,7 @@ function setLocationBasedOnIpaddress(){
                 console.log(coord);
                 $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
                 $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+                $.cookie('FromPosition', 0, { path: '/'});
                 reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
         }
     });

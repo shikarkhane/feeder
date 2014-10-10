@@ -50,7 +50,7 @@ function clickSettings(e)
 
 $(document).ready(function()
 {
-
+    console.log('feed wrapper loaded');
     checkIphone();
 
     //set gps if cookie set
