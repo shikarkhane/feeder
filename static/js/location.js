@@ -57,6 +57,24 @@ function getIpAddress(){
 function setLocationBasedOnIpaddress(){
     //console.log('set location by ip');
     var url = 'http://ipinfo.io/json';
+    $.ajax({
+        dataType: "json",
+        url: url,
+        async: false
+        })
+        .done(function( data ) {
+            // console.log('calling ip info');
+            coord = data['loc'];
+            // console.log(coord);
+            if (coord){
+                    // console.log(coord);
+                    $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
+                    $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+                    $.cookie('FromPosition', 0, { path: '/'});
+                    reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
+            }
+        });
+
     $.getJSON( url, function( data ) {
         //console.log('calling ip info');
         coord = data['loc'];
