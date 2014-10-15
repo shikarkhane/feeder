@@ -49,6 +49,6 @@ function checkIfMainFeedEmpty(){
     //console.log($('div.feed').children().length);
 
     if ( $('div.feed').children().length == 0 ) {
-        //window.location.replace("/we/nofeed/");
+        window.location.replace("/we/nofeed/");
     }
 };
