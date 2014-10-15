@@ -70,23 +70,11 @@ function setLocationBasedOnIpaddress(){
                     // console.log(coord);
                     $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
                     $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-                    $.cookie('FromPosition', 0, { path: '/'});
                     reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
+
             }
         });
 
-    $.getJSON( url, function( data ) {
-        //console.log('calling ip info');
-        coord = data['loc'];
-        //console.log(coord);
-        if (coord){
-                console.log(coord);
-                $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
-                $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-                $.cookie('FromPosition', 0, { path: '/'});
-                reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
-        }
-    });
 };
 
 function couldntFetchPositionByGps(msg){
@@ -98,13 +86,13 @@ function setCoordinateCookie(position){
             //alert('set coord');
 		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-			$.cookie('FromPosition', 0, { path: '/'});
             $.cookie('LocationByGps', 1, { expires:getDate30MinFromNow(), path: '/'}); // flag that location is by ip addr
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
+
 		 };
 
 function setLocationUsingGPS(){
-console.log('before navigate');
+        console.log('before navigate');
         if (navigator.geolocation){
             $('#in-progress-wheel').removeClass('hide');
             navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPositionByGps, {timeout:5000});

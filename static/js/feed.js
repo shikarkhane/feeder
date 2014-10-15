@@ -8,6 +8,9 @@ function getFeedUrl(){
             var mysortbyvotes = $.cookie('mysortbyvotes');
 			var myfilterdays = $.cookie('myfilterdays');
 
+            if ($.cookie('from_datetime')){
+                from_datetime = $.cookie('from_datetime');
+            }
             if (!myfilterdays){
                 myfilterdays = 30;
                 $.cookie('myfilterdays', myfilterdays, { path: '/'});
@@ -43,25 +46,17 @@ function getFeedUrl(){
                     path = path +  "location/59.324801/18.072453/";
             }
 
-	    	handlePageNumber(1, q_pagesize);
 			return path;
 };
 
 
-function handlePageNumber(code, q_pagesize){
-	if (code == 1){ 
-			setFromPosition();
-			var nextposition = parseInt($.cookie('FromPosition')) + q_pagesize;
-			$.cookie('FromPosition', nextposition, { path: '/'});
-	};
-	if (code == -1){ //decrement by step size
-			setFromPosition();
-			var nextposition = parseInt($.cookie('FromPosition')) - q_pagesize;
-			if (nextposition < 0){
-				nextposition = 0;
-			}
-			$.cookie('FromPosition', nextposition, { path: '/'}); 
-	};
+function handlePageNumber(q_pagesize){
+        setFromPosition();
+        var nextposition = parseInt($.cookie('FromPosition')) + q_pagesize;
+        $.cookie('FromPosition', nextposition, { path: '/'});
+        console.log('inside handlepagenumber');
+        console.log(nextposition);
+        console.log(parseInt($.cookie('FromPosition')));
 };
 function setFromPosition(){
 		if (($.cookie('FromPosition') == null)||($.cookie('FromPosition') == "NaN")){
@@ -73,6 +68,7 @@ function setFromPosition(){
 $(document).ready(function()
 {
     console.log('feed loaded');
+    $.cookie('from_datetime', new Date().getTime(), { path: '/'});
 
     //LOAD FEED FIRST
     loadFeed();
@@ -136,8 +132,10 @@ $(document).on('click', ".like:not(.activated)", function()
 // LOAD FEED
 function loadFeed(){
     var url = getFeedUrl();
+    console.log(url);
     $.get(url,function(res)
     {
+        handlePageNumber(20);
         data = JSON.parse(res);
         if ( data.length == 0 ){
             changeLoadingMoreMessage('End of feed!');

@@ -51,6 +51,7 @@ function clickSettings(e)
 $(document).ready(function()
 {
     console.log('feed wrapper loaded');
+    $.cookie('FromPosition', 0, { path: '/'});
     checkIphone();
 
     //set gps if cookie set
@@ -75,9 +76,8 @@ $(document).ready(function()
             $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
             setLocationUsingGPS();
 	    }
-
-        refreshFeed();
-	});	
+	    refreshFeed();
+	});
 
     //SUBSCRIBE TOGGLE
     $(".subscribe .icon,.subscribe h4").bind(clickHandler,function(e)
