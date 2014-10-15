@@ -13,7 +13,8 @@ from models import Feed_Content, Backoffice_content, Post
 import settings
 from backend.fetcher import Fetcher
 import logging
-from category.models import Category
+from category.models import Category, Classify
+
 # Log everything, and send it to stderr.
 logging.basicConfig(filename=settings.DEBUG_LOG,level=logging.ERROR,format='%(asctime)s %(message)s')
 
@@ -153,6 +154,30 @@ class BOCookiesHandler(BaseHandler):
         except Exception,e:
             logging.exception(e)
             self.render("404.html")
+class BOCategoryFeaturesHandler(BaseHandler):
+    '''add or remove features from a category. In future to be used for machine learning the posts'''
+    def get(self):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email not in settings.ADMIN_EMAILS:
+                self.render('denied.html')
+            c = Classify()
+            result = c.get_feature_set()
+            #self.write(json.dumps(result))
+            self.render("bo_category_features.html", categories=result)
+        except Exception,e:
+            logging.exception(e)
+            self.render("404.html")
+    def post(self, category_name):
+        try:
+            email = tornado.escape.xhtml_escape(self.current_user["email"])
+            if email in settings.ADMIN_EMAILS:
+                m = Category()
+                m.add(category_name)
+            self.write('New Category added!')
+        except Exception,e:
+            logging.exception(e)
+            self.render("404.html")
 class BOCategoryHandler(BaseHandler):
     '''
     add or remove master list of categories
@@ -163,7 +188,11 @@ class BOCategoryHandler(BaseHandler):
             if email not in settings.ADMIN_EMAILS:
                 self.render('denied.html')
             c = Category()
-            result = c.get_all()
+            try:
+                result = c.get_all()
+            except:
+                result = {}
+                #when no index structure exists
             #self.write(json.dumps(result))
             self.render("bo_category.html", categories=result)
         except Exception,e:

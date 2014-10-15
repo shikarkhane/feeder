@@ -1,7 +1,7 @@
 import tornado.ioloop
 from feed_handler.handler import GeoHandler, PreHandler, BOHandler, HelperHandler, LikeHandler, \
     NewHandler, GoogleHandler, TwitterHandler, FacebookHandler, ShowPostHandler,  \
-    DeleteHandler, BOCookiesHandler, PageNotFoundHandler, CategoryHandler, BOCategoryHandler
+    DeleteHandler, BOCookiesHandler, PageNotFoundHandler, CategoryHandler, BOCategoryHandler, BOCategoryFeaturesHandler
 from user_handler.handler import SubscriberHandler
 import settings
 
@@ -14,6 +14,7 @@ application = tornado.web.Application([
     (r"/backoffice/cookies/", BOCookiesHandler),
     (r"/backoffice/category/", BOCategoryHandler),
     (r"/backoffice/category/(\S+)/", BOCategoryHandler),
+    (r"/backoffice/category-features/", BOCategoryFeaturesHandler),
     (r"/we/([a-zA-Z0-9]+)/", HelperHandler),
     (r"/like/(\S+)/(\-?[1-9]{1})/", LikeHandler),
     (r"/delete/(\S+)/", DeleteHandler),

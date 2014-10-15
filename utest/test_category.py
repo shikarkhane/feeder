@@ -13,7 +13,8 @@ class Test_Classify(unittest.TestCase):
         with open(settings.FEATURE_SET, 'w') as ff:
             ff.write('{}')
     def tearDown(self):
-        os.remove(settings.FEATURE_SET)
+        #os.remove(settings.FEATURE_SET)
+        pass
     def test_get_feature_set(self):
         c = Classify()
         r = c.get_feature_set()
