@@ -68,6 +68,9 @@ $(document).ready(function()
                     setLocationBasedOnIpaddress(0);
          }
      }
+     else{
+         reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
+     }
 
 	//GPS TOGGLE
 	$(document).on('click', "div.gps", function(event)
