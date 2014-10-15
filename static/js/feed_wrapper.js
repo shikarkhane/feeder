@@ -55,28 +55,33 @@ $(document).ready(function()
     checkIphone();
 
     //set gps if cookie set
-     if ($.cookie('gpsAllowedByUser')==1){
+    if($.cookie('gpsAllowedByUser')==1){
                 setGpsOnText();
-                setLocationUsingGPS();
-            }
-     else{
-                setLocationBasedOnIpaddress();
+    }
+
+    if (($.cookie('refreshedByGpsButton') == null)||($.cookie('refreshedByGpsButton') == "NaN")||($.cookie('refreshedByGpsButton') == undefined))
+    {
+         if ($.cookie('gpsAllowedByUser')==1){
+                    setLocationUsingGPS(0);
+                }
+         else{
+                    setLocationBasedOnIpaddress(0);
+         }
      }
 
 	//GPS TOGGLE
 	$(document).on('click', "div.gps", function(event)
 	{
+	    // dont set the coord again on page load, if gps button was clicked to refresh the page
+	    $.cookie('refreshedByGpsButton', 1, { expires:getDate15SecFromNow(), path: '/'});
 	    if ($("div.gps").hasClass("active")){
 	        setGpsOffText();
-	        $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-	        setLocationBasedOnIpaddress();
+	        setLocationBasedOnIpaddress(1);
 	    }
 	    else{
             setGpsOnText();
-            $.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-            setLocationUsingGPS();
+            setLocationUsingGPS(1);
 	    }
-	    refreshFeed();
 	});
 
     //SUBSCRIBE TOGGLE

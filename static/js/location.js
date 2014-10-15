@@ -54,7 +54,7 @@ function getIpAddress(){
     });
 };
 
-function setLocationBasedOnIpaddress(){
+function setLocationBasedOnIpaddress(should_refresh){
     //console.log('set location by ip');
     var url = 'http://ipinfo.io/json';
     $.ajax({
@@ -70,32 +70,40 @@ function setLocationBasedOnIpaddress(){
                     // console.log(coord);
                     $.cookie('MyLat', coord.split(',')[0], { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
                     $.cookie('MyLon', coord.split(',')[1], { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
+                    $.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'});
                     reverseLookupLocality(coord.split(',')[0], coord.split(',')[1]);
-
+                    if(should_refresh === 1){
+                        refreshFeed();
+                    }
             }
         });
 
 };
+
 
 function couldntFetchPositionByGps(msg){
         setGpsOffText();
 		$.cookie('gpsAllowedByUser', 0, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
 };
 
-function setCoordinateCookie(position){
+function setCoordinateCookie(position, should_refresh){
             //alert('set coord');
 		  	$.cookie('MyLat', position.coords.latitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing latitude value
 			$.cookie('MyLon', position.coords.longitude, { expires:getDate30MinFromNow(), path: '/'}); // Storing longitude value
-            $.cookie('LocationByGps', 1, { expires:getDate30MinFromNow(), path: '/'}); // flag that location is by ip addr
+			$.cookie('gpsAllowedByUser', 1, { expires:getDate30MinFromNow(), path: '/'});
             reverseLookupLocality($.cookie('MyLat'), $.cookie('MyLon'));
-
+            if(should_refresh === 1){
+                    refreshFeed();
+                }
 		 };
 
-function setLocationUsingGPS(){
+function setLocationUsingGPS(should_refresh){
         console.log('before navigate');
         if (navigator.geolocation){
             $('#in-progress-wheel').removeClass('hide');
-            navigator.geolocation.getCurrentPosition(setCoordinateCookie, couldntFetchPositionByGps, {timeout:5000});
+            navigator.geolocation.getCurrentPosition(function(position) {
+                                                                    setCoordinateCookie(position, should_refresh)
+                            }, couldntFetchPositionByGps, {timeout:5000});
         };
 }
 

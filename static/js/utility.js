@@ -20,7 +20,12 @@ function getDate30MinFromNow(){
      date.setTime(date.getTime() + (minutes * 60 * 1000));
      return date;
  };
-
+function getDate15SecFromNow(){
+     var date = new Date();
+     var seconds = 15;
+     date.setTime(date.getTime() + (seconds * 1000));
+     return date;
+ };
  function get_url_value(param){
     if(param=(new RegExp('[?&]'+encodeURIComponent(param)+'=([^&]*)')).exec(location.search))
         return decodeURIComponent(param[1]);
