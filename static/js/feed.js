@@ -133,9 +133,9 @@ $(document).on('click', ".like:not(.activated)", function()
 function loadFeed(){
     var url = getFeedUrl();
     console.log(url);
+    handlePageNumber(20);
     $.get(url,function(res)
     {
-        handlePageNumber(20);
         data = JSON.parse(res);
         if ( data.length == 0 ){
             changeLoadingMoreMessage('End of feed!');
